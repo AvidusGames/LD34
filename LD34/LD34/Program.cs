@@ -1,4 +1,6 @@
-﻿using System;
+﻿using GameCore.Core;
+using SFML.Graphics;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +12,9 @@ namespace LD34
     {
         static void Main(string[] args)
         {
-			Console.WriteLine("Hello Linus! I am yure father!!!:boom:");
+			RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(200, 300), "Test");
+			Game game = new Game(window);
+			game.Start();
         }
     }
 }
