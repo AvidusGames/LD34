@@ -10,7 +10,7 @@ namespace LD34
     {
         static void Main(string[] args)
         {
-			Console.WriteLine("Hello Mate, how are you mate!");
+			Console.WriteLine("Hello Mate, how are you doing!");
         }
     }
 }
