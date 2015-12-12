@@ -47,7 +47,7 @@ namespace LD34.Objects
                     GameObjects.Add(tmpGameObject);
 					break;
 				case nameof(Player):
-					tmpGameObject = new Player(leafHandler.BottomLeaf, this);
+					tmpGameObject = new Player(leafHandler.CurentLeaf, this);
 					GameObjects.Add(tmpGameObject);
 					break;
 					
@@ -84,11 +84,27 @@ namespace LD34.Objects
 			ClimbTree();
 		}
 
+		protected override void RemoveGameObjects()
+		{
+			for (int i = 0; i < GameObjects.Count; i++)
+			{
+				if (GameObjects[i].Destroyed)
+				{
+					if (typeof(GameObjects[i]))
+					{
+
+					}
+					GameObjects.RemoveAt(i);
+					i--;
+				}
+			}
+		}
+
 		private void ClimbTree()
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
-				if(leafHandler.BottomLeaf.Parent.LeftLeaf)
+				if(leafHandler.CurentLeaf.LeftLeaf)
                 {
                     leafHandler.Climb();
                 }else
@@ -99,7 +115,7 @@ namespace LD34.Objects
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
-                if (!leafHandler.BottomLeaf.Parent.LeftLeaf)
+                if (!leafHandler.CurentLeaf.LeftLeaf)
                 {
                     leafHandler.Climb();
                 }

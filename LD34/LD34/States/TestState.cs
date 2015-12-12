@@ -47,6 +47,7 @@ namespace LD34.Objects
 			GameObjects.Add(tmpGameObject);
 			return tmpGameObject;
 		}
+	}
 
 		public override Entity AddEntity(string type)
 		{

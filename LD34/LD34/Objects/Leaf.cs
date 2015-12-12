@@ -12,8 +12,6 @@ namespace LD34.Objects
 
 
 		public bool LeftLeaf { get; set; }
-		public Leaf Parent { get; set; }
-		public Leaf Child { get; set; }
 
 		public Leaf(GameState gameState, Vector2f pos ) :base(gameState, pos)
 		{

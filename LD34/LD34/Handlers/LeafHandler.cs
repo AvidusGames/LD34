@@ -19,10 +19,10 @@ namespace LD34.Handlers
 		private const int NumberOfLeafsOnBranch = 5;
 
 		private Random rand = new Random();
-		private int activeLeaf = 0;
 
-		public Leaf BottomLeaf { get; private set; }
+		public Leaf CurentLeaf { get; private set; }
 		public Leaf Top { get; private set; }
+		public Vector2f StartPos { get; private set; }
 
 		public LeafHandler(GameState gameState)
 		{
@@ -33,7 +33,7 @@ namespace LD34.Handlers
 
 		private void InitLeafs()
 		{
-			for (int i = 0; i < NumberOfLeafsOnBranch; i++)
+			for (int i = NumberOfLeafsOnBranch - 1; i >= 0; i--)
 			{
 				int diceRoll = rand.Next(0, 100);
 
@@ -42,22 +42,26 @@ namespace LD34.Handlers
 
 				leafs.Add(tmpLeaf);
 			}
+			CurentLeaf = leafs[1];
 			
-			for (int i = 0; i < leafs.Count; i++)
-			{
-				if (i > 0)
-					leafs[i].Parent = leafs[i - 1];
-				else
-					leafs[i].Parent = null;
+			//for (int i = 0; i < leafs.Count; i++)
+			//{
+			//	if (i > 0)
+			//		leafs[i].Parent = leafs[i - 1];
+			//	else
+			//		leafs[i].Parent = null;
 
-				if (i < NumberOfLeafsOnBranch - 1)
-					leafs[i].Child = leafs[i + 1];
-				else
-					leafs[i].Child = null;
-			}
+			//	if (i < NumberOfLeafsOnBranch - 1)
+			//		leafs[i].Child = leafs[i + 1];
+			//	else
+			//		leafs[i].Child = null;
+			//}
 
-			BottomLeaf = leafs.LastOrDefault();
-			Top = leafs[0];
+			//CurentLeaf = leafs.LastOrDefault();
+			//Top = leafs[0];
+
+			//BottomLeaf.Child = Top;
+			//Top.Parent = BottomLeaf;
 		}
 
 		/// <summary>
@@ -93,27 +97,43 @@ namespace LD34.Handlers
 			}
 		}
 
-		public Leaf NextLeaf()
+		private void LeftOrRightLeafRand(Leaf leaf)
 		{
-			return BottomLeaf.Parent;
+			int diceRoll = rand.Next(0, 100);
+
+			if (diceRoll >= 50)
+			{
+				leaf.Position = new Vector2f(158, 70);
+				leaf.LeftLeaf = true;
+			}
+			else
+			{
+				leaf.Position = new Vector2f(480, 70);
+				leaf.LeftLeaf = false;
+			}
 		}
+
+		//public Leaf NextLeaf()
+		//{
+		//	return BottomLeaf.Parent;
+		//}
 
 		private void ChangeLeaf()
 		{
 
 			for (int i = 0; i < leafs.Count; i++)
 			{
-				if (leafs[i] != BottomLeaf)
-					leafs[i].Position = new Vector2f(leafs[i].Position.X, leafs[i].Child.Position.Y);
+					leafs[i].Position = new Vector2f(leafs[i].Position.X, leafs[i].Position.Y + 120);
 			}
-			//Postioneras på topen
-			BottomLeaf.Position = new Vector2f(158, 70);
-			//topen blir bottomleaf
+			leafs[0].Destroyed = true;
+			leafs.RemoveAt(0);
 
-			Top = BottomLeaf;
-			BottomLeaf = Top.Parent;
-			Top.Parent = null;
-			BottomLeaf.Child = null;
+			Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
+			LeftOrRightLeafRand(tmpLeaf);
+			leafs.Add(tmpLeaf);
+
+			CurentLeaf = leafs[1];
+
 		}
 	}
 }

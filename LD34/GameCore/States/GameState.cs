@@ -66,7 +66,7 @@ namespace GameCore.States
 			RemoveGameObjects();
 		}
 
-		private void RemoveGameObjects()
+		protected virtual void RemoveGameObjects()
 		{
 			for (int i = 0; i < GameObjects.Count; i++)
 			{
@@ -77,7 +77,6 @@ namespace GameCore.States
 				}
 			}
 		}
-
 		private void UpdateGameObjects()
 		{
 			foreach (GameObject gameObject in GameObjects)
