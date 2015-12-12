@@ -11,13 +11,13 @@ namespace LD34.Objects
 	public class TestGameObject : GameObject
 	{
 		private Vector2f position = new Vector2f(0, 0);
-		private RectangleShape graphics = new RectangleShape(new Vector2f(32, 32));
+        private Sprite graphics;
 
-		public TestGameObject(Vector2f pos):base(pos)
+		public TestGameObject(Game game, Vector2f pos):base(pos)
 		{
 			Bounds = new FloatRect(Position.X, Position.Y, 32, 32);
-			graphics.FillColor = Color.Red;
-		}
+            graphics = new Sprite(game.GetTexture(GameCore.Core.Textures.ID.Player));
+        }
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{

@@ -15,6 +15,8 @@ namespace GameCore.Core
 		private IState currentState;
 		private Clock betweenFramesClock = new Clock();
 		private int fixedUpdateTimer = 0;
+        private TextureHolder textures;
+        private Sprite background;
 
         public delegate void Init(Game game);
 
@@ -37,6 +39,8 @@ namespace GameCore.Core
 		public void Start(Init init)
 		{
 			Input.InitEvents(Window);
+            background = new Sprite(textures.Get(Textures.ID.Background));
+            textures = new TextureHolder();
             init(this);
 			Loop();
 		}
@@ -67,7 +71,12 @@ namespace GameCore.Core
 
         public void LoadTexture(Textures.ID id, string filename)
         {
+            textures.Load(id, filename);
+        }
 
+        public Texture GetTexture(Textures.ID id)
+        {
+            return textures.Get(id);
         }
 
         public void ChangeState(IState state)
@@ -80,6 +89,7 @@ namespace GameCore.Core
 		private void Draw()
 		{
             Window.Clear();
+            Window.Draw(background);
 			Window.Draw(currentState);
 			Window.Display();
 		}
