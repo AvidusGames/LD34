@@ -28,7 +28,6 @@ namespace LD34.Objects
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
 			target.Draw(graphics);
-			Console.WriteLine("Leaf drawed at pos " + graphics.Position);
 		}
 
 		public override void FixedUpdate()

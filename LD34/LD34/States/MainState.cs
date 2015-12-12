@@ -20,7 +20,7 @@ namespace LD34.Objects
 		{
 
 			InitPools();
-			AddGameObject(nameof(Leaf));
+			AddGameObject(nameof(Player)).Position = new SFML.System.Vector2f(230, 500);
 			leafHandler = new LeafHandler(this);
 			AddEntity(nameof(Branch));
 		}
@@ -38,6 +38,10 @@ namespace LD34.Objects
 				case nameof(Leaf):
 					tmpGameObject = LeafPool.Release();
                     GameObjects.Add(tmpGameObject);
+					break;
+				case nameof(Player):
+					tmpGameObject = new Player(this);
+					GameObjects.Add(tmpGameObject);
 					break;
 					
 				default:
@@ -64,6 +68,11 @@ namespace LD34.Objects
 					throw new Exception("Entity not found in this State");
 			}
 			return tmpEnitiy;
+		}
+
+		public override void Update()
+		{
+			base.Update();
 		}
 	}
 }
