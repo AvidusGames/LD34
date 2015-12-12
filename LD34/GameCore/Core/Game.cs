@@ -15,6 +15,8 @@ namespace GameCore.Core
 		private IState currentState;
 		private Clock clock;
 
+        public delegate void Init(Game game);
+
 		public static RenderWindow Window{ get; private set; }
 
 		public static Time TimeBetweenFrames { get; private set; }
@@ -32,10 +34,10 @@ namespace GameCore.Core
 			Window.Close();
 		}
 
-		public void Start()
+		public void Start(Init init)
 		{
 			Input.InitEvents(Window);
-			ChangeState(new TestState(this));
+            init(this);
 			Loop();
 		}
 
@@ -43,8 +45,12 @@ namespace GameCore.Core
 		{
 			while (Window.IsOpen)
 			{
-				
-				Window.DispatchEvents();
+                if (currentState == null)
+                {
+                    Console.WriteLine("ERROR: Current state is not set!");
+                    continue;
+                }
+                Window.DispatchEvents();
 
 				Draw();
 				Update();
@@ -62,14 +68,15 @@ namespace GameCore.Core
 
 		private void Draw()
 		{
-			Window.Clear();
+            Window.Clear();
 			Window.Draw(currentState);
 			Window.Display();
 		}
 
 		private void Update()
 		{
-			currentState.Update();
+
+            currentState.Update();
 		}
 	}
 }

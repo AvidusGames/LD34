@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using GameCore.Handlers;
 using GameCore.Core;
+using GameCore.Objects;
+using GameCore.States;
+using LD34.Objects;
 
-namespace GameCore.Objects
+namespace LD34.States
 {
 	public class TestState : GameState
 	{

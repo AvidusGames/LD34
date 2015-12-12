@@ -1,4 +1,6 @@
 ﻿using GameCore.Core;
+using GameCore.States;
+using LD34.States;
 using SFML.Graphics;
 using System;
 using System.Collections.Generic;
@@ -6,7 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GameCore
+namespace LD34
 {
     class Program
     {
@@ -16,7 +18,12 @@ namespace GameCore
 			window.SetFramerateLimit(240);
 
 			Game game = new Game(window);
-			game.Start();
+			game.Start(Init);
+        }
+
+        public static void Init(Game game)
+        {
+            game.ChangeState(new TestState(game));
         }
     }
 }

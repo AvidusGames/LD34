@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.Graphics;
 using SFML.System;
 using GameCore.Core;
+using GameCore.Objects;
 using SFML.Window;
 
-namespace GameCore.Objects
+namespace LD34.Objects
 {
 	public class TestGameObject : GameObject
 	{

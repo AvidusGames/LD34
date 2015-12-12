@@ -3,8 +3,9 @@ using System.Collections.Generic;
 using SFML.Graphics;
 using GameCore.Core;
 using GameCore.Handlers;
+using GameCore.Objects;
 
-namespace GameCore.Objects
+namespace GameCore.States
 {
 	public abstract class GameState : IState
 	{
