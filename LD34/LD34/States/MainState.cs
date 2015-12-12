@@ -47,7 +47,7 @@ namespace LD34.Objects
                     GameObjects.Add(tmpGameObject);
 					break;
 				case nameof(Player):
-					tmpGameObject = new Player(leafHandler.CurentLeaf, this);
+					tmpGameObject = new Player(leafHandler.BottomLeaf, this);
 					GameObjects.Add(tmpGameObject);
 					break;
 					
@@ -88,7 +88,7 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
-				if(leafHandler.CurentLeaf.Parent.LeftLeaf)
+				if(leafHandler.BottomLeaf.Parent.LeftLeaf)
                 {
                     leafHandler.Climb();
                 }else
@@ -99,7 +99,7 @@ namespace LD34.Objects
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
-                if (!leafHandler.CurentLeaf.Parent.LeftLeaf)
+                if (!leafHandler.BottomLeaf.Parent.LeftLeaf)
                 {
                     leafHandler.Climb();
                 }

@@ -27,7 +27,7 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-			 graphics.Position = Position + graphics.Size;
+			 //graphics.Position = Position + graphics.Size;
 		}
 
 		public override void FixedUpdate()
