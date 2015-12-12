@@ -4,7 +4,6 @@ using SFML.Graphics;
 using GameCore.Core;
 using GameCore.Handlers;
 using GameCore.Objects;
-using System;
 
 namespace GameCore.States
 {
@@ -12,33 +11,33 @@ namespace GameCore.States
 	{
 		public Game Game { get; private set; }
 
-		protected List<GameObject> GameObjects { get; private set; }
+		protected List<Entity> EntityObjects { get; private set; }
 
 		private CollisionHandler collisionHandler;
 
 		public GameState(Game game)
 		{
 			Game = game;
-			GameObjects = new List<GameObject>();
+			EntityObjects = new List<Entity>();
 
 			Init();
 		}
 
 		private void Init()
 		{
-			GameObjects = new List<GameObject>();
-			collisionHandler = new CollisionHandler(GameObjects);
+			EntityObjects = new List<Entity>();
+			collisionHandler = new CollisionHandler(EntityObjects);
 		}
 		/// <summary>
-		/// Lägger till ett GameObject i statet.
+		/// Lägger till en Entity i statet.
 		/// </summary>
-		/// <param name="type">vilket GameObject</param>
-		/// <returns>referens till GameObjectet som laddes till</returns>
-		public abstract GameObject AddGameObject(string type);
+		/// <param name="type">vilken Entity</param>
+		/// <returns>referens till Entityn som laddes till</returns>
+		public abstract Entity AddEntity(string type);
 
 		public virtual void Draw(RenderTarget target, RenderStates states)
 		{
-			foreach (GameObject gameObject in GameObjects)
+			foreach (GameObject gameObject in EntityObjects)
 			{
 				target.Draw(gameObject);
 			}
@@ -50,11 +49,11 @@ namespace GameCore.States
 
 			UpdateGameObjects();
 
-			for (int i = 0; i < GameObjects.Count; i++)
+			for (int i = 0; i < EntityObjects.Count; i++)
 			{
-				if (GameObjects[i].Destroyed)
+				if (EntityObjects[i].Destroyed)
 				{
-					GameObjects.RemoveAt(i);
+					EntityObjects.RemoveAt(i);
 					i--;
 				}
 			}
@@ -63,7 +62,7 @@ namespace GameCore.States
 
 		private void UpdateGameObjects()
 		{
-			foreach (GameObject gameObject in GameObjects)
+			foreach (GameObject gameObject in EntityObjects)
 			{
 				gameObject.Update();
 			}

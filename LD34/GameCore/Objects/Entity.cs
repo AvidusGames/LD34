@@ -3,7 +3,7 @@ using SFML.Graphics;
 using SFML.System;
 using System;
 
-namespace GameCore.Entities
+namespace GameCore.Objects
 {
     public abstract class Entity : IUpdatable, Drawable, IDisposable
     {
