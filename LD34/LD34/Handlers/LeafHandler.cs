@@ -19,7 +19,6 @@ namespace LD34.Handlers
 		private const int NumberOfLeafsOnBranch = 5;
 
 		private Random rand = new Random();
-		private int activeLeaf = 0;
 
 		public Leaf BottomLeaf { get; private set; }
 		public Leaf Top { get; private set; }
@@ -29,7 +28,14 @@ namespace LD34.Handlers
 			this.gameState = gameState;
 
 			InitLeafs();
-		}
+            for (int i = 0; i < leafs.Count; i++)
+            {
+                Console.Write(i + " ");
+                if (leafs[i] == BottomLeaf) Console.Write("BOTTOM LEAF ");
+                else if (leafs[i] == Top) Console.Write("TOP LEAF ");
+                Console.WriteLine((leafs[i].Child == null) + ":" + (leafs[i].Parent == null));
+            }
+        }
 
 		private void InitLeafs()
 		{
@@ -98,22 +104,36 @@ namespace LD34.Handlers
 			return BottomLeaf.Parent;
 		}
 
-		private void ChangeLeaf()
-		{
+        private void ChangeLeaf()
+        {
 
-			for (int i = 0; i < leafs.Count; i++)
-			{
-				if (leafs[i] != BottomLeaf)
-					leafs[i].Position = new Vector2f(leafs[i].Position.X, leafs[i].Child.Position.Y);
-			}
-			//Postioneras på topen
-			BottomLeaf.Position = new Vector2f(158, 70);
-			//topen blir bottomleaf
+            for (int i = 0; i < leafs.Count; i++)
+            {
+                if (leafs[i] != BottomLeaf)
+                    leafs[i].Position = new Vector2f(leafs[i].Position.X, leafs[i].Child.Position.Y);
+            }
+            //Postioneras på topen
+            BottomLeaf.Position = new Vector2f(158, 70);
 
-			Top = BottomLeaf;
-			BottomLeaf = Top.Parent;
-			Top.Parent = null;
-			BottomLeaf.Child = null;
-		}
+            Leaf child = Top.Child;
+            Leaf parent = BottomLeaf.Parent;
+            Leaf temp = Top;
+
+            //topen blir bottomleaf
+            BottomLeaf.Child = child;
+            BottomLeaf.Parent = null;
+            temp.Parent = parent;
+            temp.Child = null;
+            Top = BottomLeaf;
+            BottomLeaf = temp;
+
+            for (int i = 0; i < leafs.Count; i++)
+            {
+                Console.Write(i + " ");
+                if (leafs[i] == BottomLeaf) Console.Write("BOTTOM LEAF ");
+               else  if (leafs[i] == Top) Console.Write("TOP LEAF ");
+                Console.WriteLine((leafs[i].Child == null) + ":" + (leafs[i].Parent == null));
+            }
+        }
 	}
 }

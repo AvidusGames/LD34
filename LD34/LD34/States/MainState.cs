@@ -88,6 +88,8 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
+                leafHandler.Climb();
+                /**
 				if(leafHandler.BottomLeaf.Parent.LeftLeaf)
                 {
                     leafHandler.Climb();
@@ -95,7 +97,8 @@ namespace LD34.Objects
                 {
                     this.Game.ChangeState(null);
                 }
-			}
+        */
+            }
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
