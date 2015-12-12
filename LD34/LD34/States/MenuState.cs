@@ -11,9 +11,13 @@ namespace LD34.States
     public class MenuState : GameState
     {
 
+        Button playButton;
+
         public MenuState(Game game) : base(game)
         {
-            AddGameObject(nameof(Button));
+            playButton = (Button) AddGameObject(nameof(Button));
+            playButton.Position = new Vector2f(Game.Window.Size.X/2, Game.Window.Size.Y / 2);
+            playButton.SetText("Play Game");
         }
 
         public override Entity AddEntity(string type)
@@ -32,7 +36,7 @@ namespace LD34.States
             switch (type)
             {
                 case nameof(Button):
-                    tmpGameObject = new Button("Play Game",new Vector2f(100, 100), this);
+                    tmpGameObject = new Button("",new Vector2f(0, 0), this);
                     GameObjects.Add(tmpGameObject);
                     break;
                 case nameof(Label):

@@ -21,6 +21,31 @@ namespace LD34.Menu
             graphics.Color = Color.White;
         }
 
+        public void SetText(string text)
+        {
+            graphics.DisplayedString = text;
+        }
+
+        public void SetFont(GameCore.Core.Fonts.ID id)
+        {
+            graphics.Font = GameState.Game.GetFont(id);
+        }
+
+        public void SetColor(Color color)
+        {
+            graphics.Color = color;
+        }
+
+        public void SetSize(uint size)
+        {
+            graphics.CharacterSize = size;
+        }
+
+        public FloatRect GetBounds()
+        {
+            return graphics.GetLocalBounds();
+        }
+
         public override void Dispose()
         {
             throw new NotImplementedException();
@@ -36,9 +61,8 @@ namespace LD34.Menu
             throw new NotImplementedException();
         }
 
-        public override void Update()
-        {
-            throw new NotImplementedException();
+        public override void Update() {
+            graphics.Position = Position;
         }
     }
 }
