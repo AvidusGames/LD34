@@ -14,10 +14,17 @@ namespace LD34.Objects
 	{
         private RectangleShape graphics;
 
-		public Player(Leaf root, GameState gameState):base(gameState, root.Position)
+		public enum Side
 		{
+			Right,
+			Left
+		}
+
+		public Player(GameState gameState):base(gameState, new Vector2f(200, 580))
+		{
+			Position = new Vector2f(200, 480);
             graphics = new RectangleShape(new Vector2f(32, 64));
-            graphics.FillColor = Color.White;
+            graphics.FillColor = Color.Red;
 		}
 
 		public override void Draw(RenderTarget target, RenderStates states)
@@ -27,7 +34,7 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-			 //graphics.Position = Position + graphics.Size;
+			graphics.Position = Position;
 		}
 
 		public override void FixedUpdate()
@@ -37,7 +44,28 @@ namespace LD34.Objects
 
 		public override void Dispose()
 		{
+			graphics.Dispose();
+			graphics = null;
+		}
+
+		public override void Reset()
+		{
 			throw new NotImplementedException();
+		}
+
+		internal void MoveTo(Side side)
+		{
+			switch (side)
+			{
+				case Side.Right:
+					Position = new Vector2f(600, 480);
+					break;
+				case Side.Left:
+					Position = new Vector2f(200, 480);
+					break;
+				default:
+					break;
+			}
 		}
 	}
 }

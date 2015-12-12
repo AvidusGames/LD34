@@ -1,9 +1,5 @@
 ﻿using GameCore.States;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GameCore.Objects;
 using GameCore.Handlers;
 using GameCore.Core;
@@ -43,11 +39,11 @@ namespace LD34.Objects
 			switch (type)
 			{
 				case nameof(Leaf):
-					tmpGameObject = LeafPool.Release();
+					tmpGameObject = new Leaf(this); //LeafPool.Release();
                     GameObjects.Add(tmpGameObject);
 					break;
 				case nameof(Player):
-					tmpGameObject = new Player(leafHandler.CurentLeaf, this);
+					tmpGameObject = new Player(this);
 					GameObjects.Add(tmpGameObject);
 					break;
 					
@@ -59,7 +55,10 @@ namespace LD34.Objects
 
 		public override void Dispose()
 		{
-			throw new NotImplementedException();
+			base.Dispose();
+			leafHandler = null;
+
+
 		}
 
 		public override Entity AddEntity(string type)
@@ -90,7 +89,11 @@ namespace LD34.Objects
 			{
 				if (GameObjects[i].Destroyed)
 				{
-					
+					GameObject tmpGameObject = GameObjects[i];
+					if (tmpGameObject is Leaf)
+					{
+						LeafPool.Acquire((Leaf)tmpGameObject);
+					}
 					GameObjects.RemoveAt(i);
 					i--;
 				}
@@ -101,20 +104,30 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
+				
+				if (leafHandler.CurentLeaf.LeftLeaf)
+				{
+					player.MoveTo(Player.Side.Left);
+					leafHandler.Climb();
+				}
+					
+				else
+				{
+					Game.ChangeState(null);
+				}
+			}
 
-				if(leafHandler.CurentLeaf.LeftLeaf)
-                leafHandler.Climb();
-            }
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
                 if (!leafHandler.CurentLeaf.LeftLeaf)
                 {
+					player.MoveTo(Player.Side.Right);
                     leafHandler.Climb();
                 }
                 else
                 {
-                    this.Game.ChangeState(null);
+                    Game.ChangeState(null);
                 }
             }
 		}

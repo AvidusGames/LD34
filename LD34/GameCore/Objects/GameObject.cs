@@ -35,7 +35,9 @@ namespace GameCore.Objects
 				Bounds = new FloatRect(value.X, value.Y, tmpWidthHeight.X, tmpWidthHeight.Y);
 			}
 		}
-		
+
+		public abstract void Reset();
+
 		public List<string> Tags { get; protected set; }
 
 		public void Move(Vector2f offset) => Position += offset;

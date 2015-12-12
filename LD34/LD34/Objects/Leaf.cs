@@ -26,7 +26,8 @@ namespace LD34.Objects
 
 		public override void Dispose()
 		{
-			throw new NotImplementedException();
+			graphics.Dispose();
+			graphics = null;
 		}
 
 		public override void Draw(RenderTarget target, RenderStates states)
@@ -42,6 +43,11 @@ namespace LD34.Objects
 		public override void Update()
 		{
 			graphics.Position = Position;
+		}
+
+		public override void Reset()
+		{
+			Position = new Vector2f(0, 0);
 		}
 	}
 }

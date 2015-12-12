@@ -29,8 +29,7 @@ namespace LD34.Handlers
 			this.gameState = gameState;
 
 			InitLeafs();
-
-        }
+		}
 
 		private void InitLeafs()
 		{
@@ -44,7 +43,7 @@ namespace LD34.Handlers
 				leafs.Add(tmpLeaf);
 			}
 			CurentLeaf = leafs[1];
-			
+
 			//for (int i = 0; i < leafs.Count; i++)
 			//{
 			//	if (i > 0)
@@ -108,10 +107,10 @@ namespace LD34.Handlers
 				leaf.LeftLeaf = true;
 			}
 			else
-			{
+		{
 				leaf.Position = new Vector2f(480, 70);
 				leaf.LeftLeaf = false;
-			}
+		}
 		}
 
 		private void ChangeLeaf()
@@ -128,9 +127,6 @@ namespace LD34.Handlers
 			LeftOrRightLeafRand(tmpLeaf);
 			leafs.Add(tmpLeaf);
 
-			CurentLeaf = leafs[1];
-
 		}
-
 	}
 }
