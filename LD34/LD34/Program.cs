@@ -23,6 +23,7 @@ namespace LD34
 
         public static void Init(Game game)
         {
+            /**
             try
             {
                 game.LoadSound(GameCore.Core.Sounds.ID.Jump, "Assets/SFX/jump1.wav");
@@ -42,7 +43,8 @@ namespace LD34
                 Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
                 return;
             }
-            game.ChangeState(new TestState(game));
+            */
+            game.ChangeState(new MainState(game));
         }
     }
 }
