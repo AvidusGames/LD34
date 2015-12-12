@@ -78,7 +78,7 @@ namespace LD34.Handlers
 		/// <param name="idx">wich index is leaf in the list</param>
 		private void LeftOrRightLeafRand(Leaf leaf, int idx)
 		{
-			if (leaf.LeaftLeaf)
+			if (leaf.LeftLeaf)
 			{
 				leaf.Position = new SFML.System.Vector2f(480, idx * 120 + 70);
 			}

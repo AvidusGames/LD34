@@ -23,18 +23,14 @@ namespace LD34.Objects
 
 			InitPools();
 			leafHandler = new LeafHandler(this);
-			InitPlayer();
-			AddEntity(nameof(Branch));
+            player = (Player)AddGameObject(nameof(Player));
+            AddEntity(nameof(Branch));
 		}
 
-		private void InitPlayer()
-		{
-			player = (Player)AddGameObject(nameof(Player));
-			if (leafHandler.CurentLeaf.LeaftLeaf)
-				player.LeaftLeaf = true;
-			else
-				player.LeaftLeaf = false;
-		}
+        private Player GetPlayer()
+        {
+            return player;
+        }
 
 		private void InitPools()
 		{
@@ -51,7 +47,7 @@ namespace LD34.Objects
                     GameObjects.Add(tmpGameObject);
 					break;
 				case nameof(Player):
-					tmpGameObject = new Player(this);
+					tmpGameObject = new Player(leafHandler.CurentLeaf, this);
 					GameObjects.Add(tmpGameObject);
 					break;
 					
@@ -92,23 +88,26 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
-				if (!leafHandler.CurentLeaf.LeaftLeaf)
-				{
-					leafHandler.Climb();
-					player.Switch();
-				}
-
+				if(leafHandler.CurentLeaf.Parent.LeftLeaf)
+                {
+                    leafHandler.Climb();
+                }else
+                {
+                    this.Game.ChangeState(null);
+                }
 			}
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
-				if (leafHandler.CurentLeaf.LeaftLeaf)
-				{
-					leafHandler.Climb();
-					player.Switch();
-				}
-
-			}
+                if (!leafHandler.CurentLeaf.Parent.LeftLeaf)
+                {
+                    leafHandler.Climb();
+                }
+                else
+                {
+                    this.Game.ChangeState(null);
+                }
+            }
 		}
 	}
 }

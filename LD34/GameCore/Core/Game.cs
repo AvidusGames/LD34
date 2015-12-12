@@ -99,7 +99,14 @@ namespace GameCore.Core
 		{
 			if (currentState != null)
 				currentState.Dispose();
-			currentState = state;
+
+            if (state == null)
+            {
+                Window.Close();
+            }else
+            {
+                currentState = state;
+            }
 		}
 
 		private void Draw()
