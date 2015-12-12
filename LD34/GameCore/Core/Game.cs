@@ -58,6 +58,7 @@ namespace GameCore.Core
                     Console.WriteLine("ERROR: Current state is not set!");
                     continue;
                 }
+				Input.Reset();
                 Window.DispatchEvents();
 
 				Draw();

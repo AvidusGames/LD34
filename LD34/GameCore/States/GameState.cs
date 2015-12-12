@@ -49,7 +49,6 @@ namespace GameCore.States
 			foreach (GameObject gameObject in GameObjects)
 			{
 				target.Draw(gameObject);
-				Console.WriteLine("GameObject drawed at " + gameObject.Position);
 			}
 
 			foreach (Entity entity in EntityObjects)
@@ -84,7 +83,6 @@ namespace GameCore.States
 			foreach (GameObject gameObject in GameObjects)
 			{
 				gameObject.Update();
-				Console.WriteLine("Updated GameObject" + gameObject.Position);
 			}
 
 			foreach (Entity entity in EntityObjects)
