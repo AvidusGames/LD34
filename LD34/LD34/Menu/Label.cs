@@ -64,5 +64,10 @@ namespace LD34.Menu
         public override void Update() {
             graphics.Position = Position;
         }
-    }
+
+		public override void Reset()
+		{
+			throw new NotImplementedException();
+		}
+	}
 }

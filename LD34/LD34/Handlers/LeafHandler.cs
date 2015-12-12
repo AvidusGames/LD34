@@ -19,6 +19,8 @@ namespace LD34.Handlers
 		private const int NumberOfLeafsOnBranch = 5;
 
 		private Random rand = new Random();
+		private const int MaxNumberOfLeftLeavesAtRow = 3;
+		private int numberOfLeftLeavesAtRow;
 
 		public Leaf CurentLeaf { get; private set; }
 		public Leaf Top { get; private set; }
@@ -85,20 +87,23 @@ namespace LD34.Handlers
 		{
 			int diceRoll = rand.Next(0, 100);
 
-			if (diceRoll >= 50)
+			if (diceRoll >= 50 && numberOfLeftLeavesAtRow <= MaxNumberOfLeftLeavesAtRow)
 			{
-				leaf.Position = new Vector2f(158, idx * 120 + 70);
+				numberOfLeftLeavesAtRow++;
+                leaf.Position = new Vector2f(158, idx * 120 + 70);
 				leaf.LeftLeaf = true;
 			}
 			else
 			{
 				leaf.Position = new Vector2f(480, idx * 120 + 70);
 				leaf.LeftLeaf = false;
+				numberOfLeftLeavesAtRow = 0;
 			}
 		}
 
 		private void LeftOrRightLeafRand(Leaf leaf)
 		{
+			//TODO:: make it more even
 			int diceRoll = rand.Next(0, 100);
 
 			if (diceRoll >= 50)
@@ -118,10 +123,12 @@ namespace LD34.Handlers
 
 			for (int i = 0; i < leafs.Count; i++)
 			{
-					leafs[i].Position = new Vector2f(leafs[i].Position.X, leafs[i].Position.Y + 120);
+					leafs[i].Position += new Vector2f(0, 120);
 			}
 			leafs[0].Destroyed = true;
 			leafs.RemoveAt(0);
+
+			CurentLeaf = leafs[1];
 
 			Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
 			LeftOrRightLeafRand(tmpLeaf);
