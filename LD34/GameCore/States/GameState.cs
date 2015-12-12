@@ -97,13 +97,11 @@ namespace GameCore.States
 			{
 				gameObject.Dispose();
 			}
-			GameObjects = null;
 
 			foreach (Entity entitiy in EntityObjects)
 			{
 				entitiy.Dispose();
 			}
-			EntityObjects = null;
 		}
 
 		public virtual void FixedUpdate() => collisionHandler.FixedUpdate();

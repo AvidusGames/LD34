@@ -70,7 +70,7 @@ namespace LD34
                 Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
                 return;
             }
-            game.ChangeState(new MainState(game));
+            game.ChangeState(new MenuState(game));
         }
     }
 }

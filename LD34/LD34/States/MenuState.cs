@@ -64,7 +64,7 @@ namespace LD34.States
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+			base.Dispose();
         }
 
         public void ButtonHandler(string actionCommand)
