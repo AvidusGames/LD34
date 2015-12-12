@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Handlers\LeaderboardHandler.cs" />
     <Compile Include="Handlers\LeafHandler.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Program.cs" />
