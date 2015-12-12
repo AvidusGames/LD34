@@ -23,10 +23,17 @@ namespace LD34.Objects
 
 			InitPools();
 			leafHandler = new LeafHandler(this);
-
-			player = (Player)AddGameObject(nameof(Player));
-
+			InitPlayer();
 			AddEntity(nameof(Branch));
+		}
+
+		private void InitPlayer()
+		{
+			player = (Player)AddGameObject(nameof(Player));
+			if (leafHandler.CurentLeaf.LeaftLeaf)
+				player.LeaftLeaf = true;
+			else
+				player.LeaftLeaf = false;
 		}
 
 		private void InitPools()
@@ -78,6 +85,11 @@ namespace LD34.Objects
 		{
 			base.Update();
 
+			ClimbTree();
+		}
+
+		private void ClimbTree()
+		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
 				if (!leafHandler.CurentLeaf.LeaftLeaf)
@@ -87,7 +99,8 @@ namespace LD34.Objects
 				}
 
 			}
-			else if(Input.GetKeyPressed(Keyboard.Key.Right))
+
+			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
 				if (leafHandler.CurentLeaf.LeaftLeaf)
 				{

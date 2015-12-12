@@ -16,6 +16,7 @@ namespace LD34.Handlers
 		private List<Leaf> leafs = new List<Leaf>();
 		private const int NumberOfLeafsOnBranch = 5;
 		private Random rand = new Random();
+		private int activeLeaf = NumberOfLeafsOnBranch;
 
 		public Leaf CurentLeaf { get; private set; }
 
@@ -32,7 +33,7 @@ namespace LD34.Handlers
 			{
 				int diceRoll = rand.Next(0, 100);
 				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
-				if (diceRoll > 75)
+				if (diceRoll > 50)
 				{
 					//Create a left leaf
 					tmpLeaf.Position = new SFML.System.Vector2f(158, i * 120 + 70);
@@ -56,19 +57,44 @@ namespace LD34.Handlers
 		/// </summary>
 		internal void Climb()
 		{
+			// Kolla om det lövet spelare står på inte är utanför. Annars gå tillbacks till toppen.
+			if (activeLeaf >= 0)
+				ChangeLeaf();
+			else
+			{
+				activeLeaf = leafs.Count;
+			}
+
 			for (int i = 0; i < leafs.Count; i++)
 			{
-				if (leafs[i].LeaftLeaf)
-				{
-					leafs[i].LeaftLeaf = false;
-					leafs[i].Position = new SFML.System.Vector2f(480, i * 120 + 70);
-				}
-				else
-				{
-					leafs[i].Position = new SFML.System.Vector2f(158, i * 120 + 70);
-					leafs[i].LeaftLeaf = true;
-				}
+				LeftOrRightLeafRand(leafs[i], i);
 			}
+		}
+		/// <summary>
+		/// Randomize a true or false to wich side leaf shuld be on.
+		/// </summary>
+		/// <param name="leaf">the leaf that shuld get a rand pos</param>
+		/// <param name="idx">wich index is leaf in the list</param>
+		private void LeftOrRightLeafRand(Leaf leaf, int idx)
+		{
+			if (leaf.LeaftLeaf)
+			{
+				leaf.Position = new SFML.System.Vector2f(480, idx * 120 + 70);
+			}
+			else
+			{
+				leaf.Position = new SFML.System.Vector2f(158, idx * 120 + 70);
+			}
+		}
+
+		private void ChangeLeaf()
+		{
+			for (int i = 0; i < leafs.Count - 2; i++)
+			{
+				leafs[i].LeaftLeaf = leafs[i + 1].LeaftLeaf;
+			}
+
+			LeftOrRightLeafRand(leafs.LastOrDefault(), leafs.Count - 1);
 		}
 	}
 }

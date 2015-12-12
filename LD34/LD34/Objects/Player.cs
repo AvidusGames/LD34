@@ -18,7 +18,7 @@ namespace LD34.Objects
 		private readonly Vector2f RightPos = new Vector2f(560, 490);
 		private readonly Vector2f LeaftPos = new Vector2f(230, 500);
 
-		private bool LeaftLeaf
+		public bool LeaftLeaf
 		{
 			get
 			{
