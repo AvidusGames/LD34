@@ -1,5 +1,7 @@
 ﻿using SFML.Graphics;
+using SFML.Audio;
 using System.Collections.Generic;
+using System;
 
 namespace GameCore.Core
 {
@@ -39,6 +41,24 @@ namespace GameCore.Core
 
             // If loading successful, insert resource to map
             InsertResource(id, texture);
+        }
+    }
+
+    internal class SoundHolder : ResourceHolder<Sounds.ID, SoundBuffer, int>
+    {
+        public override void Load(Sounds.ID id, string filename)
+        {
+            // Create and load resource
+            var buffer = new SoundBuffer(filename);
+
+            // If loading successful, insert resource to map
+            InsertResource(id, buffer);
+        }
+
+        public override void Load(Sounds.ID id, string filename, int secondParameter)
+        {
+            // SoundBuffer takes exactly one parameter
+            throw new NotImplementedException();
         }
     }
 }

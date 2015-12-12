@@ -5,6 +5,7 @@ using SFML.System;
 using GameCore.Core;
 using GameCore.Objects;
 using SFML.Window;
+using SFML.Audio;
 using GameCore.States;
 
 namespace LD34.Objects
@@ -18,6 +19,11 @@ namespace LD34.Objects
 		{
 			Bounds = new FloatRect(Position.X, Position.Y, 32, 32);
             graphics = new Sprite(GameState.Game.GetTexture(GameCore.Core.Textures.ID.Player));
+
+            var sound = new Sound();
+            sound.SoundBuffer = GameState.Game.GetSounds(GameCore.Core.Sounds.ID.Jump);
+            sound.Play();
+
         }
 
 		public override void Draw(RenderTarget target, RenderStates states)

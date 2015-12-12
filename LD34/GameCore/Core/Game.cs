@@ -1,5 +1,6 @@
 ﻿using GameCore.Interfaces;
 using GameCore.Objects;
+using SFML.Audio;
 using SFML.Graphics;
 using SFML.System;
 using System;
@@ -17,6 +18,7 @@ namespace GameCore.Core
 		private int fixedUpdateTimer = 0;
 		private const int TimeBetweenFixedUpdate = 16;
         private TextureHolder textures;
+        private SoundHolder sounds;
         //private Sprite background;
 
         public delegate void Init(Game game);
@@ -40,6 +42,7 @@ namespace GameCore.Core
 		public void Start(Init init)
 		{
 			Input.InitEvents(Window);
+            sounds = new SoundHolder();
             textures = new TextureHolder();
             init(this);
 			//background = new Sprite(textures.Get(Textures.ID.Background));
@@ -79,6 +82,17 @@ namespace GameCore.Core
         {
             return textures.Get(id);
         }
+
+        public void LoadSound(Sounds.ID id, string filename)
+        {
+            sounds.Load(id, filename);
+        }
+
+        public SoundBuffer GetSounds(Sounds.ID id)
+        {
+            return sounds.Get(id);
+        }
+
 
         public void ChangeState(IState state)
 		{
