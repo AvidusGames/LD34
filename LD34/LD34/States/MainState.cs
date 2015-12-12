@@ -90,10 +90,7 @@ namespace LD34.Objects
 			{
 				if (GameObjects[i].Destroyed)
 				{
-					if (typeof(GameObjects[i]))
-					{
-
-					}
+					
 					GameObjects.RemoveAt(i);
 					i--;
 				}
