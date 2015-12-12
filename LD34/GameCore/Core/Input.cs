@@ -26,6 +26,7 @@ namespace GameCore.Core
 
 		public static void InitEvents(Window window)
 		{
+            mouseButton = -1;
             mouseX = mouseY = -1;
 			window.KeyPressed += Window_KeyPressed;
 			window.KeyReleased += Window_KeyReleased;
