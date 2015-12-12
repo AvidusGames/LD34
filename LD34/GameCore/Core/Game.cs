@@ -65,7 +65,12 @@ namespace GameCore.Core
 			}
 		}
 
-		public void ChangeState(IState state)
+        public void LoadTexture(Textures.ID id, string filename)
+        {
+
+        }
+
+        public void ChangeState(IState state)
 		{
 			if (currentState != null)
 				currentState.Dispose();

@@ -72,6 +72,8 @@
   <ItemGroup>
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\Input.cs" />
+    <Compile Include="Core\ResourceHolder.cs" />
+    <Compile Include="Core\Textures.cs" />
     <Compile Include="Entities\Entity.cs" />
     <Compile Include="Handlers\CollisionHandler.cs" />
     <Compile Include="Handlers\GameObjectPool.cs" />
