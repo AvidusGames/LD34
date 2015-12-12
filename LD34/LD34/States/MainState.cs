@@ -5,6 +5,8 @@ using GameCore.Handlers;
 using GameCore.Core;
 using LD34.Handlers;
 using SFML.Window;
+using SFML.System;
+using SFML.Graphics;
 
 namespace LD34.Objects
 {
@@ -13,14 +15,26 @@ namespace LD34.Objects
 		private GameObjectPool<Leaf> LeafPool;
 		private LeafHandler leafHandler;
 		private Player player;
+		private float timer;
+		private Text timerText;
+		private Text scoreText;
 
-		public MainState(Game game): base(game)
+		private const float StartTime = 30;
+
+		public MainState(Game game) : base(game)
 		{
 
 			InitPools();
 			leafHandler = new LeafHandler(this);
-            player = (Player)AddGameObject(nameof(Player));
-            AddEntity(nameof(Branch));
+			player = (Player)AddGameObject(nameof(Player));
+			player.MoveToLeaf(leafHandler.CurentLeaf);
+			AddEntity(nameof(Branch));
+
+			timer = StartTime;
+			timerText = new Text($"Timer: {timer}", new Font(Game.GetFont(GameCore.Core.Fonts.ID.Default)));
+			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(GameCore.Core.Fonts.ID.Default)));
+			scoreText.Position = new Vector2f(100, 0);
+
 		}
 
         private Player GetPlayer()
@@ -38,6 +52,7 @@ namespace LD34.Objects
 			GameObject tmpGameObject = null;
 			switch (type)
 			{
+				//TODO:Fix pool
 				case nameof(Leaf):
 					tmpGameObject = new Leaf(this); //LeafPool.Release();
                     GameObjects.Add(tmpGameObject);
@@ -79,8 +94,23 @@ namespace LD34.Objects
 		public override void Update()
 		{
 			base.Update();
+			//player.MoveToLeaf(leafHandler.CurentLeaf);
 
-			ClimbTree();
+			timer -= Game.TimeBetweenFrames.AsSeconds();
+
+			if (timer<= 0)
+			{
+				Game.ChangeState(null);
+			}
+
+			timerText.DisplayedString = $"Timer: { timer}";
+            ClimbTree();
+		}
+
+		public override void Draw(RenderTarget target, RenderStates states)
+		{
+			base.Draw(target, states);
+			target.Draw(timerText);
 		}
 
 		protected override void RemoveGameObjects()
@@ -107,7 +137,7 @@ namespace LD34.Objects
 				
 				if (leafHandler.CurentLeaf.LeftLeaf)
 				{
-					player.MoveTo(Player.Side.Left);
+					player.MoveToLeaf(leafHandler.CurentLeaf);
 					leafHandler.Climb();
 				}
 					
@@ -122,7 +152,7 @@ namespace LD34.Objects
 			{
                 if (!leafHandler.CurentLeaf.LeftLeaf)
                 {
-					player.MoveTo(Player.Side.Right);
+					player.MoveToLeaf(leafHandler.CurentLeaf);
                     leafHandler.Climb();
                 }
                 else

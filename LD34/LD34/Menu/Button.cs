@@ -104,7 +104,7 @@ namespace LD34.Menu
 
         public override void Dispose()
         {
-            throw new NotImplementedException();
+			graphics.Dispose();
         }
 
         public override void Draw(RenderTarget target, RenderStates states)
