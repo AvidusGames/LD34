@@ -2,6 +2,7 @@
 using GameCore.Objects;
 using GameCore.States;
 using LD34.Objects;
+using SFML.System;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -32,24 +33,24 @@ namespace LD34.Handlers
 			for (int i = 0; i < NumberOfLeafsOnBranch; i++)
 			{
 				int diceRoll = rand.Next(0, 100);
+
 				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
-				if (diceRoll > 50)
-				{
-					//Create a left leaf
-					tmpLeaf.Position = new SFML.System.Vector2f(158, i * 120 + 70);
-					tmpLeaf.LeaftLeaf = true;
-				}
-				//Create a right leaf
+				LeftOrRightLeafRand(tmpLeaf, i);
+
+				if (i > 0)
+					tmpLeaf.Child = leafs[i - 1];
 				else
-				{
-					tmpLeaf.Position = new SFML.System.Vector2f(480, i * 120 + 70);
-					tmpLeaf.LeaftLeaf = false;
-				}
+					tmpLeaf.Child = null;
+
+				if (i < NumberOfLeafsOnBranch)
+					tmpLeaf.Parent = leafs[i + 1];
+				else
+					tmpLeaf.Parent = null;
 
 				leafs.Add(tmpLeaf);
 
 			}
-			CurentLeaf = leafs.LastOrDefault();
+			CurentLeaf = leafs[leafs.Count - 1];
 		}
 
 		/// <summary>
@@ -58,17 +59,17 @@ namespace LD34.Handlers
 		internal void Climb()
 		{
 			// Kolla om det lövet spelare står på inte är utanför. Annars gå tillbacks till toppen.
-			if (activeLeaf >= 0)
+			if (activeLeaf <= 4)
 				ChangeLeaf();
 			else
 			{
 				activeLeaf = leafs.Count;
 			}
 
-			for (int i = 0; i < leafs.Count; i++)
-			{
-				LeftOrRightLeafRand(leafs[i], i);
-			}
+			//for (int i = 0; i < leafs.Count; i++)
+			//{
+			//	LeftOrRightLeafRand(leafs[i], i);
+			//}
 		}
 		/// <summary>
 		/// Randomize a true or false to wich side leaf shuld be on.
@@ -91,10 +92,10 @@ namespace LD34.Handlers
 		{
 			for (int i = 0; i < leafs.Count - 2; i++)
 			{
-				leafs[i].LeaftLeaf = leafs[i + 1].LeaftLeaf;
+				leafs[i].Position = new Vector2f(leafs[i + 1].Position.Y, leafs[i].Position.X);
 			}
 
-			LeftOrRightLeafRand(leafs.LastOrDefault(), leafs.Count - 1);
+			CurentLeaf = leafs.LastOrDefault(); ;
 		}
 	}
 }
