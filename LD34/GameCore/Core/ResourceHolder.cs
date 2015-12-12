@@ -61,4 +61,22 @@ namespace GameCore.Core
             throw new NotImplementedException();
         }
     }
+
+    internal class FontHolder : ResourceHolder<Fonts.ID, Font, int>
+    {
+        public override void Load(Fonts.ID id, string filename)
+        {
+            // Create and load resource
+            var font = new Font(filename);
+
+            // If loading successful, insert resource to map
+            InsertResource(id, font);
+        }
+
+        public override void Load(Fonts.ID id, string filename, int secondParameter)
+        {
+            // Font takes exactly one parameter
+            throw new NotImplementedException();
+        }
+    }
 }

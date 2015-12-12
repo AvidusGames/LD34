@@ -14,7 +14,7 @@ namespace LD34.Objects
 		public TestState(Game game) : base(game)
 		{
             testPool = new GameObjectPool<TestGameObject>(() => new TestGameObject(this, new SFML.System.Vector2f(0, 0)), 100);
-            //AddEntity(nameof(TestGameObject));
+            AddGameObject(nameof(TestGameObject));
 		}
 
 		public override void Update()
