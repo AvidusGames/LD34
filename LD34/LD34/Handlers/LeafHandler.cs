@@ -88,6 +88,11 @@ namespace LD34.Handlers
 			}
 		}
 
+		public Leaf NextLeaf()
+		{
+			return CurentLeaf.Parent;
+		}
+
 		private void ChangeLeaf()
 		{
 			for (int i = 0; i < leafs.Count - 2; i++)
