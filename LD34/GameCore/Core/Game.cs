@@ -13,7 +13,8 @@ namespace GameCore.Core
 	public class Game
 	{
 		private IState currentState;
-		private Clock clock;
+		private Clock betweenFramesClock = new Clock();
+		private int fixedUpdateTimer = 0;
 
         public delegate void Init(Game game);
 
@@ -24,7 +25,6 @@ namespace GameCore.Core
 		public Game(RenderWindow window)
 		{
 			Window = window;
-			clock = new Clock();
 
 			Window.Closed += Window_Closed;
 		}
@@ -53,9 +53,15 @@ namespace GameCore.Core
                 Window.DispatchEvents();
 
 				Draw();
+				if (fixedUpdateTimer >= 16)
+				{
+					currentState.FixedUpdate();
+					fixedUpdateTimer = 0;
+				}
 				Update();
 
-				TimeBetweenFrames = clock.Restart();
+				TimeBetweenFrames = betweenFramesClock.Restart();
+				fixedUpdateTimer += TimeBetweenFrames.AsMilliseconds();
 			}
 		}
 
