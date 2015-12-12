@@ -15,8 +15,9 @@ namespace GameCore.Core
 		private IState currentState;
 		private Clock betweenFramesClock = new Clock();
 		private int fixedUpdateTimer = 0;
+		private const int TimeBetweenFixedUpdate = 16;
 
-        public delegate void Init(Game game);
+		public delegate void Init(Game game);
 
 		public static RenderWindow Window{ get; private set; }
 
@@ -53,7 +54,7 @@ namespace GameCore.Core
                 Window.DispatchEvents();
 
 				Draw();
-				if (fixedUpdateTimer >= 16)
+				if (fixedUpdateTimer >= TimeBetweenFixedUpdate)
 				{
 					currentState.FixedUpdate();
 					fixedUpdateTimer = 0;
