@@ -7,16 +7,21 @@ using System.Threading.Tasks;
 using GameCore.Objects;
 using GameCore.Handlers;
 using GameCore.Core;
+using LD34.Handlers;
 
 namespace LD34.Objects
 {
 	class MainState : GameState
 	{
 		private GameObjectPool<Leaf> LeafPool;
+		private LeafHandler leafHandler;
 
 		public MainState(Game game): base(game)
 		{
+
 			InitPools();
+			AddGameObject(nameof(Leaf));
+			leafHandler = new LeafHandler(this);
 			AddEntity(nameof(Branch));
 		}
 
@@ -25,9 +30,20 @@ namespace LD34.Objects
 			LeafPool = new GameObjectPool<Leaf>(() => new Leaf(this), 10);
 		}
 
-		public override Entity AddGameObject(string type)
+		public override GameObject AddGameObject(string type)
 		{
-			throw new NotImplementedException();
+			GameObject tmpGameObject = null;
+			switch (type)
+			{
+				case nameof(Leaf):
+					tmpGameObject = LeafPool.Release();
+                    GameObjects.Add(tmpGameObject);
+					break;
+					
+				default:
+					throw new Exception("GameObject not found in this State");
+			}
+			return tmpGameObject;
 		}
 
 		public override void Dispose()

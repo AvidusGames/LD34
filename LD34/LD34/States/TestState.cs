@@ -32,7 +32,7 @@ namespace LD34.Objects
 			base.Draw(target, states);
 		}
 
-		public override Entity AddGameObject(string type)
+		public override GameObject AddGameObject(string type)
 		{
 			GameObject tmpGameObject = null;
 			switch (type)

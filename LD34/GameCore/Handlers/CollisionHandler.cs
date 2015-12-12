@@ -17,15 +17,15 @@ namespace GameCore.Handlers
 			//UpdateGameObjectsList();
 		}
 
-		private void UpdateGameObjectsList()
-		{
-			//Kanske måste optimera senare
-			gameObjects.Clear();
-			foreach (GameObject gameObject in gameObjects)
-			{
-				gameObjects.Add(gameObject);
-			}
-		}
+		//private void UpdateGameObjectsList()
+		//{
+		//	//Kanske måste optimera senare
+		//	gameObjects.Clear();
+		//	foreach (GameObject gameObject in gameObjects)
+		//	{
+		//		gameObjects.Add(gameObject);
+		//	}
+		//}
 
 		private void CheckCollision()
 		{
@@ -49,7 +49,6 @@ namespace GameCore.Handlers
 
 		public void FixedUpdate()
 		{
-			UpdateGameObjectsList();
 			CheckCollision();
 		}
 	}

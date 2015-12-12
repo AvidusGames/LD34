@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using LD34.Objects;
 
-namespace Gamecore
+namespace LD34
 {
     class Program
     {

@@ -4,6 +4,7 @@ using SFML.Graphics;
 using GameCore.Core;
 using GameCore.Handlers;
 using GameCore.Objects;
+using System;
 
 namespace GameCore.States
 {
@@ -34,7 +35,7 @@ namespace GameCore.States
 		/// </summary>
 		/// <param name="type">vilket GameObject</param>
 		/// <returns>referens till GameObjectet som laddes till</returns>
-		public abstract Entity AddGameObject(string type);
+		public abstract GameObject AddGameObject(string type);
 
 		/// <summary>
 		/// Lägger till en Entity i statet.
@@ -48,6 +49,7 @@ namespace GameCore.States
 			foreach (GameObject gameObject in GameObjects)
 			{
 				target.Draw(gameObject);
+				Console.WriteLine("GameObject drawed at " + gameObject.Position);
 			}
 
 			foreach (Entity entity in EntityObjects)
@@ -82,6 +84,7 @@ namespace GameCore.States
 			foreach (GameObject gameObject in GameObjects)
 			{
 				gameObject.Update();
+				Console.WriteLine("Updated GameObject" + gameObject);
 			}
 
 			foreach (Entity entity in EntityObjects)

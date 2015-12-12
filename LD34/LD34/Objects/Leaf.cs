@@ -8,7 +8,7 @@ namespace LD34.Objects
 {
 	class Leaf : GameObject
 	{
-		private RectangleShape graphics = new RectangleShape(new Vector2f(64, 32));
+		private RectangleShape graphics = new RectangleShape(new Vector2f(160, 16));
 
 		public Leaf(GameState gameState, Vector2f pos ) :base(gameState, pos)
 		{
@@ -17,7 +17,7 @@ namespace LD34.Objects
 
 		public Leaf(GameState gameState) : base(gameState, new Vector2f(0, 0))
 		{
-
+			graphics.FillColor = Color.Green;
 		}
 
 		public override void Dispose()
@@ -27,7 +27,8 @@ namespace LD34.Objects
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
-			throw new NotImplementedException();
+			target.Draw(graphics);
+			Console.WriteLine("Leaf drawed at pos " + graphics.Position);
 		}
 
 		public override void FixedUpdate()
@@ -37,7 +38,7 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-			throw new NotImplementedException();
+			graphics.Position = Position;
 		}
 	}
 }

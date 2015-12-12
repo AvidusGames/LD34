@@ -8,7 +8,7 @@ namespace GameCore.Objects
     public abstract class Entity : IUpdatable, Drawable, IDisposable
     {
 
-        public Vector2f Position { get; protected set; }
+        public Vector2f Position { get; set; }
 
         public Entity(Vector2f pos)
         {
