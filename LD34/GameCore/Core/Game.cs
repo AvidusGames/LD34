@@ -40,10 +40,10 @@ namespace GameCore.Core
 		public void Start(Init init)
 		{
 			Input.InitEvents(Window);
-            background = new Sprite(textures.Get(Textures.ID.Background));
             textures = new TextureHolder();
             init(this);
-			Loop();
+            background = new Sprite(textures.Get(Textures.ID.Background));
+            Loop();
 		}
 
 		private void Loop()

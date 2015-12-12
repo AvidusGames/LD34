@@ -23,18 +23,17 @@ namespace LD34
 
         public static void Init(Game game)
         {
-            game.ChangeState(new TestState(game));
-
             try
             {
-                game.LoadTexture(GameCore.Core.Textures.ID.Background, "Assets/Textures/bg.png");
-                game.LoadTexture(GameCore.Core.Textures.ID.Player, "Assets/Textures/Player.png");
+                game.LoadTexture(GameCore.Core.Textures.ID.Player, @"Assets\Textures\Player.png");
+                game.LoadTexture(GameCore.Core.Textures.ID.Background, @"Assets\Textures\bg.png");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
                 return;
             }
+            game.ChangeState(new TestState(game));
         }
     }
 }
