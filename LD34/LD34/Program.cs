@@ -42,6 +42,7 @@ namespace LD34
             try
             {
                 game.LoadFont(GameCore.Core.Fonts.ID.Default, "Assets/Fonts/ARCADECLASSIC.TTF");
+                game.LoadFont(GameCore.Core.Fonts.ID.Header, "Assets/Fonts/crackman.ttf");
             }
             catch (Exception ex)
             {

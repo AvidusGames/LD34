@@ -13,8 +13,11 @@ namespace LD34.Menu
         private Label label;
         private Color outlineColor;
         private FloatRect bounds;
+        private string actionCommand;
         private float padding;
         private int ticks;
+
+        public delegate void ButtonHandler(string actionCommand);
 
         enum ButtonState {
             Hovering,
@@ -23,17 +26,20 @@ namespace LD34.Menu
         }
 
         private ButtonState state = ButtonState.Normal;
+        private ButtonHandler handler;
 
-        public Button(string text, Vector2f pos, GameState gameState):base(gameState, pos)
+        public Button(ButtonHandler _handler, string text, Vector2f pos, GameState gameState):base(gameState, pos)
 		{
             graphics = new RectangleShape(new Vector2f(32, 32));
             graphics.FillColor = Color.Transparent;
-            graphics.OutlineColor = Color.White;
-            graphics.OutlineThickness = 5.0f;
+            SetOutlineColor(Color.White);
+            SetOutlineThickness(5.0f);
             padding = 5.0f;
             graphics.Position = pos;
-            
+
+            handler = _handler;
             label = new Label("", pos, gameState);
+            label.SetCentered(false);
             SetText(text);
         }
 
@@ -43,24 +49,41 @@ namespace LD34.Menu
             SetText(null);
         }
 
+        public void SetFont(GameCore.Core.Fonts.ID id)
+        {
+            label.SetFont(id);
+            SetText(null);
+        }
+
+        public void SetSize(uint size)
+        {
+            label.SetSize(size);
+            SetText(null);
+        }
+
+        public void SetActionCommand(string _actionCommand)
+        {
+            actionCommand = _actionCommand;
+        }
+
         public void SetText(string text)
         {
             if(text != null)
                 label.SetText(text);
 
-            float tmpPadding = padding;
+            float widthPadding = padding;
             if(state == ButtonState.Hovering)
             {
-                tmpPadding *= 10;
+                widthPadding *= 10;
             }
 
-            float width = label.GetBounds().Width + tmpPadding * 2;
-            float height = label.GetBounds().Height + tmpPadding * 2;
+            float width = label.GetBounds().Width + widthPadding * 2;
+            float height = label.GetBounds().Height + padding * 2;
 
             graphics.Size = new Vector2f(width, height);
-            label.Position = new Vector2f(Position.X + tmpPadding - width/2, Position.Y - height / 2);
-            bounds = graphics.GetLocalBounds();
-            Update();
+            label.Position = new Vector2f(Position.X + widthPadding - width/2, Position.Y - height / 2);
+            UpdatePosition();
+            bounds = new FloatRect(graphics.Position.X, graphics.Position.Y, width, height);
         }
 
         public void SetTextColor(Color color)
@@ -102,40 +125,47 @@ namespace LD34.Menu
 
 		public override void Update()
         {
+            if(state != ButtonState.Pressed)
+            {
+                if(bounds != null && bounds.Contains((int) Input.mouseX, (int) Input.mouseY))
+                {
+                    if(Input.GetMousePressed(SFML.Window.Mouse.Button.Left))
+                    {
+                        if (state != ButtonState.Pressed)
+                            HandleEvent(ButtonState.Pressed);
+                    } else
+                    {
+                        if (state != ButtonState.Hovering)
+                            HandleEvent(ButtonState.Hovering);
+                    }
+                }else
+                {
+                    if (state != ButtonState.Normal)
+                        HandleEvent(ButtonState.Normal);
+                }                
+            }
+
+            if (state == ButtonState.Pressed && ticks % 30 == 0)
+            {
+                graphics.OutlineColor = (graphics.OutlineColor == Color.Cyan) ? outlineColor : Color.Cyan;
+                if(ticks >= 200)
+                {
+                    handler(actionCommand);
+                }
+            }
+            ticks++;
+        }
+
+        private void UpdatePosition()
+        {
+            graphics.Position = new Vector2f(Position.X - graphics.Size.X / 2, Position.Y - graphics.Size.Y / 2);
             label.Update();
-            if(bounds != null && bounds.Contains(Input.mouseX, Input.mouseY))
-            {
-                if(Input.GetMousePressed(SFML.Window.Mouse.Button.Left))
-                {
-                    if (state != ButtonState.Pressed)
-                        HandleEvent(ButtonState.Pressed);
-                } else
-                {
-                    if (state != ButtonState.Hovering)
-                        HandleEvent(ButtonState.Hovering);
-                }
-            }else
-            {
-                if (state != ButtonState.Normal)
-                    HandleEvent(ButtonState.Normal);
-            }
-            graphics.Position = new Vector2f(Position.X - graphics.Size.X/2, Position.Y - graphics.Size.Y/2);
-
-            if(state == ButtonState.Pressed && ticks % 30 == 0)
-            {
-                SetOutlineColor(graphics.OutlineColor == Color.Cyan ? outlineColor : Color.Cyan);
-                if(++ticks >= 120)
-                {
-                    // call function
-                    Dispose();
-                }
-            }
-
         }
 
         private void HandleEvent(ButtonState _state)
         {
-            switch(_state)
+            state = _state;
+            switch (_state)
             {
                 case ButtonState.Hovering:
                     SetText(null);
@@ -145,10 +175,9 @@ namespace LD34.Menu
                     // play audio effect
                     break;
                 case ButtonState.Normal:
-                    //SetText(null);
+                    SetText(null);
                     break;
             }
-            state = _state;
         }
     }
 }

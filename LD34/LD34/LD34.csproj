@@ -113,6 +113,9 @@
     <Content Include="Assets\Fonts\ARCADECLASSIC.TTF">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Assets\Fonts\crackman.ttf">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Assets\Music\gameLoop.wav">
