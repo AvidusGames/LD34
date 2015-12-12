@@ -8,19 +8,20 @@ namespace GameCore.Handlers
 	class CollisionHandler : IFixedUpdatable
 	{
 		private List<GameObject> gameObjects = new List<GameObject>();
-		private List<Entity> entityObjects;
+		private List<Entity> GameObjects = null;
 
-		public CollisionHandler(List<Entity> entityObjects)
+		public CollisionHandler(List<GameObject> entityObjects)
 		{
-			this.entityObjects = entityObjects;
-			UpdateGameObjectsList();
+			gameObjects = entityObjects;
+			//this.GameObjects = entityObjects;
+			//UpdateGameObjectsList();
 		}
 
 		private void UpdateGameObjectsList()
 		{
 			//Kanske måste optimera senare
 			gameObjects.Clear();
-			foreach (GameObject gameObject in entityObjects)
+			foreach (GameObject gameObject in gameObjects)
 			{
 				gameObjects.Add(gameObject);
 			}

@@ -17,7 +17,7 @@ namespace GameCore.Core
 		private int fixedUpdateTimer = 0;
 		private const int TimeBetweenFixedUpdate = 16;
         private TextureHolder textures;
-        private Sprite background;
+        //private Sprite background;
 
         public delegate void Init(Game game);
 
@@ -40,9 +40,9 @@ namespace GameCore.Core
 		public void Start(Init init)
 		{
 			Input.InitEvents(Window);
-            background = new Sprite(textures.Get(Textures.ID.Background));
             textures = new TextureHolder();
             init(this);
+			//background = new Sprite(textures.Get(Textures.ID.Background));
 			Loop();
 		}
 
@@ -90,7 +90,7 @@ namespace GameCore.Core
 		private void Draw()
 		{
             Window.Clear();
-            Window.Draw(background);
+            //Window.Draw(background);
 			Window.Draw(currentState);
 			Window.Display();
 		}

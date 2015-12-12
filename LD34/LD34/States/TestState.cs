@@ -1,16 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using SFML.Graphics;
 using GameCore.Handlers;
 using GameCore.Core;
 using GameCore.Objects;
 using GameCore.States;
-using LD34.Objects;
 
-namespace LD34.States
+namespace LD34.Objects
 {
 	public class TestState : GameState
 	{
@@ -37,7 +32,7 @@ namespace LD34.States
 			base.Draw(target, states);
 		}
 
-		public override Entity AddEntity(string type)
+		public override Entity AddGameObject(string type)
 		{
 			GameObject tmpGameObject = null;
 			switch (type)
@@ -49,8 +44,13 @@ namespace LD34.States
 				default:
 					break;
 			}
-			EntityObjects.Add(tmpGameObject);
+			GameObjects.Add(tmpGameObject);
 			return tmpGameObject;
+		}
+
+		public override Entity AddEntity(string type)
+		{
+			throw new NotImplementedException();
 		}
 	}
 }

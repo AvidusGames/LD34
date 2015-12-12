@@ -97,6 +97,9 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\TestGameObject.cs" />
+    <Compile Include="Objects\Leaf.cs" />
+    <Compile Include="Objects\Branch.cs" />
+    <Compile Include="States\MainState.cs" />
     <Compile Include="States\TestState.cs" />
   </ItemGroup>
   <ItemGroup>
