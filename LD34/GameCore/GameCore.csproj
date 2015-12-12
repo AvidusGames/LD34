@@ -54,6 +54,7 @@
   <ItemGroup>
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\Input.cs" />
+    <Compile Include="Entities\Entity.cs" />
     <Compile Include="Handlers\CollisionHandler.cs" />
     <Compile Include="Handlers\GameObjectPool.cs" />
     <Compile Include="Interfaces\IState.cs" />
