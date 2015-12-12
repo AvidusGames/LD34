@@ -27,7 +27,7 @@ namespace LD34
 
             try
             {
-                game.LoadTexture(GameCore.Core.Textures.ID.Background, "Assets/Textures/bg.jpg");
+                game.LoadTexture(GameCore.Core.Textures.ID.Background, "Assets/Textures/bg.png");
                 game.LoadTexture(GameCore.Core.Textures.ID.Player, "Assets/Textures/Player.png");
             }
             catch (Exception ex)

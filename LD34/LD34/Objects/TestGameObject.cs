@@ -5,6 +5,7 @@ using SFML.System;
 using GameCore.Core;
 using GameCore.Objects;
 using SFML.Window;
+using GameCore.States;
 
 namespace LD34.Objects
 {
@@ -13,10 +14,10 @@ namespace LD34.Objects
 		private Vector2f position = new Vector2f(0, 0);
         private Sprite graphics;
 
-		public TestGameObject(Game game, Vector2f pos):base(pos)
+		public TestGameObject(GameState gameState, Vector2f pos):base(gameState, pos)
 		{
 			Bounds = new FloatRect(Position.X, Position.Y, 32, 32);
-            graphics = new Sprite(game.GetTexture(GameCore.Core.Textures.ID.Player));
+            graphics = new Sprite(GameState.Game.GetTexture(GameCore.Core.Textures.ID.Player));
         }
 
 		public override void Draw(RenderTarget target, RenderStates states)
