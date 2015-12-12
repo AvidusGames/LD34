@@ -22,6 +22,7 @@ namespace LD34.Objects
 
 		public Player(GameState gameState):base(gameState, new Vector2f(200, 580))
 		{
+			Position = new Vector2f(200, 480);
             graphics = new RectangleShape(new Vector2f(32, 64));
             graphics.FillColor = Color.Red;
 		}
@@ -43,7 +44,8 @@ namespace LD34.Objects
 
 		public override void Dispose()
 		{
-			throw new NotImplementedException();
+			graphics.Dispose();
+			graphics = null;
 		}
 
 		public override void Reset()

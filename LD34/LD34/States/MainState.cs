@@ -1,9 +1,5 @@
 ﻿using GameCore.States;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using GameCore.Objects;
 using GameCore.Handlers;
 using GameCore.Core;
@@ -60,7 +56,6 @@ namespace LD34.Objects
 		public override void Dispose()
 		{
 			base.Dispose();
-			leafHandler.Dispose();
 			leafHandler = null;
 
 
@@ -109,15 +104,19 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
-				player.MoveTo(Player.Side.Left);
+				
 				if (leafHandler.CurentLeaf.LeftLeaf)
+				{
+					player.MoveTo(Player.Side.Left);
 					leafHandler.Climb();
+				}
+					
+				else
+				{
+					Game.ChangeState(null);
+				}
 			}
 
-			else
-			{
-				Game.ChangeState(null);
-			}
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
@@ -128,7 +127,7 @@ namespace LD34.Objects
                 }
                 else
                 {
-                    this.Game.ChangeState(null);
+                    Game.ChangeState(null);
                 }
             }
 		}

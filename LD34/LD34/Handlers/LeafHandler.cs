@@ -43,7 +43,7 @@ namespace LD34.Handlers
 				leafs.Add(tmpLeaf);
 			}
 			CurentLeaf = leafs[1];
-			
+
 			//for (int i = 0; i < leafs.Count; i++)
 			//{
 			//	if (i > 0)
@@ -62,11 +62,6 @@ namespace LD34.Handlers
 
 			//BottomLeaf.Child = Top;
 			//Top.Parent = BottomLeaf;
-		}
-
-		internal void Dispose()
-		{
-			throw new NotImplementedException();
 		}
 
 		/// <summary>

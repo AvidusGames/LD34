@@ -26,7 +26,8 @@ namespace LD34.Objects
 
 		public override void Dispose()
 		{
-			throw new NotImplementedException();
+			graphics.Dispose();
+			graphics = null;
 		}
 
 		public override void Draw(RenderTarget target, RenderStates states)
