@@ -8,7 +8,6 @@ namespace GameCore.Handlers
 	class CollisionHandler : IFixedUpdatable
 	{
 		private List<GameObject> gameObjects = new List<GameObject>();
-		private List<Entity> GameObjects = null;
 
 		public CollisionHandler(List<GameObject> entityObjects)
 		{

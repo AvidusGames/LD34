@@ -84,7 +84,7 @@ namespace GameCore.States
 			foreach (GameObject gameObject in GameObjects)
 			{
 				gameObject.Update();
-				Console.WriteLine("Updated GameObject" + gameObject);
+				Console.WriteLine("Updated GameObject" + gameObject.Position);
 			}
 
 			foreach (Entity entity in EntityObjects)
