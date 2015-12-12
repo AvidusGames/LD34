@@ -19,6 +19,7 @@ namespace GameCore.Core
 		private const int TimeBetweenFixedUpdate = 16;
         private TextureHolder textures;
         private SoundHolder sounds;
+        private FontHolder fonts;
         //private Sprite background;
 
         public delegate void Init(Game game);
@@ -44,6 +45,7 @@ namespace GameCore.Core
 			Input.InitEvents(Window);
             sounds = new SoundHolder();
             textures = new TextureHolder();
+            fonts = new FontHolder();
             init(this);
 			//background = new Sprite(textures.Get(Textures.ID.Background));
 			Loop();
@@ -89,11 +91,20 @@ namespace GameCore.Core
             sounds.Load(id, filename);
         }
 
-        public SoundBuffer GetSounds(Sounds.ID id)
+        public SoundBuffer GetSound(Sounds.ID id)
         {
             return sounds.Get(id);
         }
 
+        public void LoadFont(Fonts.ID id, string filename)
+        {
+            fonts.Load(id, filename);
+        }
+
+        public Font GetFont(Fonts.ID id)
+        {
+            return fonts.Get(id);
+        }
 
         public void ChangeState(IState state)
 		{

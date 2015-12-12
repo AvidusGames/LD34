@@ -29,7 +29,8 @@ namespace LD34.Handlers
 			this.gameState = gameState;
 
 			InitLeafs();
-		}
+
+        }
 
 		private void InitLeafs()
 		{
@@ -113,11 +114,6 @@ namespace LD34.Handlers
 			}
 		}
 
-		//public Leaf NextLeaf()
-		//{
-		//	return BottomLeaf.Parent;
-		//}
-
 		private void ChangeLeaf()
 		{
 
@@ -135,5 +131,6 @@ namespace LD34.Handlers
 			CurentLeaf = leafs[1];
 
 		}
+
 	}
 }

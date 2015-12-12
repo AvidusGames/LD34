@@ -9,12 +9,12 @@ namespace LD34.Objects
 {
 	public class TestState : GameState
 	{
-		private GameObjectPool<TestGameObject> testPool;
+        private GameObjectPool<TestGameObject> testPool;
 
 		public TestState(Game game) : base(game)
 		{
-			testPool = new GameObjectPool<TestGameObject>(() => new TestGameObject(this, new SFML.System.Vector2f(0, 0)), 100);
-			//AddEntity(nameof(TestGameObject));
+            testPool = new GameObjectPool<TestGameObject>(() => new TestGameObject(this, new SFML.System.Vector2f(0, 0)), 100);
+            AddGameObject(nameof(TestGameObject));
 		}
 
 		public override void Update()

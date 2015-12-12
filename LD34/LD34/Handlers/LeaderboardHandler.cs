@@ -22,7 +22,7 @@ namespace LD34.Handlers
 
         public LeaderboardHandler()
         {
-            waitRequest = new Semaphore(0, 1);
+            waitRequest = new Semaphore(1, 1);
         }
 
         public void PutScoreAsync(string username, int score)

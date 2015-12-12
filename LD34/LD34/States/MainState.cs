@@ -101,14 +101,10 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
+
 				if(leafHandler.CurentLeaf.LeftLeaf)
-                {
-                    leafHandler.Climb();
-                }else
-                {
-                    this.Game.ChangeState(null);
-                }
-			}
+                leafHandler.Climb();
+            }
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
