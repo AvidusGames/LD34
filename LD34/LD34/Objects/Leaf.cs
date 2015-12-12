@@ -43,5 +43,10 @@ namespace LD34.Objects
 		{
 			graphics.Position = Position;
 		}
+
+		public override void Reset()
+		{
+			Position = new Vector2f(0, 0);
+		}
 	}
 }

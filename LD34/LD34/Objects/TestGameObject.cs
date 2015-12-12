@@ -95,5 +95,10 @@ namespace LD34.Objects
 		{
 			throw new NotImplementedException();
 		}
+
+		public override void Reset()
+		{
+			throw new NotImplementedException();
+		}
 	}
 }

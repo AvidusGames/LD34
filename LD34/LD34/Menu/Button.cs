@@ -39,7 +39,12 @@ namespace LD34.Menu
             throw new NotImplementedException();
         }
 
-        public override void Update()
+		public override void Reset()
+		{
+			throw new NotImplementedException();
+		}
+
+		public override void Update()
         {
             
         }

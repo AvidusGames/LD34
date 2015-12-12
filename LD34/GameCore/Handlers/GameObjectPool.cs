@@ -22,6 +22,7 @@ namespace GameCore.Handlers
 
 		public void Acquire(T value)
 		{
+			value.Reset();
 			pool.Push(value);
 		}
 
