@@ -15,7 +15,9 @@ namespace LD34.Handlers
 	{
 		private GameState gameState;
 		private List<Leaf> leafs = new List<Leaf>();
+
 		private const int NumberOfLeafsOnBranch = 5;
+
 		private Random rand = new Random();
 		private int activeLeaf = NumberOfLeafsOnBranch;
 
@@ -37,20 +39,22 @@ namespace LD34.Handlers
 				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
 				LeftOrRightLeafRand(tmpLeaf, i);
 
-				if (i > 0)
-					tmpLeaf.Child = leafs[i - 1];
-				else
-					tmpLeaf.Child = null;
-
-				if (i < NumberOfLeafsOnBranch)
-					tmpLeaf.Parent = leafs[i + 1];
-				else
-					tmpLeaf.Parent = null;
-
 				leafs.Add(tmpLeaf);
-
 			}
 			CurentLeaf = leafs[leafs.Count - 1];
+
+			for (int i = 0; i < leafs.Count; i++)
+			{
+				if (i > 0)
+					leafs[i].Child = leafs[i - 1];
+				else
+					leafs[i].Child = null;
+
+				if (i < NumberOfLeafsOnBranch - 1)
+					leafs[i].Parent = leafs[i + 1];
+				else
+					leafs[i].Parent = null;
+			}
 		}
 
 		/// <summary>
@@ -78,13 +82,17 @@ namespace LD34.Handlers
 		/// <param name="idx">wich index is leaf in the list</param>
 		private void LeftOrRightLeafRand(Leaf leaf, int idx)
 		{
-			if (leaf.LeaftLeaf)
+			int diceRoll = rand.Next(0, 100);
+
+			if (diceRoll >= 50)
 			{
-				leaf.Position = new SFML.System.Vector2f(480, idx * 120 + 70);
+				leaf.Position = new Vector2f(480, idx * 120 + 70);
+				leaf.LeaftLeaf = true;
 			}
 			else
 			{
-				leaf.Position = new SFML.System.Vector2f(158, idx * 120 + 70);
+				leaf.Position = new Vector2f(158, idx * 120 + 70);
+				leaf.LeaftLeaf = false;
 			}
 		}
 
