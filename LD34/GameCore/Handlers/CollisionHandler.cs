@@ -1,10 +1,11 @@
 ﻿using GameCore.Interfaces;
 using GameCore.Objects;
 using System.Collections.Generic;
+using System;
 
 namespace GameCore.Handlers
 {
-	class CollisionHandler : IUpdatable
+	class CollisionHandler : IFixedUpdatable
 	{
 		private List<GameObject> gameObjects = new List<GameObject>();
 		private List<Entity> entityObjects;
@@ -25,12 +26,6 @@ namespace GameCore.Handlers
 			}
 		}
 
-		public void Update()
-		{
-			UpdateGameObjectsList();
-			CheckCollision();
-		}
-
 		private void CheckCollision()
 		{
 			for (int i = 0; i < gameObjects.Count; i++)
@@ -49,6 +44,12 @@ namespace GameCore.Handlers
 					}
 				}
 			}
+		}
+
+		public void FixedUpdate()
+		{
+			UpdateGameObjectsList();
+			CheckCollision();
 		}
 	}
 }

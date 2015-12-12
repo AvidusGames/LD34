@@ -45,7 +45,7 @@ namespace GameCore.States
 
 		virtual public void Update()
 		{
-			collisionHandler.Update();
+
 
 			UpdateGameObjects();
 
@@ -70,6 +70,6 @@ namespace GameCore.States
 
 		abstract public void Dispose();
 
-		public virtual void FixedUpdate() { }
+		public virtual void FixedUpdate() => collisionHandler.FixedUpdate();
 	}
 }

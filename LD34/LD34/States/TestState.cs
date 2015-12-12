@@ -36,7 +36,7 @@ namespace LD34.States
 			base.Draw(target, states);
 		}
 
-		public override GameObject AddEntity(string type)
+		public override Entity AddEntity(string type)
 		{
 			GameObject tmpGameObject = null;
 			switch (type)

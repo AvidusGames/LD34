@@ -15,6 +15,7 @@ namespace GameCore.Core
 		private IState currentState;
 		private Clock betweenFramesClock = new Clock();
 		private int fixedUpdateTimer = 0;
+		private const int TimeBetweenFixedUpdate = 16;
         private TextureHolder textures;
         private Sprite background;
 
@@ -57,7 +58,7 @@ namespace GameCore.Core
                 Window.DispatchEvents();
 
 				Draw();
-				if (fixedUpdateTimer >= 16)
+				if (fixedUpdateTimer >= TimeBetweenFixedUpdate)
 				{
 					currentState.FixedUpdate();
 					fixedUpdateTimer = 0;
