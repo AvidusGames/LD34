@@ -14,11 +14,11 @@ namespace LD34.States
 {
 	public class TestState : GameState
 	{
-		private GameObjectPool<TestGameObject> testPool = new GameObjectPool<TestGameObject>(() => new TestGameObject(), 100);
+		private GameObjectPool<TestGameObject> testPool = new GameObjectPool<TestGameObject>(() => new TestGameObject(new SFML.System.Vector2f(0,0)), 100);
 
 		public TestState(Game game) : base(game)
 		{
-			AddGameObject(nameof(TestGameObject));
+			AddEntity(nameof(TestGameObject));
 		}
 
 		public override void Update()
@@ -36,7 +36,7 @@ namespace LD34.States
 			base.Draw(target, states);
 		}
 
-		public override GameObject AddGameObject(string type)
+		public override GameObject AddEntity(string type)
 		{
 			GameObject tmpGameObject = null;
 			switch (type)
@@ -48,7 +48,7 @@ namespace LD34.States
 				default:
 					break;
 			}
-			GameObjects.Add(tmpGameObject);
+			EntityObjects.Add(tmpGameObject);
 			return tmpGameObject;
 		}
 	}

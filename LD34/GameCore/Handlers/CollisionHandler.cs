@@ -1,25 +1,33 @@
 ﻿using GameCore.Interfaces;
 using GameCore.Objects;
-using SFML.Graphics;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GameCore.Handlers
 {
 	class CollisionHandler : IUpdatable
 	{
-		private List<GameObject> gameObjects;
+		private List<GameObject> gameObjects = new List<GameObject>();
+		private List<Entity> entityObjects;
 
-		public CollisionHandler(List<GameObject> gameObjects)
+		public CollisionHandler(List<Entity> entityObjects)
 		{
-			this.gameObjects = gameObjects;
+			this.entityObjects = entityObjects;
+			UpdateGameObjectsList();
+		}
+
+		private void UpdateGameObjectsList()
+		{
+			//Kanske måste optimera senare
+			gameObjects.Clear();
+			foreach (GameObject gameObject in entityObjects)
+			{
+				gameObjects.Add(gameObject);
+			}
 		}
 
 		public void Update()
 		{
+			UpdateGameObjectsList();
 			CheckCollision();
 		}
 

@@ -6,13 +6,17 @@ using System.Collections.Generic;
 
 namespace GameCore.Objects
 {
-	public abstract class GameObject : IUpdatable, Drawable, IDisposable
+	public abstract class GameObject : Objects.Entity
 	{
+		public GameObject(Vector2f pos) : base(pos)
+		{
+		}
+
 		private Vector2f position;
 
 		public FloatRect Bounds { get; protected set; }
 
-		public Vector2f Position
+		public new Vector2f Position
 		{
 			get
 			{
@@ -30,18 +34,10 @@ namespace GameCore.Objects
 		
 		public List<string> Tags { get; protected set; }
 
-		public bool Destroyed { get; set; }
-
 		public void Move(Vector2f offset) => Position += offset;
 
 		public void Move(float offsetX, float offsetY) => Position += new Vector2f(offsetX, offsetY);
 
 		public virtual void OnCollision(GameObject target) { }
-
-		public abstract void Draw(RenderTarget target, RenderStates states);
-
-		public abstract void Update();
-
-		public abstract void Dispose();
 	}
 }
