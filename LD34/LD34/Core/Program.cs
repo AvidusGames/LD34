@@ -6,15 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace LD34
+namespace GameCore
 {
-    class Program
-    {
-        static void Main(string[] args)
-        {
-			RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(200, 300), "Test");
+	class Program
+	{
+		static void Main(string[] args)
+		{
+			RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(800, 600), "Test");
+			window.SetFramerateLimit(240);
+
 			Game game = new Game(window);
 			game.Start();
-        }
-    }
+		}
+	}
 }
