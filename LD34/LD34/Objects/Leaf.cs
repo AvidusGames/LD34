@@ -10,9 +10,12 @@ namespace LD34.Objects
 	{
 		private RectangleShape graphics = new RectangleShape(new Vector2f(160, 16));
 
+		public bool LeaftLeaf { get; set; }
+
 		public Leaf(GameState gameState, Vector2f pos ) :base(gameState, pos)
 		{
 			graphics.FillColor = Color.Green;
+			LeaftLeaf = true;
 		}
 
 		public Leaf(GameState gameState) : base(gameState, new Vector2f(0, 0))

@@ -8,6 +8,7 @@ using GameCore.Objects;
 using GameCore.Handlers;
 using GameCore.Core;
 using LD34.Handlers;
+using SFML.Window;
 
 namespace LD34.Objects
 {
@@ -15,13 +16,16 @@ namespace LD34.Objects
 	{
 		private GameObjectPool<Leaf> LeafPool;
 		private LeafHandler leafHandler;
+		private Player player;
 
 		public MainState(Game game): base(game)
 		{
 
 			InitPools();
-			AddGameObject(nameof(Player)).Position = new SFML.System.Vector2f(230, 500);
 			leafHandler = new LeafHandler(this);
+
+			player = (Player)AddGameObject(nameof(Player));
+
 			AddEntity(nameof(Branch));
 		}
 
@@ -73,6 +77,25 @@ namespace LD34.Objects
 		public override void Update()
 		{
 			base.Update();
+
+			if (Input.GetKeyPressed(Keyboard.Key.Left))
+			{
+				if (!leafHandler.CurentLeaf.LeaftLeaf)
+				{
+					leafHandler.Climb();
+					player.Switch();
+				}
+
+			}
+			else if(Input.GetKeyPressed(Keyboard.Key.Right))
+			{
+				if (leafHandler.CurentLeaf.LeaftLeaf)
+				{
+					leafHandler.Climb();
+					player.Switch();
+				}
+
+			}
 		}
 	}
 }

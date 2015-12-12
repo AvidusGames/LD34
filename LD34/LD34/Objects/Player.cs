@@ -6,16 +6,44 @@ using System.Text;
 using System.Threading.Tasks;
 using SFML.Graphics;
 using GameCore.States;
+using SFML.System;
 
 namespace LD34.Objects
 {
 	class Player : GameObject
 	{
-		private RectangleShape graphics = new RectangleShape(new SFML.System.Vector2f(32, 64));
+		private RectangleShape graphics = new RectangleShape(new Vector2f(32, 64));
+		private bool leaftLeaf;
 
-		public Player(GameState gameState):base(gameState, new SFML.System.Vector2f(0,0))
+		private readonly Vector2f RightPos = new Vector2f(560, 490);
+		private readonly Vector2f LeaftPos = new Vector2f(230, 500);
+
+		private bool LeaftLeaf
+		{
+			get
+			{
+				return leaftLeaf;
+			}
+
+			set
+			{
+				leaftLeaf = value;
+				if (leaftLeaf)
+				{
+					Position = LeaftPos;
+				}
+				else
+				{
+					Position = RightPos;
+				}
+			}
+		}
+
+		public Player(GameState gameState):base(gameState, new Vector2f(230, 500))
 		{
 			graphics.FillColor = Color.Red;
+			Position = LeaftPos;
+			graphics.Position = LeaftPos;
 		}
 
 		public override void Draw(RenderTarget target, RenderStates states)
@@ -38,6 +66,16 @@ namespace LD34.Objects
 			throw new NotImplementedException();
 		}
 
-		 
+		internal void Switch()
+		{
+			if (Position == LeaftPos)
+			{
+				Position = RightPos;
+			}
+			else
+			{
+				Position = LeaftPos;
+			}
+		}
 	}
 }
