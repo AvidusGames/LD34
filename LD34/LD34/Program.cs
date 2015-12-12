@@ -19,7 +19,7 @@ namespace LD34
 
 			Game game = new Game(window);
 			game.Start(Init);
-			//Test
+			//Testing OSkar
         }
 
         public static void Init(Game game)
