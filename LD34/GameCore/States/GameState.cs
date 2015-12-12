@@ -4,6 +4,7 @@ using SFML.Graphics;
 using GameCore.Core;
 using GameCore.Handlers;
 using GameCore.Objects;
+using System;
 
 namespace GameCore.States
 {
@@ -69,5 +70,7 @@ namespace GameCore.States
 		}
 
 		abstract public void Dispose();
+
+		public virtual void FixedUpdate() { }
 	}
 }
