@@ -1,4 +1,5 @@
 ﻿using GameCore.Interfaces;
+using GameCore.States;
 using SFML.Graphics;
 using SFML.System;
 using System;
@@ -8,8 +9,11 @@ namespace GameCore.Objects
 {
 	public abstract class GameObject : Objects.Entity
 	{
-		public GameObject(Vector2f pos) : base(pos)
+		protected GameState GameState { get; private set; }
+
+		public GameObject(GameState gameState, Vector2f pos) : base(pos)
 		{
+			GameState = gameState;
 		}
 
 		private Vector2f position;
