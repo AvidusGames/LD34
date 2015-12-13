@@ -17,6 +17,7 @@ namespace LD34.Handlers
 		private Random rand = new Random();
 		private const int MaxNumberOfLeftLeavesAtRow = 3;
 		private int numberOfLeftLeavesAtRow;
+        private bool lastBoolValue;
 
 		private Tweener leafTweener = new Tweener();
 		private int nextIndex = 3;
@@ -88,9 +89,15 @@ namespace LD34.Handlers
 		/// <param name="idx">wich index is leaf in the list</param>
 		private void LeftOrRightLeafRand(Leaf leaf, int idx)
 		{
-			int diceRoll = rand.Next(0, 100);
+            bool diceRoll = rand.Next(100) >= 50;
 
-			if (diceRoll >= 50 && numberOfLeftLeavesAtRow <= MaxNumberOfLeftLeavesAtRow)
+            if(numberOfLeftLeavesAtRow > MaxNumberOfLeftLeavesAtRow)
+			{
+                diceRoll = !diceRoll;
+                numberOfLeftLeavesAtRow = 0;
+            }
+
+			if (diceRoll)
 			{
 				numberOfLeftLeavesAtRow++;
                 leaf.Position = new Vector2f(320, idx * 120 + 70);
@@ -102,6 +109,12 @@ namespace LD34.Handlers
 				leaf.LeftLeaf = false;
 				numberOfLeftLeavesAtRow = 0;
 			}
+
+            if(diceRoll == lastBoolValue)
+            {
+                numberOfLeftLeavesAtRow++;
+		}
+            lastBoolValue = diceRoll;
 		}
 
 		private void LeftOrRightLeafRand(Leaf leaf)
@@ -132,10 +145,7 @@ namespace LD34.Handlers
 			//leafs[0].Destroyed = true;
 			//leafs.RemoveAt(0);
 
-			nextIndex++;
-			PlayerStandLeaf = leafs[nextIndex - 1];
-
-			if (nextIndex == leafs.Count - 1)
+			if (PlayerStandLeaf == leafs[leafs.Count - 2])
 			{
 				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
 				LeftOrRightLeafRand(tmpLeaf);
@@ -149,22 +159,23 @@ namespace LD34.Handlers
 		{
 			//PlayerStandLeaf = null;
 			int fallAMount = 0;
-			bool falling = true;
+			bool falling = false;
 
 			while (falling)
 			{
 				nextIndex--;
 
 				for (int i = leafs.Count - 1; i >= 0; i--)
-				{ 
+				{
 					leafs[i].MoveOneStepUp();
 
 					if (leafs[i].LeftLeaf != PlayerStandLeaf.LeftLeaf)
 					{
-						falling = false;
+						falling = true;
 						PlayerStandLeaf = leafs[i];
 					}
 				}
+				Console.WriteLine(nextIndex);
 			}
 
 			return fallAMount;
