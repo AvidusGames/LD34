@@ -49,7 +49,7 @@ namespace LD34.Menu
             SetText(null);
         }
 
-        public void SetFont(GameCore.Core.Fonts.ID id)
+        public void SetFont(Assets.Fonts.ID id)
         {
             label.SetFont(id);
             SetText(null);

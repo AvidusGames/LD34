@@ -33,9 +33,9 @@ namespace LD34.Objects
 			AddEntity(nameof(Branch));
 
 			timer = StartTime;
-			timerText = new Text($"Timer: {timer}", new Font(Game.GetFont(GameCore.Core.Fonts.ID.Default)));
+			timerText = new Text($"Timer: {timer}", new Font(Game.GetFont(Assets.Fonts.ID.Default)));
 			timerText.Position = new Vector2f(10, 0);
-			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(GameCore.Core.Fonts.ID.Default)));
+			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(Assets.Fonts.ID.Default)));
 			scoreText.Position = new Vector2f(650, 0);
 
 			playerTweener = new Tweener();

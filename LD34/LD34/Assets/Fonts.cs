@@ -1,4 +1,4 @@
-﻿namespace GameCore.Core.Fonts
+﻿namespace LD34.Assets.Fonts
 {
     public enum ID
     {

@@ -23,9 +23,9 @@ namespace GameCore.Core
         }
     }
 
-    internal class TextureHolder : ResourceHolder<Textures.ID, Texture, IntRect>
+    internal class TextureHolder : ResourceHolder<Enum, Texture, IntRect>
     {
-        public override void Load(Textures.ID id, string filename)
+        public override void Load(Enum id, string filename)
         {
             // Create and load resource
             var texture = new Texture(filename);
@@ -34,7 +34,7 @@ namespace GameCore.Core
             InsertResource(id, texture);
         }
 
-        public override void Load(Textures.ID id, string filename, IntRect secondParameter)
+        public override void Load(Enum id, string filename, IntRect secondParameter)
         {
             // Create and load resource
             var texture = new Texture(filename, secondParameter);
@@ -44,9 +44,9 @@ namespace GameCore.Core
         }
     }
 
-    internal class SoundHolder : ResourceHolder<Sounds.ID, SoundBuffer, int>
+    internal class SoundHolder : ResourceHolder<Enum, SoundBuffer, int>
     {
-        public override void Load(Sounds.ID id, string filename)
+        public override void Load(Enum id, string filename)
         {
             // Create and load resource
             var buffer = new SoundBuffer(filename);
@@ -55,16 +55,16 @@ namespace GameCore.Core
             InsertResource(id, buffer);
         }
 
-        public override void Load(Sounds.ID id, string filename, int secondParameter)
+        public override void Load(Enum id, string filename, int secondParameter)
         {
             // SoundBuffer takes exactly one parameter
             throw new NotImplementedException();
         }
     }
 
-    internal class FontHolder : ResourceHolder<Fonts.ID, Font, int>
+    internal class FontHolder : ResourceHolder<Enum, Font, int>
     {
-        public override void Load(Fonts.ID id, string filename)
+        public override void Load(Enum id, string filename)
         {
             // Create and load resource
             var font = new Font(filename);
@@ -73,7 +73,7 @@ namespace GameCore.Core
             InsertResource(id, font);
         }
 
-        public override void Load(Fonts.ID id, string filename, int secondParameter)
+        public override void Load(Enum id, string filename, int secondParameter)
         {
             // Font takes exactly one parameter
             throw new NotImplementedException();

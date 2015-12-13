@@ -28,7 +28,7 @@ namespace LD34.States
             Label title = (Label)AddGameObject(nameof(Label));
             title.Position = new Vector2f(Game.Window.Size.X / 2, 10);
             title.SetSize(48);
-            title.SetFont(GameCore.Core.Fonts.ID.Header);
+            title.SetFont(Assets.Fonts.ID.Header);
             title.SetText("Avidus Games");
         }
 

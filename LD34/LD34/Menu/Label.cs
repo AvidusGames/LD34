@@ -18,7 +18,7 @@ namespace LD34.Menu
 
         public Label(string text, Vector2f pos, GameState gameState) : base(gameState, pos)
 		{
-            graphics = new Text(text, gameState.Game.GetFont(GameCore.Core.Fonts.ID.Default), 12);
+            graphics = new Text(text, gameState.Game.GetFont(Assets.Fonts.ID.Default), 12);
             graphics.Position = pos;
             graphics.Color = Color.White;
             centered = true;
@@ -37,7 +37,7 @@ namespace LD34.Menu
             bounds = GetBounds();
         }
 
-        public void SetFont(GameCore.Core.Fonts.ID id)
+        public void SetFont(Assets.Fonts.ID id)
         {
             graphics.Font = GameState.Game.GetFont(id);
             SetText(null);

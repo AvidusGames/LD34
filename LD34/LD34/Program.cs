@@ -41,8 +41,8 @@ namespace LD34
         {
             try
             {
-                game.LoadFont(GameCore.Core.Fonts.ID.Default, "Assets/Fonts/ARCADECLASSIC.TTF");
-                game.LoadFont(GameCore.Core.Fonts.ID.Header, "Assets/Fonts/crackman.ttf");
+                game.LoadFont(Assets.Fonts.ID.Default, "Assets/Fonts/ARCADECLASSIC.TTF");
+                game.LoadFont(Assets.Fonts.ID.Header, "Assets/Fonts/crackman.ttf");
             }
             catch (Exception ex)
             {
@@ -52,24 +52,25 @@ namespace LD34
 
             try
             {
-                game.LoadSound(GameCore.Core.Sounds.ID.Jump, "Assets/SFX/jump1.wav");
+                game.LoadSound(Assets.Sounds.ID.Jump, "Assets/SFX/jump1.wav");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
                 return;
             }
-
+            /**
             try
             {
-                game.LoadTexture(GameCore.Core.Textures.ID.Background, "Assets/Textures/bg.png");
-                game.LoadTexture(GameCore.Core.Textures.ID.Player, "Assets/Textures/Player.png");
+                game.LoadTexture(Assets.Textures.ID.Background, "Assets/Textures/bg.png");
+                game.LoadTexture(Assets.Textures.ID.Player, "Assets/Textures/Player.png");
             }
             catch (Exception ex)
             {
                 Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
                 return;
             }
+    */
             game.ChangeState(new MenuState(game));
         }
     }

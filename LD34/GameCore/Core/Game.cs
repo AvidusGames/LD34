@@ -71,32 +71,32 @@ namespace GameCore.Core
 			}
 		}
 
-        public void LoadTexture(Textures.ID id, string filename)
+        public void LoadTexture(Enum id, string filename)
         {
             textures.Load(id, filename);
         }
 
-        public Texture GetTexture(Textures.ID id)
+        public Texture GetTexture(Enum id)
         {
             return textures.Get(id);
         }
 
-        public void LoadSound(Sounds.ID id, string filename)
+        public void LoadSound(Enum id, string filename)
         {
             sounds.Load(id, filename);
         }
 
-        public SoundBuffer GetSound(Sounds.ID id)
+        public SoundBuffer GetSound(Enum id)
         {
             return sounds.Get(id);
         }
 
-        public void LoadFont(Fonts.ID id, string filename)
+        public void LoadFont(Enum id, string filename)
         {
             fonts.Load(id, filename);
         }
 
-        public Font GetFont(Fonts.ID id)
+        public Font GetFont(Enum id)
         {
             return fonts.Get(id);
         }

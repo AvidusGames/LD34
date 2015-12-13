@@ -89,14 +89,11 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Core\Animation.cs" />
-    <Compile Include="Core\Fonts.cs" />
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\Input.cs" />
-    <Compile Include="Core\Sounds.cs" />
     <Compile Include="Core\Spritesheet.cs" />
     <Compile Include="Objects\Entity.cs" />
     <Compile Include="Core\ResourceHolder.cs" />
-    <Compile Include="Core\Textures.cs" />
     <Compile Include="Handlers\CollisionHandler.cs" />
     <Compile Include="Handlers\GameObjectPool.cs" />
     <Compile Include="Interfaces\IFixedUpdatable.cs" />
@@ -107,9 +104,7 @@
     <Compile Include="States\GameState.cs" />
     <Compile Include="Tween\Tweener.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Entities\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>copy "$(TargetPath)" "$(SolutionDir)LD34\bin\Debug\"</PostBuildEvent>

@@ -18,10 +18,10 @@ namespace LD34.Objects
 		public TestGameObject(GameState gameState, Vector2f pos):base(gameState, pos)
 		{
 			Bounds = new FloatRect(Position.X, Position.Y, 32, 32);
-            graphics = new Sprite(GameState.Game.GetTexture(GameCore.Core.Textures.ID.Player));
+            graphics = new Sprite(GameState.Game.GetTexture(Assets.Textures.ID.Player));
 
             var sound = new Sound();
-            sound.SoundBuffer = GameState.Game.GetSound(GameCore.Core.Sounds.ID.Jump);
+            sound.SoundBuffer = GameState.Game.GetSound(Assets.Sounds.ID.Jump);
             sound.Play();
 
         }
