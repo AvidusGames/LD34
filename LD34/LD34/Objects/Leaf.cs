@@ -3,13 +3,16 @@ using GameCore.Objects;
 using SFML.Graphics;
 using GameCore.States;
 using SFML.System;
+using GameCore.Tween;
 
 namespace LD34.Objects
 {
 	class Leaf : GameObject
 	{
 		private RectangleShape graphics = new RectangleShape(new Vector2f(160, 16));
-
+		private Tweener leafTween = new Tweener();
+		private bool moving;
+		private Vector2f targetPos;
 
 		public bool LeftLeaf { get; set; }
 
@@ -17,6 +20,8 @@ namespace LD34.Objects
 		{
 			graphics.FillColor = Color.Green;
 			LeftLeaf = true;
+
+			leafTween.speed = 1000;
 		}
 
 		public Leaf(GameState gameState) : base(gameState, new Vector2f(0, 0))
@@ -43,11 +48,21 @@ namespace LD34.Objects
 		public override void Update()
 		{
 			graphics.Position = Position;
+			if (moving)
+			{
+				moving = leafTween.Move(this, targetPos);
+			}
 		}
 
 		public override void Reset()
 		{
 			Position = new Vector2f(0, 0);
+		}
+
+		internal void MoveOneStep()
+		{
+			targetPos = Position += new Vector2f(0, 120);
+            moving = true;
 		}
 	}
 }

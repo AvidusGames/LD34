@@ -60,8 +60,12 @@ namespace LD34.Objects
 
 		public void MoveToLeaf(Leaf leaf)
 		{
-			Position = new Vector2f(leaf.Position.X + 50, leaf.Position.Y + 50);
-			//För at updatatera postionen på grafiken
+
+
+
+			Position = new Vector2f(leaf.Position.X + 50, leaf.Position.Y - 70);
+			Console.WriteLine("Player pos: " + Position);
+			//För att updatatera postionen på grafiken
 			Update();
 		}
 

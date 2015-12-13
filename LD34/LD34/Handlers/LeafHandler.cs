@@ -1,6 +1,7 @@
 ﻿using GameCore.Core;
 using GameCore.Objects;
 using GameCore.States;
+using GameCore.Tween;
 using LD34.Objects;
 using SFML.System;
 using System;
@@ -22,9 +23,13 @@ namespace LD34.Handlers
 		private const int MaxNumberOfLeftLeavesAtRow = 3;
 		private int numberOfLeftLeavesAtRow;
 
-		public Leaf CurentLeaf { get; private set; }
+		private Tweener leafTweener = new Tweener();
+
+		public Leaf NextLeaf { get; private set; }
 		public Leaf Top { get; private set; }
-		public Vector2f StartPos { get; private set; }
+		//public Vector2f StartPos { get; private set; }
+
+		public Leaf PlayerStandLeaf { get; private set; }
 
 		public LeafHandler(GameState gameState)
 		{
@@ -44,8 +49,10 @@ namespace LD34.Handlers
 
 				leafs.Add(tmpLeaf);
 			}
-			CurentLeaf = leafs[1];
-
+			NextLeaf = leafs[3];
+			PlayerStandLeaf = leafs[2];
+            Console.WriteLine("Curent Leaf pos:" + NextLeaf.Position);
+			
 			//for (int i = 0; i < leafs.Count; i++)
 			//{
 			//	if (i > 0)
@@ -123,16 +130,18 @@ namespace LD34.Handlers
 
 			for (int i = 0; i < leafs.Count; i++)
 			{
-					leafs[i].Position += new Vector2f(0, 120);
+				leafs[i].MoveOneStep();
 			}
 			leafs[0].Destroyed = true;
 			leafs.RemoveAt(0);
 
-			CurentLeaf = leafs[1];
+			NextLeaf = leafs[3];
+			Console.WriteLine("Curent Leaf" + NextLeaf.Position);
 
 			Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
 			LeftOrRightLeafRand(tmpLeaf);
 			leafs.Add(tmpLeaf);
+			PlayerStandLeaf = leafs[2];
 
 		}
 	}

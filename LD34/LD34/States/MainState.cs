@@ -7,6 +7,7 @@ using LD34.Handlers;
 using SFML.Window;
 using SFML.System;
 using SFML.Graphics;
+using GameCore.Tween;
 
 namespace LD34.Objects
 {
@@ -18,6 +19,7 @@ namespace LD34.Objects
 		private float timer;
 		private Text timerText;
 		private Text scoreText;
+		private Tweener playerTweener;
 
 		private const float StartTime = 30;
 
@@ -27,13 +29,16 @@ namespace LD34.Objects
 			InitPools();
 			leafHandler = new LeafHandler(this);
 			player = (Player)AddGameObject(nameof(Player));
-			player.MoveToLeaf(leafHandler.CurentLeaf);
+			player.MoveToLeaf(leafHandler.PlayerStandLeaf);
 			AddEntity(nameof(Branch));
 
 			timer = StartTime;
 			timerText = new Text($"Timer: {timer}", new Font(Game.GetFont(GameCore.Core.Fonts.ID.Default)));
+			timerText.Position = new Vector2f(10, 0);
 			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(GameCore.Core.Fonts.ID.Default)));
-			scoreText.Position = new Vector2f(100, 0);
+			scoreText.Position = new Vector2f(650, 0);
+
+			playerTweener = new Tweener();
 
 		}
 
@@ -71,9 +76,6 @@ namespace LD34.Objects
 		public override void Dispose()
 		{
 			base.Dispose();
-			leafHandler = null;
-
-
 		}
 
 		public override Entity AddEntity(string type)
@@ -94,7 +96,7 @@ namespace LD34.Objects
 		public override void Update()
 		{
 			base.Update();
-			//player.MoveToLeaf(leafHandler.CurentLeaf);
+			//player.MoveToLeaf(leafHandler.PlayerStandLeaf);
 
 			timer -= Game.TimeBetweenFrames.AsSeconds();
 
@@ -104,13 +106,25 @@ namespace LD34.Objects
 			}
 
 			timerText.DisplayedString = $"Timer: { timer}";
+			scoreText.DisplayedString = $"Score: {player.Score}";
             ClimbTree();
+
+			Vector2f playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X + 50, player.Position.Y);
+			playerTweener.Move(player, playerTargetVec);
+			//Console.WriteLine(player.Position);
+		}
+
+		public override void FixedUpdate()
+		{
+			base.FixedUpdate();
+
 		}
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
 			base.Draw(target, states);
 			target.Draw(timerText);
+			target.Draw(scoreText);
 		}
 
 		protected override void RemoveGameObjects()
@@ -135,12 +149,11 @@ namespace LD34.Objects
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
 				
-				if (leafHandler.CurentLeaf.LeftLeaf)
+				if (leafHandler.NextLeaf.LeftLeaf)
 				{
-					player.MoveToLeaf(leafHandler.CurentLeaf);
-					leafHandler.Climb();
+					StartClimb();
 				}
-					
+
 				else
 				{
 					Game.ChangeState(null);
@@ -150,16 +163,25 @@ namespace LD34.Objects
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
-                if (!leafHandler.CurentLeaf.LeftLeaf)
+                if (!leafHandler.NextLeaf.LeftLeaf)
                 {
-					player.MoveToLeaf(leafHandler.CurentLeaf);
-                    leafHandler.Climb();
-                }
-                else
+					StartClimb();
+				}
+				else
                 {
                     Game.ChangeState(null);
                 }
             }
+		}
+
+		private void StartClimb()
+		{
+			//var tmp = player.Position;
+
+			//playerTweener.StartMoveTowards(player, playerTargetVec);
+			//player.MoveToLeaf(leafHandler.PlayerStandLeaf);
+			leafHandler.Climb();
+			player.Score++;
 		}
 	}
 }
