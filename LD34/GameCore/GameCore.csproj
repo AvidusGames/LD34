@@ -88,10 +88,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Core\Animation.cs" />
     <Compile Include="Core\Fonts.cs" />
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\Input.cs" />
     <Compile Include="Core\Sounds.cs" />
+    <Compile Include="Core\Spritesheet.cs" />
     <Compile Include="Objects\Entity.cs" />
     <Compile Include="Core\ResourceHolder.cs" />
     <Compile Include="Core\Textures.cs" />
