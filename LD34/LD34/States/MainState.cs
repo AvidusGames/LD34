@@ -121,8 +121,8 @@ namespace LD34.Objects
             }
 
 			playerTweener.Move(player, playerTargetVec);
+
 			player.Update();
-			//Console.WriteLine(player.Position);
 		}
 
 		public override void FixedUpdate()

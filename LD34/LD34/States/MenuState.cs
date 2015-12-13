@@ -107,13 +107,13 @@ namespace LD34.States
                 case "score":
                     if (perform)
                     {
-                        Game.ChangeState(new ScoreState(Game));
+                        //Game.ChangeState(new ScoreState(Game));
                     }
                     break;
                 case "help":
                     if (perform)
                     {
-                        Game.ChangeState(new HelpState(Game));
+                        //Game.ChangeState(new HelpState(Game));
                     }
                     break;
             }

@@ -115,10 +115,10 @@ namespace LD34.Handlers
 				leaf.LeftLeaf = true;
 			}
 			else
-		{
+			{
 				leaf.Position = new Vector2f(480, 70);
 				leaf.LeftLeaf = false;
-		}
+			}
 		}
 
 		private void ChangeLeaf()
@@ -132,18 +132,19 @@ namespace LD34.Handlers
 			//leafs[0].Destroyed = true;
 			//leafs.RemoveAt(0);
 
-			if (PlayerStandLeaf == leafs[leafs.Count - 2])
+			nextIndex++;
+			PlayerStandLeaf = leafs[nextIndex - 1];
+
+			if (nextIndex == leafs.Count - 1)
 			{
 				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
 				LeftOrRightLeafRand(tmpLeaf);
 				leafs.Add(tmpLeaf);
 			}
 
-			nextIndex++;
+
 			NextLeaf = leafs[nextIndex];
 			Console.WriteLine(nextIndex);
-
-			PlayerStandLeaf = leafs[nextIndex - 1];
 
 
 
@@ -155,23 +156,26 @@ namespace LD34.Handlers
 		{
 			//PlayerStandLeaf = null;
 			int fallAMount = 0;
-			bool stopedFalling = false;
+			bool falling = true;
 
-			for (int i = leafs.Count - 1; i >= 0; i--)
+			while (!falling)
 			{
-				//fallAMount++;
-				if (!stopedFalling)
-					nextIndex--;
-
-				leafs[i].MoveOneStepUp();
-
-				if (leafs[i].LeftLeaf != PlayerStandLeaf.LeftLeaf)
+				for (int i = leafs.Count - 1; i >= 0; i--)
 				{
-					stopedFalling = true;
-					PlayerStandLeaf = leafs[i];
+					//fallAMount++;
+					if (falling)
+						nextIndex--;
+
+					leafs[i].MoveOneStepUp();
+
+					if (leafs[i].LeftLeaf != PlayerStandLeaf.LeftLeaf)
+					{
+						falling = false;
+						PlayerStandLeaf = leafs[i];
+					}
 				}
 			}
-			Console.WriteLine(nextIndex);
+
 			return fallAMount;
 		}
 	}
