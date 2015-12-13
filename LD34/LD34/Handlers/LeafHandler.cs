@@ -89,18 +89,18 @@ namespace LD34.Handlers
 		/// <param name="idx">wich index is leaf in the list</param>
 		private void LeftOrRightLeafRand(Leaf leaf, int idx)
 		{
-            bool diceRoll = rand.Next(100) >= 50;
+			bool diceRoll = rand.Next(100) >= 50;
 
-            if(numberOfLeftLeavesAtRow > MaxNumberOfLeftLeavesAtRow)
+			if (numberOfLeftLeavesAtRow > MaxNumberOfLeftLeavesAtRow)
 			{
-                diceRoll = !diceRoll;
-                numberOfLeftLeavesAtRow = 0;
-            }
+				diceRoll = !diceRoll;
+				numberOfLeftLeavesAtRow = 0;
+			}
 
 			if (diceRoll)
 			{
 				numberOfLeftLeavesAtRow++;
-                leaf.Position = new Vector2f(320, idx * 120 + 70);
+				leaf.Position = new Vector2f(320, idx * 120 + 70);
 				leaf.LeftLeaf = true;
 			}
 			else
@@ -110,28 +110,42 @@ namespace LD34.Handlers
 				numberOfLeftLeavesAtRow = 0;
 			}
 
-            if(diceRoll == lastBoolValue)
-            {
-                numberOfLeftLeavesAtRow++;
-		}
-            lastBoolValue = diceRoll;
+			if (diceRoll == lastBoolValue)
+			{
+				numberOfLeftLeavesAtRow++;
+			}
+			lastBoolValue = diceRoll;
 		}
 
 		private void LeftOrRightLeafRand(Leaf leaf)
 		{
-			//TODO:: make it more even
-			int diceRoll = rand.Next(0, 100);
+			bool diceRoll = rand.Next(100) >= 50;
 
-			if (diceRoll >= 50)
+			if (numberOfLeftLeavesAtRow > MaxNumberOfLeftLeavesAtRow)
 			{
+				diceRoll = !diceRoll;
+				numberOfLeftLeavesAtRow = 0;
+			}
+
+			if (diceRoll)
+			{
+				numberOfLeftLeavesAtRow++;
 				leaf.Position = new Vector2f(320, 70);
 				leaf.LeftLeaf = true;
 			}
 			else
 			{
+				//leaf.Position = new Vector2f(320, 70);
 				leaf.Position = new Vector2f(480, 70);
 				leaf.LeftLeaf = false;
+				numberOfLeftLeavesAtRow = 0;
 			}
+
+			if (diceRoll == lastBoolValue)
+			{
+				numberOfLeftLeavesAtRow++;
+			}
+			lastBoolValue = diceRoll;
 		}
 
 		private void ChangeLeaf()
@@ -145,14 +159,15 @@ namespace LD34.Handlers
 			//leafs[0].Destroyed = true;
 			//leafs.RemoveAt(0);
 
-			if (PlayerStandLeaf == leafs[leafs.Count - 2])
+			if (nextIndex == leafs.Count - 2)
 			{
 				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
 				LeftOrRightLeafRand(tmpLeaf);
 				leafs.Add(tmpLeaf);
 			}
-
+			nextIndex++;
 			NextLeaf = leafs[nextIndex];
+			PlayerStandLeaf = leafs[nextIndex - 1];
 		}
 
 		internal int Fall()
