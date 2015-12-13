@@ -6,7 +6,7 @@ using System.Threading;
 
 namespace LD34.Handlers
 {
-    public class LeaderboardHandler
+    public static class LeaderboardHandler
     {
 
         private const string PublicCode = "566c14826e51b611f8eed478";
@@ -17,21 +17,21 @@ namespace LD34.Handlers
         private delegate void DelegatePutScore(string username, int score);
         private delegate void DelegateHighscoreRequest(HighscoreRequestFinish callback);
 
-        private Semaphore waitRequest;
-        private HttpWebRequest webRequest;
+        private static Semaphore waitRequest;
+        private static HttpWebRequest webRequest;
 
-        public LeaderboardHandler()
+        public static void Init()
         {
             waitRequest = new Semaphore(1, 1);
         }
 
-        public void PutScoreAsync(string username, int score)
+        public static void PutScoreAsync(string username, int score)
         {
             DelegatePutScore action = PutScore;
             action.BeginInvoke(username, score, ar => action.EndInvoke(ar), null);
         }
 
-        public void PutScore(string username, int score)
+        public static void PutScore(string username, int score)
         {
             waitRequest.WaitOne();
             webRequest = (HttpWebRequest)WebRequest.Create(WebURL + PrivateCode + "/add/" + Uri.EscapeDataString(username) + "/" + score);
@@ -43,13 +43,13 @@ namespace LD34.Handlers
             waitRequest.Release();
         }
 
-        public void HighscoreRequestAsync(HighscoreRequestFinish callback)
+        public static void HighscoreRequestAsync(HighscoreRequestFinish callback)
         {
             DelegateHighscoreRequest action = HighscoreRequest;
             action.BeginInvoke(callback, ar => action.EndInvoke(ar), null);
         }
 
-        public void HighscoreRequest(HighscoreRequestFinish callback)
+        public static void HighscoreRequest(HighscoreRequestFinish callback)
         {
             waitRequest.WaitOne();
             webRequest = (HttpWebRequest)WebRequest.Create(WebURL + PublicCode + "/pipe/");
