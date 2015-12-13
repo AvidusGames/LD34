@@ -8,8 +8,9 @@ namespace LD34.Menu
 {
     class Table : GameObject
     {
-        private Font font;
+        private Assets.Fonts.ID font;
         private Color color;
+        private Label[,] cells;
         //private FloatRect bounds;
         private bool centered;
         private uint size;
@@ -18,7 +19,7 @@ namespace LD34.Menu
         public Table(string[,] _data, Vector2f pos, GameState gameState) : base(gameState, pos)
         {
             size = 12;
-            font = gameState.Game.GetFont(Assets.Fonts.ID.Default);
+            font = Assets.Fonts.ID.Default;
             color = Color.White;
             //bounds = GetBounds();
             centered = true;
@@ -37,13 +38,38 @@ namespace LD34.Menu
                 data = _data;
             }
 
+            cells = new Label[data.GetLength(0), data.GetLength(1)];
+            for (int y = 0; y < data.GetLength(0); y++)
+            {
+                for (int x = 0; x < data.GetLength(1); y++)
+                {
+                    var text = data[x, y];
+                    cells[x, y] = new Label(text, new Vector2f(Position.X, Position.Y), GameState);
+                    cells[x, y].SetFont(font);
+                    cells[x, y].SetSize(size);
+                }
+            }
+
+            for (int y = 0; y < data.GetLength(0); y++)
+            {
+                for (int x = 0; x < data.GetLength(1); y++)
+                {
+                    FloatRect left, top;
+                    if(x>0)
+                    {
+                        left = cells[x - 1, y].GetBounds();
+                    }                  
+                    top = cells[x, y - 1].GetBounds();
+                    //cells[x, y].Position =
+                }
+            }
             //bounds = GetBounds();
             //Update();
         }
 
         public void SetFont(Assets.Fonts.ID id)
         {
-            font = GameState.Game.GetFont(id);
+            font = id;
             SetData(null);
         }
 
