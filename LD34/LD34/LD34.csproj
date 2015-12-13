@@ -94,6 +94,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Animations\Animations.cs" />
     <Compile Include="Assets\Fonts.cs" />
     <Compile Include="Assets\Sounds.cs" />
     <Compile Include="Assets\Textures.cs" />
@@ -104,12 +105,10 @@
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Objects\TestGameObject.cs" />
     <Compile Include="Objects\Leaf.cs" />
     <Compile Include="Objects\Branch.cs" />
     <Compile Include="States\MainState.cs" />
     <Compile Include="States\MenuState.cs" />
-    <Compile Include="States\TestState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

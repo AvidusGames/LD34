@@ -7,12 +7,13 @@ using System.Threading.Tasks;
 using SFML.Graphics;
 using GameCore.States;
 using SFML.System;
+using GameCore.Core;
 
 namespace LD34.Objects
 {
 	class Player : GameObject
 	{
-        private RectangleShape graphics;
+        private Animation currentAnim;
 		public int Score { get; set; }
 
 		public enum Side
@@ -24,9 +25,9 @@ namespace LD34.Objects
 		public Player(GameState gameState):base(gameState, new Vector2f(200, 580))
 		{
 			Position = new Vector2f(200, 480);
-            graphics = new RectangleShape(new Vector2f(32, 64));
-            graphics.FillColor = Color.Red;
-		}
+            currentAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
+            currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+        }
 
 		public Player(GameState gameState, Vector2f pos) : base(gameState, pos)
 		{
@@ -34,12 +35,15 @@ namespace LD34.Objects
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
-			target.Draw(graphics);
+            Sprite currentFrame = currentAnim.GetImage();
+            target.Draw(currentFrame);
 		}
 
 		public override void Update()
 		{
-			graphics.Position = Position;
+            currentAnim.Update();
+            Sprite currentFrame = currentAnim.GetImage();
+			currentFrame.Position = Position;
 		}
 
 		public override void FixedUpdate()
@@ -49,9 +53,8 @@ namespace LD34.Objects
 
 		public override void Dispose()
 		{
-			graphics.Dispose();
-			graphics = null;
-		}
+            //throw new NotImplementedException();
+        }
 
 		public override void Reset()
 		{

@@ -2,7 +2,6 @@
 {
     public enum ID
     {
-        Background,
-        Player,
+        
     }
 }

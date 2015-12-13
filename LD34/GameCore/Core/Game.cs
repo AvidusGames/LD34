@@ -12,6 +12,7 @@ namespace GameCore.Core
 		private Clock betweenFramesClock = new Clock();
 		private int fixedUpdateTimer = 0;
 		private const int TimeBetweenFixedUpdate = 16;
+        private AnimationHolder animations;
         private TextureHolder textures;
         private SoundHolder sounds;
         private FontHolder fonts;
@@ -38,8 +39,9 @@ namespace GameCore.Core
 		public void Start(Init init)
 		{
 			Input.InitEvents(Window);
-            sounds = new SoundHolder();
+            animations = new AnimationHolder();
             textures = new TextureHolder();
+            sounds = new SoundHolder();
             fonts = new FontHolder();
             init(this);
 			//background = new Sprite(textures.Get(Textures.ID.Background));
@@ -79,6 +81,21 @@ namespace GameCore.Core
         public Texture GetTexture(Enum id)
         {
             return textures.Get(id);
+        }
+
+        public void LoadAnimation(Enum id, string filebase)
+        {
+            animations.Load(id, filebase);
+        }
+
+        public void LoadAnimation(Enum id, string filebase, int delay)
+        {
+            animations.Load(id, filebase, delay);
+        }
+
+        public Animation GetAnimation(Enum id)
+        {
+            return animations.Get(id);
         }
 
         public void LoadSound(Enum id, string filename)

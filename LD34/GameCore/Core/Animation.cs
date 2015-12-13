@@ -1,4 +1,5 @@
 ﻿using SFML.Graphics;
+using SFML.System;
 using System;
 
 namespace GameCore.Core
@@ -17,6 +18,14 @@ namespace GameCore.Core
             frames = _frames;
             numFrames = _frames.Length;
             delay = _delay;
+        }
+
+        public void SetScale(Vector2f scale)
+        {
+            foreach(Sprite frame in frames)
+            {
+                frame.Scale = scale;
+            }
         }
 
         public void SetDelay(int _delay)

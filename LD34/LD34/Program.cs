@@ -1,12 +1,6 @@
 ﻿using GameCore.Core;
-using GameCore.States;
 using SFML.Graphics;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using LD34.Objects;
 using LD34.Handlers;
 using LD34.States;
 
@@ -46,7 +40,7 @@ namespace LD34
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
+                Console.WriteLine("ERROR: Could not load font resources ({0})!", ex.GetBaseException());
                 return;
             }
 
@@ -56,21 +50,20 @@ namespace LD34
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
+                Console.WriteLine("ERROR: Could not load sound resources ({0})!", ex.GetBaseException());
                 return;
             }
-            /**
+
             try
             {
-                game.LoadTexture(Assets.Textures.ID.Background, "Assets/Textures/bg.png");
-                game.LoadTexture(Assets.Textures.ID.Player, "Assets/Textures/Player.png");
+                game.LoadAnimation(Assets.Animations.ID.Jump, "Assets/Animations/Jump/jump_*.png", 30);         
+                game.LoadAnimation(Assets.Animations.ID.Walk, "Assets/Animations/Walk/walk_*.png", 30);
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR: Could not load resources ({0})!", ex.GetBaseException());
+                Console.WriteLine("ERROR: Could not load animation resources ({0})!", ex.GetBaseException());
                 return;
             }
-    */
             game.ChangeState(new MenuState(game));
         }
     }
