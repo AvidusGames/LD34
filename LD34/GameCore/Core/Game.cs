@@ -12,11 +12,15 @@ namespace GameCore.Core
 		private Clock betweenFramesClock = new Clock();
 		private int fixedUpdateTimer = 0;
 		private const int TimeBetweenFixedUpdate = 16;
+
+        private MusicFader fader;
+        private Enum currentMusic;
+
         private AnimationHolder animations;
         private TextureHolder textures;
         private SoundHolder sounds;
+        private MusicHolder musics;
         private FontHolder fonts;
-        //private Sprite background;
 
         public delegate void Init(Game game);
 
@@ -39,12 +43,13 @@ namespace GameCore.Core
 		public void Start(Init init)
 		{
 			Input.InitEvents(Window);
+            fader = new MusicFader();
             animations = new AnimationHolder();
             textures = new TextureHolder();
             sounds = new SoundHolder();
+            musics = new MusicHolder();
             fonts = new FontHolder();
             init(this);
-			//background = new Sprite(textures.Get(Textures.ID.Background));
 			Loop();
 		}
 
@@ -118,6 +123,54 @@ namespace GameCore.Core
             return sounds.Get(id);
         }
 
+        public void LoadMusic(Enum id, string filename)
+        {
+            musics.Load(id, filename);
+        }
+
+        public Music GetMusic(Enum id)
+        {
+            return musics.Get(id);
+        }
+
+        public void PlayMusic(Enum id)
+        {
+            Music music;
+            if (currentMusic == null)
+            {
+                currentMusic = id;
+                music = GetMusic(currentMusic);
+                music.Play();
+                return;
+            }
+
+            music = GetMusic(currentMusic);
+            if (fader.fading || music.Status == SoundStatus.Stopped)
+            {
+                currentMusic = id;
+                music = GetMusic(currentMusic);
+                music.Play();
+            }
+        }
+
+        public void StopMusic(bool fadeIn)
+        {
+            if (fader.fading) return;
+
+            Music music = GetMusic(currentMusic);
+            if (music.Status == SoundStatus.Playing)
+            {
+                if(fadeIn)
+                {
+                    fader.BeginFade(music, 1f);
+                }
+                else
+                {
+                    music.Stop();
+                }
+            }
+        }
+
         public void LoadFont(Enum id, string filename)
         {
             fonts.Load(id, filename);
@@ -145,15 +198,48 @@ namespace GameCore.Core
 		private void Draw()
 		{
             Window.Clear();
-            //Window.Draw(background);
 			Window.Draw(currentState);
 			Window.Display();
 		}
 
 		private void Update()
 		{
-
+            fader.Update();
             currentState.Update();
 		}
 	}
+
+    internal class MusicFader
+    {
+        internal Music music;
+        internal float initialVolume;
+        internal float currentVolume;
+        internal float speed;
+        internal bool fading;
+
+        internal void BeginFade(Music _music, float _speed)
+        {
+            speed = 1.0f /_speed;
+            music = _music;
+            initialVolume = currentVolume = _music.Volume;
+            fading = true;
+        }
+
+        internal void Update()
+        {
+            if(fading)
+            {
+                float elapsed = Game.TimeBetweenFrames.AsSeconds();
+                currentVolume -= initialVolume * speed * elapsed;
+                if(currentVolume <= 0.0)
+                {
+                    fading = false;
+                    music.Stop();
+                }else
+                {
+                    music.Volume = currentVolume;
+                } 
+            }
+        }
+    }
 }

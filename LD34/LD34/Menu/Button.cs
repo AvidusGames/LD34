@@ -17,7 +17,7 @@ namespace LD34.Menu
         private float padding;
         private int ticks;
 
-        public delegate void ButtonHandler(string actionCommand);
+        public delegate void ButtonHandler(string actionCommand, bool perform);
 
         enum ButtonState {
             Hovering,
@@ -151,7 +151,7 @@ namespace LD34.Menu
                 graphics.OutlineColor = (graphics.OutlineColor == Color.Cyan) ? outlineColor : Color.Cyan;
                 if(ticks >= 200)
                 {
-                    handler(actionCommand);
+                    handler(actionCommand, true);
                 }
             }
             ticks++;
@@ -172,6 +172,7 @@ namespace LD34.Menu
                     SetText(null);
                     break;
                 case ButtonState.Pressed:
+                    handler(actionCommand, false);
                     ticks = 0;
                     // play audio effect
                     break;

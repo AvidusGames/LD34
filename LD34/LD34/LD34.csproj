@@ -96,6 +96,7 @@
   <ItemGroup>
     <Compile Include="Assets\Animations\Animations.cs" />
     <Compile Include="Assets\Fonts.cs" />
+    <Compile Include="Assets\Musics.cs" />
     <Compile Include="Assets\Sounds.cs" />
     <Compile Include="Assets\Textures.cs" />
     <Compile Include="Handlers\LeaderboardHandler.cs" />
@@ -147,7 +148,7 @@
     <Content Include="Assets\Music\gameLoop.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Assets\Music\menuLoop.mp3">
+    <Content Include="Assets\Music\menuLoop.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\SFX\jump1.wav">

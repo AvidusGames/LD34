@@ -118,6 +118,24 @@ namespace GameCore.Core
         }
     }
 
+    internal class MusicHolder : ResourceHolder<Enum, Music, int>
+    {
+        public override void Load(Enum id, string filename)
+        {
+            // Create and load resource
+            var music = new Music(filename);
+
+            // If loading successful, insert resource to map
+            InsertResource(id, music);
+        }
+
+        public override void Load(Enum id, string filename, int secondParameter)
+        {
+            // Music takes exactly one parameter
+            throw new NotImplementedException();
+        }
+    }
+
     internal class FontHolder : ResourceHolder<Enum, Font, int>
     {
         public override void Load(Enum id, string filename)
