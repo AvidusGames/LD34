@@ -3,7 +3,7 @@ using System;
 
 namespace GameCore.Core
 {
-    class Animation
+    public class Animation
     {
         private Sprite[] frames;
         private int currentFrame;
