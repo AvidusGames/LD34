@@ -13,6 +13,7 @@ namespace LD34
         {
 			RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(800, 600), "Ludum Dare 34");
 			window.SetFramerateLimit(240);/**
+
             LeaderboardHandler leaderboard = new LeaderboardHandler();
 
             Random rand = new Random();
@@ -20,16 +21,9 @@ namespace LD34
             leaderboard.PutScoreAsync(username, rand.Next(0, 100));
             leaderboard.HighscoreRequestAsync(HandleHighscore);
     */
-			Game game = new Game(window);
+            LeaderboardHandler.Init();
+            Game game = new Game(window);
 			game.Start(Init);
-        }
-
-        private static void HandleHighscore(Highscore[] scores)
-        {
-            foreach(Highscore score in scores)
-            {
-                Console.WriteLine(score.Username + ":" + score.Score);
-            }
         }
 
         public static void Init(Game game)

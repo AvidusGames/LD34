@@ -104,6 +104,7 @@
     <Compile Include="Menu\Button.cs" />
     <Compile Include="Menu\Label.cs" />
     <Compile Include="Menu\Picture.cs" />
+    <Compile Include="Menu\Table.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
