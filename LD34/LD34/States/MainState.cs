@@ -64,7 +64,7 @@ namespace LD34.Objects
 					break;
 				case nameof(Player):
 					tmpGameObject = new Player(this);
-					GameObjects.Add(tmpGameObject);
+					//GameObjects.Add(tmpGameObject);
 					break;
 					
 				default:
@@ -120,6 +120,7 @@ namespace LD34.Objects
             }
 
 			playerTweener.Move(player, playerTargetVec);
+			player.Update();
 			//Console.WriteLine(player.Position);
 		}
 
@@ -132,6 +133,7 @@ namespace LD34.Objects
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
 			base.Draw(target, states);
+			target.Draw(player);
 			target.Draw(timerText);
 			target.Draw(scoreText);
 		}
@@ -165,7 +167,7 @@ namespace LD34.Objects
 
 				else
 				{
-					Game.ChangeState(null);
+					player.Score -= leafHandler.Fall();
 				}
 			}
 
@@ -178,8 +180,8 @@ namespace LD34.Objects
 				}
 				else
                 {
-                    Game.ChangeState(null);
-                }
+					player.Score -= leafHandler.Fall();
+				}
             }
 		}
 

@@ -13,7 +13,7 @@ namespace GameCore.Tween
 	public class Tweener
 	{
 		private bool moving;
-		public int speed;
+		public int Speed { get; set; }
 		private float elapsed;
 		private GameObject start;
 		private Vector2f end;
@@ -37,7 +37,7 @@ namespace GameCore.Tween
 
 			startVec = this.start.Position;
 			endVec = end;
-			speed = 1000;
+			Speed = 1000;
 			elapsed = Game.TimeBetweenFrames.AsSeconds();
 
 			distance = Distance(startVec, endVec);
@@ -65,7 +65,7 @@ namespace GameCore.Tween
 		{
 			startVec = start.Position;
 			endVec = end;
-			speed = 1000;
+			Speed = 1000;
 			elapsed = Game.TimeBetweenFrames.AsSeconds();
 
 			distance = Distance(startVec, endVec);
@@ -82,8 +82,8 @@ namespace GameCore.Tween
 
 			if (moving)
 			{
-				start.Position += direction * speed * elapsed;
-				Console.WriteLine(start.ToString() + start);
+				start.Position += direction * Speed * elapsed;
+				//Console.WriteLine(start.ToString() + start);
 				if (Distance(startVec, start.Position) >= distance)
 				{
 					start.Position = endVec;

@@ -19,6 +19,7 @@ namespace LD34.Handlers
 		private int numberOfLeftLeavesAtRow;
 
 		private Tweener leafTweener = new Tweener();
+		private int nextIndex = 3;
 
 		public Leaf NextLeaf { get; private set; }
 		public Leaf Top { get; private set; }
@@ -44,8 +45,8 @@ namespace LD34.Handlers
 
 				leafs.Add(tmpLeaf);
 			}
-			NextLeaf = leafs[3];
-			PlayerStandLeaf = leafs[2];
+			NextLeaf = leafs[nextIndex];
+			PlayerStandLeaf = leafs[nextIndex - 1];
             Console.WriteLine("Curent Leaf pos:" + NextLeaf.Position);
 			
 			//for (int i = 0; i < leafs.Count; i++)
@@ -125,19 +126,53 @@ namespace LD34.Handlers
 
 			for (int i = 0; i < leafs.Count; i++)
 			{
-				leafs[i].MoveOneStep();
+				leafs[i].MoveOneStepDown();
 			}
-			leafs[0].Destroyed = true;
-			leafs.RemoveAt(0);
 
-			NextLeaf = leafs[3];
-			Console.WriteLine("Curent Leaf" + NextLeaf.Position);
+			//leafs[0].Destroyed = true;
+			//leafs.RemoveAt(0);
 
-			Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
-			LeftOrRightLeafRand(tmpLeaf);
-			leafs.Add(tmpLeaf);
-			PlayerStandLeaf = leafs[2];
+			if (PlayerStandLeaf == leafs[leafs.Count - 2])
+			{
+				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
+				LeftOrRightLeafRand(tmpLeaf);
+				leafs.Add(tmpLeaf);
+			}
 
+			nextIndex++;
+			NextLeaf = leafs[nextIndex];
+			Console.WriteLine(nextIndex);
+
+			PlayerStandLeaf = leafs[nextIndex - 1];
+
+
+
+
+
+		}
+
+		internal int Fall()
+		{
+			//PlayerStandLeaf = null;
+			int fallAMount = 0;
+			bool stopedFalling = false;
+
+			for (int i = leafs.Count - 1; i >= 0; i--)
+			{
+				//fallAMount++;
+				if (!stopedFalling)
+					nextIndex--;
+
+				leafs[i].MoveOneStepUp();
+
+				if (leafs[i].LeftLeaf != PlayerStandLeaf.LeftLeaf)
+				{
+					stopedFalling = true;
+					PlayerStandLeaf = leafs[i];
+				}
+			}
+			Console.WriteLine(nextIndex);
+			return fallAMount;
 		}
 	}
 }

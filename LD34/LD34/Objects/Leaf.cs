@@ -35,16 +35,17 @@ namespace LD34.Objects
 
 		public Leaf(GameState gameState, Vector2f pos ) :base(gameState, pos)
 		{
-
+			moving = false;
 		}
 
 		public Leaf(GameState gameState) : base(gameState, new Vector2f(0, 0))
 		{
             graphics = new Animation(gameState.Game.GetAnimation(Assets.Animations.ID.Leaf));
-            LeftLeaf = false;
-            moving = false;
-            //graphics.SetFlipped();
-        }
+
+			LeftLeaf = false;
+			moving = false;
+			//graphics.SetFlipped();
+		}
 
 		public override void Dispose()
 		{
@@ -64,13 +65,15 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-            graphics.Update();
-            Sprite currentFrame = graphics.GetImage();
-            currentFrame.Position = Position;
-            if (moving)
+			graphics.Update();
+			Sprite currentFrame = graphics.GetImage();
+			if (moving)
 			{
-				moving = leafTween.Move(this, targetPos);
+				//moving = leafTween.Move(this, targetPos);
+				//Console.WriteLine(Position);
 			}
+
+			currentFrame.Position = Position;
 		}
 
 		public override void Reset()
@@ -78,10 +81,16 @@ namespace LD34.Objects
 			Position = new Vector2f(0, 0);
 		}
 
-		internal void MoveOneStep()
+		internal void MoveOneStepDown()
 		{
 			targetPos = Position += new Vector2f(0, 120);
-            //moving = true;
+            moving = true;
+		}
+
+		internal void MoveOneStepUp()
+		{
+			targetPos = Position -= new Vector2f(0, 120);
+			moving = true;
 		}
 	}
 }
