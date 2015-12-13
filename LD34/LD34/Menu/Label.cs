@@ -21,6 +21,7 @@ namespace LD34.Menu
             graphics = new Text(text, gameState.Game.GetFont(Assets.Fonts.ID.Default), 12);
             graphics.Position = pos;
             graphics.Color = Color.White;
+            bounds = GetBounds();
             centered = true;
         }
 
@@ -35,6 +36,7 @@ namespace LD34.Menu
                 graphics.DisplayedString = text;
 
             bounds = GetBounds();
+            Update();
         }
 
         public void SetFont(Assets.Fonts.ID id)
