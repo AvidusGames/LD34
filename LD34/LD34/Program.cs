@@ -11,7 +11,7 @@ namespace LD34
     {
         static void Main(string[] args)
         {
-			RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(800, 600), "Test");
+			RenderWindow window = new RenderWindow(new SFML.Window.VideoMode(800, 600), "Ludum Dare 34");
 			window.SetFramerateLimit(240);/**
             LeaderboardHandler leaderboard = new LeaderboardHandler();
 
@@ -48,10 +48,12 @@ namespace LD34
             try
             {
                 game.LoadSound(Assets.Sounds.ID.Jump, "Assets/SFX/jump1.wav");
+                game.LoadMusic(Assets.Musics.ID.Game, "Assets/Music/gameLoop.wav");
+                game.LoadMusic(Assets.Musics.ID.Menu, "Assets/Music/menuLoop.wav");
             }
             catch (Exception ex)
             {
-                Console.WriteLine("ERROR: Could not load sound resources ({0})!", ex.GetBaseException());
+                Console.WriteLine("ERROR: Could not load audio resources ({0})!", ex.GetBaseException());
                 return;
             }
 

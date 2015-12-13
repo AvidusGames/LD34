@@ -40,7 +40,8 @@ namespace LD34.Objects
 
 			playerTweener = new Tweener();
 
-		}
+            Game.PlayMusic(Assets.Musics.ID.Game);
+        }
 
         private Player GetPlayer()
         {

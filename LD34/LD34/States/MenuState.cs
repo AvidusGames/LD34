@@ -30,6 +30,8 @@ namespace LD34.States
             title.SetSize(48);
             title.SetFont(Assets.Fonts.ID.Header);
             title.SetText("Avidus Games");
+
+            Game.PlayMusic(Assets.Musics.ID.Menu);
         }
 
         public override Entity AddEntity(string type)
@@ -67,15 +69,26 @@ namespace LD34.States
 			base.Dispose();
         }
 
-        public void ButtonHandler(string actionCommand)
+        public void ButtonHandler(string actionCommand, bool perform)
         {
             switch(actionCommand)
             {
                 case "quit":
-                    Game.ChangeState(null);
+                    if(perform)
+                    {
+                        Game.StopMusic(false);
+                        Game.ChangeState(null);
+                    }
                     break;
                 case "play":
-                    Game.ChangeState(new MainState(Game));
+                    if (perform)
+                    {
+                        Game.ChangeState(new MainState(Game));
+                    }
+                    else
+                    {
+                        Game.StopMusic(true);
+                    }
                     break;
             }
         }
