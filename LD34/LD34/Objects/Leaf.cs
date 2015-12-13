@@ -15,6 +15,7 @@ namespace LD34.Objects
 		private bool moving;
 		private Vector2f targetPos;
         private bool leftleaf;
+		private int sproutTimer = 0;
 
 		public bool LeftLeaf { get
             {
@@ -33,9 +34,12 @@ namespace LD34.Objects
             }
         }
 
+		public bool Sprouted { get; private set; }
+
 		public Leaf(GameState gameState, Vector2f pos ) :base(gameState, pos)
 		{
 			moving = false;
+			Sprouted = false;
 		}
 
 		public Leaf(GameState gameState) : base(gameState, new Vector2f(0, 0))
@@ -44,6 +48,7 @@ namespace LD34.Objects
 
 			LeftLeaf = false;
 			moving = false;
+			Sprouted = false;
 			//graphics.SetFlipped();
 		}
 
@@ -65,8 +70,27 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-			graphics.Update();
+			//graphics.Update();
+			sproutTimer = sproutTimer + Game.TimeBetweenFrames.AsMilliseconds();
+
+			if (sproutTimer >= 100)
+			{
+				graphics.SetFrame(0);
+			}
+
+			if (sproutTimer >= 200)
+			{
+				graphics.SetFrame(1);
+			}
+
+			if (sproutTimer >= 300)
+			{
+				graphics.SetFrame(2);
+				Sprouted = true;
+			}
+
 			Sprite currentFrame = graphics.GetImage();
+
 			if (moving)
 			{
 				//moving = leafTween.Move(this, targetPos);
