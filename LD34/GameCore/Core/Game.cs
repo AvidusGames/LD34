@@ -145,6 +145,12 @@ namespace GameCore.Core
             }
 
             music = GetMusic(currentMusic);
+
+            if (id == currentMusic && music.Status == SoundStatus.Playing)
+            {
+                return;
+            }
+
             if (fader.fading || music.Status == SoundStatus.Stopped)
             {
                 currentMusic = id;
