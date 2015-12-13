@@ -65,8 +65,15 @@ namespace LD34.Objects
 		{
 
 
-
-			Position = new Vector2f(leaf.Position.X + 50, leaf.Position.Y - 70);
+            if(leaf.LeftLeaf)
+            {
+                Position = new Vector2f(leaf.Position.X - 100, leaf.Position.Y - 70);
+            }
+            else
+            {
+                Position = new Vector2f(leaf.Position.X + 20, leaf.Position.Y - 70);
+            }
+			
 			Console.WriteLine("Player pos: " + Position);
 			//För att updatatera postionen på grafiken
 			Update();

@@ -4,41 +4,58 @@ using SFML.Graphics;
 using GameCore.States;
 using SFML.System;
 using GameCore.Tween;
+using GameCore.Core;
 
 namespace LD34.Objects
 {
 	class Leaf : GameObject
 	{
-		private RectangleShape graphics = new RectangleShape(new Vector2f(160, 16));
-		private Tweener leafTween = new Tweener();
+        private Animation graphics;
+        private Tweener leafTween = new Tweener();
 		private bool moving;
 		private Vector2f targetPos;
+        private bool leftleaf;
 
-		public bool LeftLeaf { get; set; }
+		public bool LeftLeaf { get
+            {
+                return leftleaf;
+            }
+            set
+            {
+                leftleaf = value;
+                if (!LeftLeaf)
+                {
+                    graphics.SetScale(new Vector2f(-5f, 5f));
+                }else
+                {
+                    graphics.SetScale(new Vector2f(5f, 5f));
+                }
+            }
+        }
 
 		public Leaf(GameState gameState, Vector2f pos ) :base(gameState, pos)
 		{
-			graphics.FillColor = Color.Green;
-			LeftLeaf = true;
 
-			leafTween.speed = 1000;
 		}
 
 		public Leaf(GameState gameState) : base(gameState, new Vector2f(0, 0))
 		{
-			graphics.FillColor = Color.Green;
-		}
+            graphics = new Animation(gameState.Game.GetAnimation(Assets.Animations.ID.Leaf));
+            LeftLeaf = false;
+            moving = false;
+            //graphics.SetFlipped();
+        }
 
 		public override void Dispose()
 		{
-			graphics.Dispose();
-			graphics = null;
+			// graphics.Dispose();
 		}
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
-			target.Draw(graphics);
-		}
+            Sprite currentFrame = graphics.GetImage();
+            target.Draw(currentFrame, states);
+        }
 
 		public override void FixedUpdate()
 		{
@@ -47,8 +64,10 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-			graphics.Position = Position;
-			if (moving)
+            graphics.Update();
+            Sprite currentFrame = graphics.GetImage();
+            currentFrame.Position = Position;
+            if (moving)
 			{
 				moving = leafTween.Move(this, targetPos);
 			}
@@ -62,7 +81,7 @@ namespace LD34.Objects
 		internal void MoveOneStep()
 		{
 			targetPos = Position += new Vector2f(0, 120);
-            moving = true;
+            //moving = true;
 		}
 	}
 }

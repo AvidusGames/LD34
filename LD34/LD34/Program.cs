@@ -3,6 +3,7 @@ using SFML.Graphics;
 using System;
 using LD34.Handlers;
 using LD34.States;
+using SFML.System;
 
 namespace LD34
 {
@@ -56,8 +57,19 @@ namespace LD34
 
             try
             {
+                game.LoadTexture(Assets.Textures.ID.Tree, "Assets/Textures/foreground_tree.png");
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("ERROR: Could not load sound resources ({0})!", ex.GetBaseException());
+                return;
+            }
+
+            try
+            {
                 game.LoadAnimation(Assets.Animations.ID.Jump, "Assets/Animations/Jump/jump_*.png", 30);         
                 game.LoadAnimation(Assets.Animations.ID.Walk, "Assets/Animations/Walk/walk_*.png", 30);
+                game.LoadAnimationSpritesheet(Assets.Animations.ID.Leaf, "Assets/Animations/Leaf/leaf.png", new Vector2i(3, 1), new Vector2i(16, 16), 240);
             }
             catch (Exception ex)
             {

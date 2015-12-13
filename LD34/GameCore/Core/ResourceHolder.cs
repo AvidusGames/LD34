@@ -3,6 +3,7 @@ using SFML.Audio;
 using System.Collections.Generic;
 using System;
 using System.IO;
+using SFML.System;
 
 namespace GameCore.Core
 {
@@ -28,33 +29,7 @@ namespace GameCore.Core
     {
         public override void Load(Enum id, string filebase)
         {
-            List<Texture> textures = new List<Texture>();
-
-            // Create and load resource
-            for(int i = 0; ;i++)
-            {
-                string filename = filebase.Replace("*", i.ToString());
-                if (!File.Exists(filename)) break;
-                var texture = new Texture(filename);
-                textures.Add(texture);
-            }
-
-
-            if (textures.Count == 0)
-            {
-                throw new SFML.LoadingFailedException("Animation frames count cannot be zero");
-            }
-
-            Sprite[] sprites = new Sprite[textures.Count];
-            for(int i = 0; i < textures.Count; i++)
-            {
-                sprites[i] = new Sprite(textures[i]);
-            }
-
-            Animation animation = new Animation(sprites, 1);
-
-            // If loading successful, insert resource to map
-            InsertResource(id, animation);
+            Load(id, filebase, 1);
         }
 
         public override void Load(Enum id, string filebase, int secondParameter)
@@ -80,6 +55,22 @@ namespace GameCore.Core
             {
                 sprites[i] = new Sprite(textures[i]);
             }
+
+            Animation animation = new Animation(sprites, secondParameter);
+
+            // If loading successful, insert resource to map
+            InsertResource(id, animation);
+        }
+
+        public void LoadSpritesheet(Enum id, string filename, Vector2i count, Vector2i size)
+        {
+            LoadSpritesheet(id, filename, count, size, 1);
+        }
+
+        public void LoadSpritesheet(Enum id, string filename, Vector2i count, Vector2i size, int secondParameter)
+        {
+            var texture = new Texture(filename);
+            Sprite[] sprites = Spritesheet.LoadSprites(texture, count, size);
 
             Animation animation = new Animation(sprites, secondParameter);
 

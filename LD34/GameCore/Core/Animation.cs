@@ -7,6 +7,7 @@ namespace GameCore.Core
     public class Animation
     {
         private Sprite[] frames;
+        private Vector2f scale;
         private int currentFrame;
         private int numFrames;
 
@@ -20,11 +21,26 @@ namespace GameCore.Core
             delay = _delay;
         }
 
-        public void SetScale(Vector2f scale)
+        public Animation(Animation animation)
         {
+            frames = new Sprite[animation.numFrames];
+            for(int i = 0; i < animation.numFrames; i++)
+            {
+                frames[i] = new Sprite(animation.frames[i].Texture);
+                frames[i].TextureRect = animation.frames[i].TextureRect;
+                frames[i].Origin = animation.frames[i].Origin;
+            }
+            numFrames = animation.numFrames;
+            delay = animation.delay;
+            scale = animation.scale;
+        }
+
+        public void SetScale(Vector2f _scale)
+        {
+            scale = _scale;
             foreach(Sprite frame in frames)
             {
-                frame.Scale = scale;
+                frame.Scale = _scale;
             }
         }
 

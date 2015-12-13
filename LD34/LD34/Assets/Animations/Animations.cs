@@ -4,5 +4,6 @@
     {
         Jump,
         Walk,
+        Leaf,
     }
 }

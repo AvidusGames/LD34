@@ -1,14 +1,9 @@
-﻿using GameCore.Core;
-using GameCore.Objects;
-using GameCore.States;
+﻿using GameCore.States;
 using GameCore.Tween;
 using LD34.Objects;
 using SFML.System;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace LD34.Handlers
 {
@@ -97,7 +92,7 @@ namespace LD34.Handlers
 			if (diceRoll >= 50 && numberOfLeftLeavesAtRow <= MaxNumberOfLeftLeavesAtRow)
 			{
 				numberOfLeftLeavesAtRow++;
-                leaf.Position = new Vector2f(158, idx * 120 + 70);
+                leaf.Position = new Vector2f(320, idx * 120 + 70);
 				leaf.LeftLeaf = true;
 			}
 			else
@@ -115,7 +110,7 @@ namespace LD34.Handlers
 
 			if (diceRoll >= 50)
 			{
-				leaf.Position = new Vector2f(158, 70);
+				leaf.Position = new Vector2f(320, 70);
 				leaf.LeftLeaf = true;
 			}
 			else

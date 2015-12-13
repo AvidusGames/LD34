@@ -105,6 +105,7 @@ namespace LD34.Menu
         public override void Dispose()
         {
 			graphics.Dispose();
+            label.Dispose();
         }
 
         public override void Draw(RenderTarget target, RenderStates states)

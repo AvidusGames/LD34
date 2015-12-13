@@ -33,7 +33,7 @@ namespace LD34.Objects
 			AddEntity(nameof(Branch));
 
 			timer = StartTime;
-			timerText = new Text($"Timer: {timer}", new Font(Game.GetFont(Assets.Fonts.ID.Default)));
+            timerText = new Text($"Timer: " + Math.Round(timer), new Font(Game.GetFont(Assets.Fonts.ID.Default)));
 			timerText.Position = new Vector2f(10, 0);
 			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(Assets.Fonts.ID.Default)));
 			scoreText.Position = new Vector2f(650, 0);
@@ -84,7 +84,7 @@ namespace LD34.Objects
 			switch (type)
 			{
 				case nameof(Branch):
-					tmpEnitiy = new Branch();
+					tmpEnitiy = new Branch(Game);
 					EntityObjects.Add(tmpEnitiy);
 					break;
 				default:
@@ -105,11 +105,20 @@ namespace LD34.Objects
 				Game.ChangeState(null);
 			}
 
-			timerText.DisplayedString = $"Timer: { timer}";
-			scoreText.DisplayedString = $"Score: {player.Score}";
+			timerText.DisplayedString = $"Timer: " + Math.Round(timer);
+            scoreText.DisplayedString = $"Score: {player.Score}";
             ClimbTree();
 
-			Vector2f playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X + 50, player.Position.Y);
+            Vector2f playerTargetVec;
+            if (leafHandler.PlayerStandLeaf.LeftLeaf)
+            {
+                playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X - 80, leafHandler.PlayerStandLeaf.Position.Y-100);
+            }
+            else
+            {
+                playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y-100);
+            }
+
 			playerTweener.Move(player, playerTargetVec);
 			//Console.WriteLine(player.Position);
 		}

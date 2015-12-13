@@ -93,6 +93,16 @@ namespace GameCore.Core
             animations.Load(id, filebase, delay);
         }
 
+        public void LoadAnimationSpritesheet(Enum id, string filename, Vector2i count, Vector2i size)
+        {
+            animations.LoadSpritesheet(id, filename, count, size);
+        }
+
+        public void LoadAnimationSpritesheet(Enum id, string filename, Vector2i count, Vector2i size, int delay)
+        {
+            animations.LoadSpritesheet(id, filename, count, size, delay);
+        }
+
         public Animation GetAnimation(Enum id)
         {
             return animations.Get(id);
