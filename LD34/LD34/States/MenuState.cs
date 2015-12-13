@@ -15,13 +15,27 @@ namespace LD34.States
         {
             Button playButton = (Button) AddGameObject(nameof(Button));
             playButton.SetActionCommand("play");
-            playButton.Position = new Vector2f(Game.Window.Size.X/2, 100);
+            playButton.Position = new Vector2f(Game.Window.Size.X/2, 150);
             playButton.SetSize(18);
             playButton.SetText("Play Game");
 
+            Button helpButton = (Button)AddGameObject(nameof(Button));
+            helpButton.SetActionCommand("help");
+            helpButton.Position = new Vector2f(Game.Window.Size.X / 2, 250);
+            helpButton.SetSize(18);
+            helpButton.SetText("Help");
+
+            Button scoreButton = (Button)AddGameObject(nameof(Button));
+            scoreButton.SetActionCommand("score");
+            scoreButton.SetActionColor(Color.Magenta);
+            scoreButton.SetOutlineColor(new Color(255, 165, 0));
+            scoreButton.Position = new Vector2f(Game.Window.Size.X / 2, 350);
+            scoreButton.SetSize(18);
+            scoreButton.SetText("Scoreboard");
+
             Button quitButton = (Button)AddGameObject(nameof(Button));
             quitButton.SetActionCommand("quit");
-            quitButton.Position = new Vector2f(Game.Window.Size.X / 2, 200);
+            quitButton.Position = new Vector2f(Game.Window.Size.X / 2, 450);
             quitButton.SetSize(18);
             quitButton.SetText("Quit Game");
 
@@ -88,6 +102,18 @@ namespace LD34.States
                     else
                     {
                         Game.StopMusic(true);
+                    }
+                    break;
+                case "score":
+                    if (perform)
+                    {
+                        Game.ChangeState(new ScoreState(Game));
+                    }
+                    break;
+                case "help":
+                    if (perform)
+                    {
+                        Game.ChangeState(new HelpState(Game));
                     }
                     break;
             }

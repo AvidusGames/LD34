@@ -12,9 +12,12 @@ namespace LD34.Menu
         private RectangleShape graphics;
         private Label label;
         private Color outlineColor;
+        private Color actionColor;
         private FloatRect bounds;
         private string actionCommand;
         private float padding;
+        private float delta;
+        private float delay;
         private int ticks;
 
         public delegate void ButtonHandler(string actionCommand, bool perform);
@@ -33,6 +36,7 @@ namespace LD34.Menu
             graphics = new RectangleShape(new Vector2f(32, 32));
             graphics.FillColor = Color.Transparent;
             SetOutlineColor(Color.White);
+            SetActionColor(Color.Cyan);
             SetOutlineThickness(5.0f);
             padding = 5.0f;
             graphics.Position = pos;
@@ -66,6 +70,11 @@ namespace LD34.Menu
             actionCommand = _actionCommand;
         }
 
+        public void SetActionDelay(int _delay)
+        {
+            delay = _delay;
+        }
+
         public void SetText(string text)
         {
             if(text != null)
@@ -89,6 +98,11 @@ namespace LD34.Menu
         public void SetTextColor(Color color)
         {
             label.SetColor(color);
+        }
+
+        public void SetActionColor(Color color)
+        {
+            actionColor = color;
         }
 
         public void SetOutlineColor(Color color)
@@ -146,10 +160,16 @@ namespace LD34.Menu
                 }                
             }
 
+            if(delta > 0.0f)
+            {
+                delta -= Game.TimeBetweenFrames.AsSeconds();
+            }
+
             if (state == ButtonState.Pressed && ticks % 30 == 0)
             {
-                graphics.OutlineColor = (graphics.OutlineColor == Color.Cyan) ? outlineColor : Color.Cyan;
-                if(ticks >= 200)
+                graphics.OutlineColor = (graphics.OutlineColor == actionColor) ? outlineColor : actionColor;
+                
+                if(delta <= 0.0f)
                 {
                     handler(actionCommand, true);
                 }
@@ -174,6 +194,7 @@ namespace LD34.Menu
                 case ButtonState.Pressed:
                     handler(actionCommand, false);
                     ticks = 0;
+                    delta = delay;
                     // play audio effect
                     break;
                 case ButtonState.Normal:
