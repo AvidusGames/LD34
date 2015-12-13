@@ -142,14 +142,7 @@ namespace LD34.Handlers
 				leafs.Add(tmpLeaf);
 			}
 
-
 			NextLeaf = leafs[nextIndex];
-			Console.WriteLine(nextIndex);
-
-
-
-
-
 		}
 
 		internal int Fall()
@@ -158,14 +151,12 @@ namespace LD34.Handlers
 			int fallAMount = 0;
 			bool falling = true;
 
-			while (!falling)
+			while (falling)
 			{
-				for (int i = leafs.Count - 1; i >= 0; i--)
-				{
-					//fallAMount++;
-					if (falling)
-						nextIndex--;
+				nextIndex--;
 
+				for (int i = leafs.Count - 1; i >= 0; i--)
+				{ 
 					leafs[i].MoveOneStepUp();
 
 					if (leafs[i].LeftLeaf != PlayerStandLeaf.LeftLeaf)
