@@ -21,12 +21,14 @@ namespace LD34.States
 
             Button helpButton = (Button)AddGameObject(nameof(Button));
             helpButton.SetActionCommand("help");
+            helpButton.SetActionDelay(.5f);
             helpButton.Position = new Vector2f(Game.Window.Size.X / 2, 250);
             helpButton.SetSize(18);
             helpButton.SetText("Help");
 
             Button scoreButton = (Button)AddGameObject(nameof(Button));
             scoreButton.SetActionCommand("score");
+            scoreButton.SetActionDelay(.5f);
             scoreButton.SetActionColor(Color.Magenta);
             scoreButton.SetOutlineColor(new Color(255, 165, 0));
             scoreButton.Position = new Vector2f(Game.Window.Size.X / 2, 350);
@@ -35,6 +37,7 @@ namespace LD34.States
 
             Button quitButton = (Button)AddGameObject(nameof(Button));
             quitButton.SetActionCommand("quit");
+            quitButton.SetActionDelay(.5f);
             quitButton.Position = new Vector2f(Game.Window.Size.X / 2, 450);
             quitButton.SetSize(18);
             quitButton.SetText("Quit Game");

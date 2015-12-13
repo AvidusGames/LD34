@@ -3,5 +3,6 @@
     public enum ID
     {
         Tree,
+        Help,
     }
 }

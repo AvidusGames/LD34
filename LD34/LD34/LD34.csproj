@@ -103,13 +103,16 @@
     <Compile Include="Handlers\LeafHandler.cs" />
     <Compile Include="Menu\Button.cs" />
     <Compile Include="Menu\Label.cs" />
+    <Compile Include="Menu\Picture.cs" />
     <Compile Include="Objects\Player.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Objects\Leaf.cs" />
     <Compile Include="Objects\Branch.cs" />
+    <Compile Include="States\HelpState.cs" />
     <Compile Include="States\MainState.cs" />
     <Compile Include="States\MenuState.cs" />
+    <Compile Include="States\ScoreState.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -179,6 +182,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\Animations\Leaf\leaf.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\logo.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="csfml-audio-2.dll">

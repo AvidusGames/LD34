@@ -38,6 +38,7 @@ namespace LD34.Menu
             SetOutlineColor(Color.White);
             SetActionColor(Color.Cyan);
             SetOutlineThickness(5.0f);
+            SetActionDelay(1.0f);
             padding = 5.0f;
             graphics.Position = pos;
 
@@ -70,7 +71,7 @@ namespace LD34.Menu
             actionCommand = _actionCommand;
         }
 
-        public void SetActionDelay(int _delay)
+        public void SetActionDelay(float _delay)
         {
             delay = _delay;
         }
