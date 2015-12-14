@@ -182,10 +182,12 @@ namespace LD34.Objects
 			ClimbTree();
 			MovePlayer();
 			player.Update();
+            if (dialog != null) dialog.Update();
 
 			if (timer <= 0)
 			{
-				DisplayInputDialog();
+                Console.WriteLine("Called function!");
+                DisplayInputDialog();
 			}
 		}
 
@@ -327,6 +329,7 @@ namespace LD34.Objects
 				else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
 				{
 					DisplayInputDialog();
+                    Console.WriteLine("Called function!");
 					//int fallsteps = leafHandler.Fall();
 					//               player.Score -= fallsteps;
 					//for (int i = 0; i < fallsteps; i++)
@@ -366,7 +369,8 @@ namespace LD34.Objects
 
                 else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
                 {
-					DisplayInputDialog();
+                    Console.WriteLine("Called function!");
+                    DisplayInputDialog();
                 }
             }
 		}
