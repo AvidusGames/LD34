@@ -23,7 +23,7 @@ namespace LD34.Menu
             color = Color.White;
             //bounds = GetBounds();
             centered = true;
-            SetData(_data);
+            if(_data != null) SetData(_data);
         }
 
         public void SetCentered(bool _centered)
@@ -33,35 +33,50 @@ namespace LD34.Menu
 
         public void SetData(string[,] _data)
         {
-            if (_data != null)
+            cells = new Label[_data.GetLength(0), _data.GetLength(1)];
+            for (int x = 0; x < _data.GetLength(0); x++)
             {
-                data = _data;
-            }
-
-            cells = new Label[data.GetLength(0), data.GetLength(1)];
-            for (int y = 0; y < data.GetLength(0); y++)
-            {
-                for (int x = 0; x < data.GetLength(1); y++)
+                for (int y = 0; y < _data.GetLength(1); y++)
                 {
-                    var text = data[x, y];
+                    var text = _data[x, y];
                     cells[x, y] = new Label(text, new Vector2f(Position.X, Position.Y), GameState);
+                    cells[x, y].SetCentered(false);
                     cells[x, y].SetFont(font);
                     cells[x, y].SetSize(size);
                 }
             }
 
-            for (int y = 0; y < data.GetLength(0); y++)
+            for (int x = 0; x < _data.GetLength(0); x++)
             {
-                for (int x = 0; x < data.GetLength(1); y++)
+                for (int y = 0; y < _data.GetLength(1); y++)
                 {
                     FloatRect left, top;
-                    if(x>0)
+                    float xOffset = 0, yOffset = 0;
+
+                    if (x > 0)
                     {
                         left = cells[x - 1, y].GetBounds();
-                    }                  
-                    top = cells[x, y - 1].GetBounds();
-                    //cells[x, y].Position =
+                        xOffset = cells[x - 1, y].Position.X - Position.X;
+                    }else
+                    {
+                        left = new FloatRect();
+                    }
+                    if (y > 0)
+                    {
+                        top = cells[x, y - 1].GetBounds();
+                        yOffset = cells[x, y - 1].Position.Y - Position.Y;
+                    }
+                    else
+                    {
+                        top = new FloatRect();
+                    }
+                    cells[x, y].Position = new Vector2f(Position.X + left.Width + xOffset, Position.Y + top.Height + yOffset);
                 }
+            }
+
+            if (_data != null)
+            {
+                data = _data;
             }
             //bounds = GetBounds();
             //Update();
@@ -70,19 +85,19 @@ namespace LD34.Menu
         public void SetFont(Assets.Fonts.ID id)
         {
             font = id;
-            SetData(null);
+            //SetData(null);
         }
 
         public void SetColor(Color _color)
         {
             color = _color;
-            SetData(null);
+            //SetData(null);
         }
 
         public void SetSize(uint _size)
         {
             size = _size;
-            SetData(null);
+            //SetData(null);
         }
 
         public override void Dispose()
@@ -92,6 +107,16 @@ namespace LD34.Menu
         public override void Draw(RenderTarget target, RenderStates states)
         {
             //graphics.Draw(target, states);
+            if(data != null)
+            {
+                for (int x = 0; x < cells.GetLength(0); x++)
+                {
+                    for (int y = 0; y < cells.GetLength(1); y++)
+                    {
+                        cells[x, y].Draw(target, states);
+                    }
+                }
+            }
         }
 
         public override void Reset()
@@ -106,6 +131,16 @@ namespace LD34.Menu
 
         public override void Update()
         {
+            if (data != null)
+            {
+                for (int x = 0; x < cells.GetLength(0); x++)
+                {
+                    for (int y = 0; y < cells.GetLength(1); y++)
+                    {
+                        cells[x, y].Update();
+                    }
+                }
+            }
             /**
             if (centered)
             {
