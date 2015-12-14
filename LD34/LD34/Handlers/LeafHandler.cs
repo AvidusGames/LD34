@@ -75,6 +75,20 @@ namespace LD34.Handlers
 		/// </summary>
 		internal void Climb()
 		{
+			for (int i = 0; i < leafs.Count; i++)
+			{
+				leafs[i].MoveOneStepDown();
+			}
+
+			if (nextIndex == leafs.Count - 2)
+			{
+				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
+				LeftOrRightLeafRand(tmpLeaf);
+				leafs.Add(tmpLeaf);
+			}
+
+			nextIndex++;
+
 			ChangeLeaf();
 
 			//for (int i = 0; i < leafs.Count; i++)
@@ -100,12 +114,12 @@ namespace LD34.Handlers
 			if (diceRoll)
 			{
 				numberOfLeftLeavesAtRow++;
-				leaf.Position = new Vector2f(320, idx * 120 + 70);
+				leaf.Position = new Vector2f(335, idx * 120 + 70);
 				leaf.LeftLeaf = true;
 			}
 			else
 			{
-				leaf.Position = new Vector2f(480, idx * 120 + 70);
+				leaf.Position = new Vector2f(458, idx * 120 + 70);
 				leaf.LeftLeaf = false;
 				numberOfLeftLeavesAtRow = 0;
 			}
@@ -130,13 +144,13 @@ namespace LD34.Handlers
 			if (diceRoll)
 			{
 				numberOfLeftLeavesAtRow++;
-				leaf.Position = new Vector2f(320, 70);
+				leaf.Position = new Vector2f(335, 70);
 				leaf.LeftLeaf = true;
 			}
 			else
 			{
 				//leaf.Position = new Vector2f(320, 70);
-				leaf.Position = new Vector2f(480, 70);
+				leaf.Position = new Vector2f(458, 70);
 				leaf.LeftLeaf = false;
 				numberOfLeftLeavesAtRow = 0;
 			}
@@ -151,21 +165,8 @@ namespace LD34.Handlers
 		private void ChangeLeaf()
 		{
 
-			for (int i = 0; i < leafs.Count; i++)
-			{
-				leafs[i].MoveOneStepDown();
-			}
-
 			//leafs[0].Destroyed = true;
 			//leafs.RemoveAt(0);
-
-			if (nextIndex == leafs.Count - 2)
-			{
-				Leaf tmpLeaf = (Leaf)gameState.AddGameObject(nameof(Leaf));
-				LeftOrRightLeafRand(tmpLeaf);
-				leafs.Add(tmpLeaf);
-			}
-			nextIndex++;
 			NextLeaf = leafs[nextIndex];
 			PlayerStandLeaf = leafs[nextIndex - 1];
 		}
@@ -174,24 +175,30 @@ namespace LD34.Handlers
 		{
 			//PlayerStandLeaf = null;
 			int fallAMount = 0;
-			bool falling = false;
+			bool falling = true;
 
 			while (falling)
 			{
 				nextIndex--;
+				fallAMount++;
+
+				if (nextIndex < 0)
+					break;
 
 				for (int i = leafs.Count - 1; i >= 0; i--)
 				{
 					leafs[i].MoveOneStepUp();
-
-					if (leafs[i].LeftLeaf != PlayerStandLeaf.LeftLeaf)
-					{
-						falling = true;
-						PlayerStandLeaf = leafs[i];
-					}
 				}
+
+				if (leafs[nextIndex - 1].LeftLeaf != PlayerStandLeaf.LeftLeaf)
+				{
+					falling = false;
+				}
+
 				Console.WriteLine(nextIndex);
 			}
+
+			ChangeLeaf();
 
 			return fallAMount;
 		}
