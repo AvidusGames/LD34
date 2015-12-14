@@ -57,16 +57,26 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-            currentAnim.Update();
-            Sprite currentFrame = currentAnim.GetImage();
+			//if (Jumping)
+			//{
+			//	currentAnim.Update();
+			//}
+
+			ChangeToJumpingSprite();
+
 			if (moving)
 			{
 				moving = playerTweener.Move(this, targetVec);
 
 			}
+			else
+			{
+				ChangeToIdleSprite();
+			}
 
+			Sprite currentFrame = currentAnim.GetImage();
 			currentFrame.Position = Position;
-
+			currentAnim.Update();
 		}
 
 		public override void FixedUpdate()
@@ -108,24 +118,33 @@ namespace LD34.Objects
 			moving = true;
 			Console.WriteLine("Player pos: " + Position);
 			//För att updatatera postionen på grafiken
-
 			Update();
 		}
 
 		public void MoveTo(Vector2f targetVector)
 		{
 			targetVec = targetVector;
-			if (playerTweener.Move(this, targetVector))
+			Jumping = playerTweener.Move(this, targetVec);
+			//ChangeToJumpingSprite();
+		}
+
+		public void ChangeToJumpingSprite()
+		{
+			if (currentAnim != jumpingAnim)
 			{
 				currentAnim = jumpingAnim;
 				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
 			}
-			else
+
+		}
+
+		public void ChangeToIdleSprite()
+		{
+			if (currentAnim != idleAnim)
 			{
 				currentAnim = idleAnim;
 				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
 			}
-			
 		}
 
 		//internal void MoveTo(Side side)
