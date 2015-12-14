@@ -35,6 +35,7 @@ namespace LD34.Objects
 
 		private const float StartTime = 30;
 		private Vector2f playerTargetVec;
+		private bool gameStoped = false;
 
 		public MainState(Game game) : base(game)
 		{
@@ -155,40 +156,47 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-			base.Update();
-			//player.MoveToLeaf(leafHandler.PlayerStandLeaf);
-
-			timer -= Game.TimeBetweenFrames.AsSeconds();
-
-			timerText.DisplayedString = $"Timer: " + Math.Round(timer);
-            scoreText.DisplayedString = $"Score: {player.Score}";
-
-			towers.Update();
-
-            towerTweener.Move(towers, towerTargetVec);
-            bhousesTweener.Move(bhouses, bhousesTargetVec);
-            fhousesTweener.Move(fhouses, fhousesTargetVec);
-
-			if (ScoreLabelsTweener != null)
-            {
-				for (int i = 0; i < ScoreLabelsTweener.Length; i++)
-                {
-                    if (ScoreLabelsTweener[i] == null) break;
-                    ScoreLabelsTweener[i].Move(ScoreLabels[i], ScoreLabelsTargetVec[i]);
-                    ScoreLabels[i].UpdatePosition();
-                }
-            }
-
-			ClimbTree();
-			MovePlayer();
-			player.Update();
-            if (dialog != null) dialog.Update();
-
-			if (timer <= 0)
+			if (!gameStoped)
 			{
-                Console.WriteLine("Called function!");
-                DisplayInputDialog();
+				base.Update();
+				//player.MoveToLeaf(leafHandler.PlayerStandLeaf);
+
+				timer -= Game.TimeBetweenFrames.AsSeconds();
+
+				timerText.DisplayedString = $"Timer: " + Math.Round(timer);
+				scoreText.DisplayedString = $"Score: {player.Score}";
+
+				towers.Update();
+
+				towerTweener.Move(towers, towerTargetVec);
+				bhousesTweener.Move(bhouses, bhousesTargetVec);
+				fhousesTweener.Move(fhouses, fhousesTargetVec);
+
+				if (ScoreLabelsTweener != null)
+				{
+					for (int i = 0; i < ScoreLabelsTweener.Length; i++)
+					{
+						if (ScoreLabelsTweener[i] == null) break;
+						ScoreLabelsTweener[i].Move(ScoreLabels[i], ScoreLabelsTargetVec[i]);
+						ScoreLabels[i].UpdatePosition();
+					}
+				}
+
+				ClimbTree();
+				MovePlayer();
+				player.Update();
+
+				if (timer <= 0)
+				{
+					Console.WriteLine("Called function!");
+					DisplayInputDialog();
+				}
 			}
+
+
+			if (dialog != null) dialog.Update();
+
+
 		}
 
 		private void MovePlayer()
@@ -330,6 +338,7 @@ namespace LD34.Objects
 				{
 					DisplayInputDialog();
                     Console.WriteLine("Called function!");
+					gameStoped = true;
 					//int fallsteps = leafHandler.Fall();
 					//               player.Score -= fallsteps;
 					//for (int i = 0; i < fallsteps; i++)
@@ -370,6 +379,7 @@ namespace LD34.Objects
                 else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
                 {
                     Console.WriteLine("Called function!");
+					gameStoped = true;
                     DisplayInputDialog();
                 }
             }
