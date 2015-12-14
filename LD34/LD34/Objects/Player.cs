@@ -8,6 +8,7 @@ using SFML.Graphics;
 using GameCore.States;
 using SFML.System;
 using GameCore.Core;
+using GameCore.Tween;
 
 namespace LD34.Objects
 {
@@ -15,6 +16,11 @@ namespace LD34.Objects
 	{
         private Animation currentAnim;
 		public int Score { get; set; }
+		public bool Jumping { get; internal set; }
+
+		private Tweener playerTweener;
+		private Vector2f targetVec;
+		private bool moving;
 
 		public enum Side
 		{
@@ -28,7 +34,8 @@ namespace LD34.Objects
             currentAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
             currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
 			currentAnim.SetFrame(3);
-        }
+			playerTweener = new Tweener();
+		}
 
 		public Player(GameState gameState, Vector2f pos) : base(gameState, pos)
 		{
@@ -44,7 +51,14 @@ namespace LD34.Objects
 		{
             //currentAnim.Update();
             Sprite currentFrame = currentAnim.GetImage();
+			if (moving)
+			{
+				moving = playerTweener.Move(this, targetVec);
+
+			}
+
 			currentFrame.Position = Position;
+
 		}
 
 		public override void FixedUpdate()
@@ -62,22 +76,36 @@ namespace LD34.Objects
 			throw new NotImplementedException();
 		}
 
+		public void Jump(Leaf leaf)
+		{
+			targetVec = new Vector2f(leaf.Position.X, leaf.Position.Y - 50);
+			Jumping = playerTweener.Move(this, targetVec);
+			Console.WriteLine(Jumping);
+		}
+
 		public void MoveToLeaf(Leaf leaf)
 		{
 
+			if (leaf.LeftLeaf)
+			{
+				targetVec = new Vector2f(leaf.Position.X - 80, leaf.Position.Y - 100);
+			}
 
-            if(leaf.LeftLeaf)
-            {
-                Position = new Vector2f(leaf.Position.X - 100, leaf.Position.Y - 70);
-            }
-            else
-            {
-                Position = new Vector2f(leaf.Position.X + 20, leaf.Position.Y - 70);
-            }
-			
+			else
+			{
+				targetVec = new Vector2f(leaf.Position.X, leaf.Position.Y - 100);
+			}
+
+			moving = true;
 			Console.WriteLine("Player pos: " + Position);
 			//För att updatatera postionen på grafiken
 			Update();
+		}
+
+		public void MoveTo(Vector2f targetVector)
+		{
+			targetVec = targetVector;
+			playerTweener.Move(this, targetVector);
 		}
 
 		//internal void MoveTo(Side side)

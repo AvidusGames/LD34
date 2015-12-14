@@ -72,6 +72,9 @@
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>true</Prefer32Bit>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="sfmlnet-audio-2">
       <HintPath>..\..\..\..\..\Downloads\SFML.Net-2.2-32-bit\SFML.Net-2.2\lib\sfmlnet-audio-2.dll</HintPath>

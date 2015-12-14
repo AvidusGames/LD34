@@ -126,17 +126,23 @@ namespace LD34.Objects
             if (leafHandler.PlayerStandLeaf.LeftLeaf)
             {
                 playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X - 80, leafHandler.PlayerStandLeaf.Position.Y-100);
+				player.MoveTo(playerTargetVec);
             }
             else
             {
                 playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y-100);
+				player.MoveTo(playerTargetVec);
             }
 
 			playerTweener.Move(player, playerTargetVec);            
             backgroundTweener.Move(towers, towerTargetVec);
+			if (player.Jumping)
+			{
+				player.Jump(leafHandler.PlayerStandLeaf);
+			}
 
             towers.Update();
-            player.Update();
+			player.Update();
 		}
 
 		public override void FixedUpdate()
@@ -178,15 +184,20 @@ namespace LD34.Objects
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
                 towerTargetVec = new Vector2f(0, towerTargetVec.Y + 100);
-
-                if (leafHandler.NextLeaf.LeftLeaf)
+				
+				if (leafHandler.NextLeaf.LeftLeaf)
 				{
 					StartClimb();
 				}
 
-				else
+				else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
 				{
 					player.Score -= leafHandler.Fall();
+				}
+
+				else
+				{
+					player.Jumping = true;
 				}
 			}
 
@@ -197,23 +208,26 @@ namespace LD34.Objects
 
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
+
 					StartClimb();
 				}
+				else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
+				{
+					player.Score -= leafHandler.Fall();
+				}
+
 				else
                 {
-					player.Score -= leafHandler.Fall();
+					player.Jumping = true;
 				}
             }
 		}
 
 		private void StartClimb()
 		{
-			//var tmp = player.Position;
-
-			//playerTweener.StartMoveTowards(player, playerTargetVec);
-			//player.MoveToLeaf(leafHandler.PlayerStandLeaf);
 			leafHandler.Climb();
 			player.Score++;
+			//player.MoveToLeaf(leafHandler.NextLeaf);
 		}
 	}
 }
