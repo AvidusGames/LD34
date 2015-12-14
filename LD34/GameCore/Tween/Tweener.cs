@@ -72,7 +72,7 @@ namespace GameCore.Tween
 			direction = Normalize(endVec - startVec);
 			moving = true;
 
-			if (start.Position.X == end.X)
+			if (start.Position == end)
 				return moving;
 
 			this.start = start;

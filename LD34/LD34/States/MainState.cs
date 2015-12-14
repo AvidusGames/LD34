@@ -8,6 +8,7 @@ using SFML.Window;
 using SFML.System;
 using SFML.Graphics;
 using GameCore.Tween;
+using LD34.States;
 
 namespace LD34.Objects
 {
@@ -109,7 +110,7 @@ namespace LD34.Objects
 
 			if (timer<= 0)
 			{
-				Game.ChangeState(null);
+				Game.ChangeState(new MenuState(Game));
 			}
 
 			timerText.DisplayedString = $"Timer: " + Math.Round(timer);

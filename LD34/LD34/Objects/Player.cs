@@ -15,6 +15,8 @@ namespace LD34.Objects
 	class Player : GameObject
 	{
         private Animation currentAnim;
+		private Animation jumpingAnim;
+		private Animation idleAnim;
 		public int Score { get; set; }
 		public bool Jumping { get; internal set; }
 
@@ -31,10 +33,16 @@ namespace LD34.Objects
 		public Player(GameState gameState):base(gameState, new Vector2f(200, 580))
 		{
 			Position = new Vector2f(200, 480);
-            currentAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
+			idleAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
+			idleAnim.SetFrame(0);
+			jumpingAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Jump);
+			currentAnim = idleAnim;
+
             currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
 			currentAnim.SetFrame(3);
 			playerTweener = new Tweener();
+
+
 		}
 
 		public Player(GameState gameState, Vector2f pos) : base(gameState, pos)
@@ -49,7 +57,7 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-            //currentAnim.Update();
+            currentAnim.Update();
             Sprite currentFrame = currentAnim.GetImage();
 			if (moving)
 			{
@@ -80,6 +88,7 @@ namespace LD34.Objects
 		{
 			targetVec = new Vector2f(leaf.Position.X, leaf.Position.Y - 50);
 			Jumping = playerTweener.Move(this, targetVec);
+
 			Console.WriteLine(Jumping);
 		}
 
@@ -99,13 +108,24 @@ namespace LD34.Objects
 			moving = true;
 			Console.WriteLine("Player pos: " + Position);
 			//För att updatatera postionen på grafiken
+
 			Update();
 		}
 
 		public void MoveTo(Vector2f targetVector)
 		{
 			targetVec = targetVector;
-			playerTweener.Move(this, targetVector);
+			if (playerTweener.Move(this, targetVector))
+			{
+				currentAnim = jumpingAnim;
+				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+			}
+			else
+			{
+				currentAnim = idleAnim;
+				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+			}
+			
 		}
 
 		//internal void MoveTo(Side side)
