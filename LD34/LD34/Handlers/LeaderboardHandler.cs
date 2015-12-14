@@ -52,7 +52,7 @@ namespace LD34.Handlers
         public static void HighscoreRequest(HighscoreRequestFinish callback)
         {
             waitRequest.WaitOne();
-            webRequest = (HttpWebRequest)WebRequest.Create(WebURL + PublicCode + "/pipe/");
+            webRequest = (HttpWebRequest)WebRequest.Create(WebURL + PublicCode + "/pipe/10");
             HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
             if (response.StatusCode != HttpStatusCode.OK)
             {

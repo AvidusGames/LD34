@@ -105,6 +105,7 @@
     <Compile Include="Handlers\LeaderboardHandler.cs" />
     <Compile Include="Handlers\LeafHandler.cs" />
     <Compile Include="Menu\Button.cs" />
+    <Compile Include="Menu\InputDialog.cs" />
     <Compile Include="Menu\Label.cs" />
     <Compile Include="Menu\Picture.cs" />
     <Compile Include="Menu\Table.cs" />

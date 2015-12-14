@@ -18,6 +18,7 @@ namespace LD34.Menu
         private float padding;
         private float delta;
         private float delay;
+        private float animationFactor;
         private int ticks;
 
         public delegate void ButtonHandler(string actionCommand, bool perform);
@@ -40,6 +41,7 @@ namespace LD34.Menu
             SetOutlineThickness(5.0f);
             SetActionDelay(1.0f);
             padding = 5.0f;
+            animationFactor = 10.0f;
             graphics.Position = pos;
 
             handler = _handler;
@@ -66,6 +68,11 @@ namespace LD34.Menu
             SetText(null);
         }
 
+        public void SetAnimationFactor(float factor)
+        {
+            this.animationFactor = factor;
+        }
+
         public void SetActionCommand(string _actionCommand)
         {
             actionCommand = _actionCommand;
@@ -84,7 +91,7 @@ namespace LD34.Menu
             float widthPadding = padding;
             if(state == ButtonState.Hovering)
             {
-                widthPadding *= 10;
+                widthPadding *= animationFactor;
             }
 
             float width = label.GetBounds().Width + widthPadding * 2;
@@ -176,6 +183,11 @@ namespace LD34.Menu
                 }
             }
             ticks++;
+        }
+
+        public void UpdatePos()
+        {
+            SetText(null);
         }
 
         private void UpdatePosition()

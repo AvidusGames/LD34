@@ -25,6 +25,8 @@ namespace LD34.Objects
 		private Tweener playerTweener, towerTweener, bhousesTweener, fhousesTweener;
         private Tweener[] ScoreLabelsTweener;
 
+        private InputDialog dialog;
+
         private Vector2f towerTargetVec, bhousesTargetVec, fhousesTargetVec;
         private Vector2f[] ScoreLabelsTargetVec;
         private Picture towers, bhouses, fhouses;
@@ -72,6 +74,8 @@ namespace LD34.Objects
             bhousesTweener = new Tweener();
             fhousesTweener = new Tweener();
 
+
+
 			if (leafHandler.PlayerStandLeaf.LeftLeaf)
 			{
 
@@ -87,10 +91,10 @@ namespace LD34.Objects
 				player.SetDirection(Player.Direction.Right);
 			}
 
-			Game.PlayMusic(Assets.Musics.ID.Game);
+            Game.PlayMusic(Assets.Musics.ID.Game);
         }
 
-        private Player GetPlayer()
+        public Player GetPlayer()
         {
             return player;
         }
@@ -119,7 +123,6 @@ namespace LD34.Objects
                     ScoreLabels.Add((ScoreLabel)tmpGameObject);
                     GameObjects.Add(tmpGameObject);
                     break;
-					
 				default:
 					throw new Exception("GameObject not found in this State");
 			}
@@ -132,7 +135,7 @@ namespace LD34.Objects
 			foreach (ScoreLabel label in ScoreLabels)
 			{
 				label.Dispose();
-			}
+		}
 		}
 
 		public override Entity AddEntity(string type)
@@ -162,19 +165,19 @@ namespace LD34.Objects
 
 			towers.Update();
 
-			towerTweener.Move(towers, towerTargetVec);
-			bhousesTweener.Move(bhouses, bhousesTargetVec);
-			fhousesTweener.Move(fhouses, fhousesTargetVec);
+            towerTweener.Move(towers, towerTargetVec);
+            bhousesTweener.Move(bhouses, bhousesTargetVec);
+            fhousesTweener.Move(fhouses, fhousesTargetVec);
 
 			if (ScoreLabelsTweener != null)
-			{
+            {
 				for (int i = 0; i < ScoreLabelsTweener.Length; i++)
-				{
-					if (ScoreLabelsTweener[i] == null) break;
-					ScoreLabelsTweener[i].Move(ScoreLabels[i], ScoreLabelsTargetVec[i]);
-					ScoreLabels[i].UpdatePosition();
-				}
-			}
+                {
+                    if (ScoreLabelsTweener[i] == null) break;
+                    ScoreLabelsTweener[i].Move(ScoreLabels[i], ScoreLabelsTargetVec[i]);
+                    ScoreLabels[i].UpdatePosition();
+                }
+            }
 
 			ClimbTree();
 			MovePlayer();
@@ -188,30 +191,28 @@ namespace LD34.Objects
 
 		private void MovePlayer()
 		{
-			player.MoveTo(playerTargetVec);
-    //        if (leafHandler.PlayerStandLeaf.LeftLeaf)
-    //        {
-
-				//player.MoveTo(playerTargetVec);
-
-				//player.SetDirection(Player.Direction.Left);
-    //        }
-    //        else
-    //        {
-
-				//player.MoveTo(playerTargetVec);
-
-				//player.SetDirection(Player.Direction.Right);
-    //        }
+			if (leafHandler.PlayerStandLeaf.LeftLeaf)
+			{
+				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 145);
+				player.MoveTo(playerTargetVec);
+				player.SetDirection(Player.Direction.Left);
+			}
+			else
+			{
+				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
+				player.MoveTo(playerTargetVec);
+				player.SetDirection(Player.Direction.Right);
+			}
 
 
 
-            //if (player.Jumping)
+
+			//if (player.Jumping)
 			//{
 			//	player.Jump(leafHandler.PlayerStandLeaf);
 			//}
 
-            towers.Update();
+			towers.Update();
             bhouses.Update();
             fhouses.Update();
 			player.Update();
@@ -225,19 +226,20 @@ namespace LD34.Objects
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
-			towers.Draw(target, states);
-			bhouses.Draw(target, states);
-			fhouses.Draw(target, states);
-			base.Draw(target, states);
+            towers.Draw(target, states);
+            bhouses.Draw(target, states);
+            fhouses.Draw(target, states);
+            base.Draw(target, states);
 			target.Draw(player);
 			target.Draw(timerText);
 			target.Draw(scoreText);
 
-			foreach (ScoreLabel label in ScoreLabels)
-			{
-				label.Draw(target, states);
-			}
-		}
+            foreach (ScoreLabel label in ScoreLabels)
+            {
+                label.Draw(target, states);
+        }
+            if(dialog != null) dialog.Draw(target, states);
+        }
 
 		protected override void RemoveGameObjects()
 		{
@@ -260,7 +262,7 @@ namespace LD34.Objects
         {
             Tweener[] _ScoreLabelsTweener = new Tweener[scores.Length];
             Vector2f[] _ScoreLabelsTargetVec = new Vector2f[scores.Length];
-            for(int i = 0; i < scores.Length; i++)
+            for (int i = 0; i < scores.Length; i++)
             {
                 _ScoreLabelsTweener[i] = new Tweener();
                 ScoreLabel title = (ScoreLabel)AddGameObject(nameof(ScoreLabel));
@@ -299,16 +301,22 @@ namespace LD34.Objects
             }
         }
 
+        public void DisplayInputDialog()
+        {
+            dialog = new InputDialog(new Vector2f(Game.Window.Size.X / 2 - 64, 100), this);
+            dialog.Position = new Vector2f(Game.Window.Size.X / 2 - 64, 100);
+            dialog.UpdatePos();
+        }
+
         private void ClimbTree()
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
                 // TODO:: call this function in the function which handles if player elevates down or up a leaf.
-
-
                 if (leafHandler.NextLeaf.LeftLeaf)
 				{
-					playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
+
+
 
 					player.Jumping = true;
 					UpdatePositions(true);
@@ -328,7 +336,7 @@ namespace LD34.Objects
 					//	UpdatePositions(false);
 					//}
 					//               player.Jumping = false;
-				}             
+                }             
 			}
 
 
@@ -339,7 +347,19 @@ namespace LD34.Objects
 
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
-					playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 145);
+					//if (leafHandler.PlayerStandLeaf.LeftLeaf)
+					//{
+					//	playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 145);
+
+					//	player.SetDirection(Player.Direction.Left);
+					//}
+					//else
+					//{
+					//	playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
+
+					//	player.SetDirection(Player.Direction.Right);
+					//}
+
 					UpdatePositions(true);
 					player.Jumping = true;
 					StartClimb();
