@@ -33,20 +33,21 @@ namespace LD34.States
 
         private void HandleHighscore(Highscore[] scores)
         {
-            string[,] table = new string[scores.Length+1, 2];
+            string[,] table = new string[2, scores.Length + 1];
             table[0, 0] = "Username";
-            table[0, 1] = "Score";
+            table[1, 0] = "Score";
             for (int i = 0; i < scores.Length; i++)
             {
-                table[i+1,0] = scores[i].Username;
-                table[i+1,1] = scores[i].Score.ToString();
+                table[0, i + 1] = scores[i].Username;
+                table[1, i + 1] = scores[i].Score.ToString();
             }
 
-            Table title = (Table)AddGameObject(nameof(Table));
-            title.Position = new Vector2f(Game.Window.Size.X / 2, 100);
-            title.SetSize(18);
-            title.SetFont(Assets.Fonts.ID.Default);
-            title.SetData(table);
+            Table score = (Table)AddGameObject(nameof(Table));
+            score.Position = new Vector2f(Game.Window.Size.X / 2, 100);
+            score.SetPadding(10);
+            score.SetSize(18);
+            score.SetFont(Assets.Fonts.ID.Default);
+            score.SetData(table);
         }
 
         public override Entity AddEntity(string type)

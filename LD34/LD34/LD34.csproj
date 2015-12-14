@@ -116,6 +116,7 @@
     <Compile Include="States\ScoreState.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="TODO.txt" />
     <None Include="App.config" />
     <Content Include="Assets\Animations\Jump\jump_0.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
