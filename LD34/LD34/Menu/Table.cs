@@ -11,7 +11,7 @@ namespace LD34.Menu
         private Assets.Fonts.ID font;
         private Color color;
         private Label[,] cells;
-        //private FloatRect bounds;
+        private FloatRect bounds;
         private bool centered;
         private int padding;
         private uint size;
@@ -40,6 +40,21 @@ namespace LD34.Menu
 
         public void SetData(string[,] _data)
         {
+            /**
+            if(_data == null)
+            {
+                if (data != null)
+                {
+                    _data = data;
+                }else
+                {
+                    return;
+                }
+            }else
+            {
+                data = _data;
+            }
+    */
             cells = new Label[_data.GetLength(0), _data.GetLength(1)];
             for (int x = 0; x < _data.GetLength(0); x++)
             {
@@ -87,12 +102,12 @@ namespace LD34.Menu
                 }
             }
 
-            if (_data != null)
+            if(_data != null)
             {
                 data = _data;
+                bounds = GetBounds();
+                Update();
             }
-            //bounds = GetBounds();
-            //Update();
         }
 
         public void SetFont(Assets.Fonts.ID id)
@@ -105,6 +120,19 @@ namespace LD34.Menu
         {
             color = _color;
             //SetData(null);
+        }
+
+        public FloatRect GetBounds()
+        {
+            FloatRect rect = new FloatRect();
+            if (data != null)
+            {
+                Label width = cells[cells.GetLength(0)-1, 0];
+                Label height = cells[0, cells.GetLength(1)-1];
+                rect.Width = width.Position.X + width.GetBounds().Width - Position.X;
+                rect.Height = width.Position.Y + width.GetBounds().Height - Position.Y;
+            }
+            return rect;
         }
 
         public void SetSize(uint _size)
@@ -151,19 +179,14 @@ namespace LD34.Menu
                     for (int y = 0; y < cells.GetLength(1); y++)
                     {
                         cells[x, y].Update();
+                        if (centered)
+                        {
+                            Vector2f labelPos = cells[x, y].Position;
+                            cells[x, y].UpdatePos(new Vector2f(labelPos.X - bounds.Width / 2, labelPos.Y - bounds.Height / 2));
+                        }
                     }
                 }
             }
-            /**
-            if (centered)
-            {
-                graphics.Position = new Vector2f(Position.X - bounds.Width / 2, Position.Y - bounds.Height / 2);
-            }
-            else
-            {
-                graphics.Position = Position;
-            }
-    */
         }
     }
 }
