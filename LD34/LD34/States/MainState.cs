@@ -25,6 +25,8 @@ namespace LD34.Objects
 		private Tweener playerTweener, towerTweener, bhousesTweener, fhousesTweener;
         private Tweener[] ScoreLabelsTweener;
 
+        private InputDialog dialog;
+
         private Vector2f towerTargetVec, bhousesTargetVec, fhousesTargetVec;
         private Vector2f[] ScoreLabelsTargetVec;
         private Picture towers, bhouses, fhouses;
@@ -71,6 +73,10 @@ namespace LD34.Objects
             bhousesTweener = new Tweener();
             fhousesTweener = new Tweener();
 
+            dialog = new InputDialog(new Vector2f(Game.Window.Size.X / 2 - 64, 100), this);
+            dialog.Position = new Vector2f(Game.Window.Size.X / 2 - 64, 100);
+            dialog.UpdatePos();
+
             Game.PlayMusic(Assets.Musics.ID.Game);
         }
 
@@ -103,8 +109,7 @@ namespace LD34.Objects
                     ScoreLabels.Add((ScoreLabel)tmpGameObject);
                     GameObjects.Add(tmpGameObject);
                     break;
-					
-				default:
+                default:
 					throw new Exception("GameObject not found in this State");
 			}
 			return tmpGameObject;
@@ -150,7 +155,8 @@ namespace LD34.Objects
 
 			towers.Update();
 			player.Update();
-		}
+            dialog.Update();
+        }
 
 		private void MovePlayer()
 		{
@@ -215,7 +221,8 @@ namespace LD34.Objects
             foreach (ScoreLabel label in ScoreLabels)
             {
                 label.Draw(target, states);
-        }
+            }
+            dialog.Draw(target, states);
         }
 
 		protected override void RemoveGameObjects()
