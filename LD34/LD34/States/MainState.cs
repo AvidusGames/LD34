@@ -19,7 +19,6 @@ namespace LD34.Objects
 		private float timer;
 		private Text timerText;
 		private Text scoreText;
-		private Tweener playerTweener;
 
 		private const float StartTime = 30;
 
@@ -38,7 +37,7 @@ namespace LD34.Objects
 			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(Assets.Fonts.ID.Default)));
 			scoreText.Position = new Vector2f(650, 0);
 
-			playerTweener = new Tweener();
+
 
             Game.PlayMusic(Assets.Musics.ID.Game);
         }
@@ -114,13 +113,18 @@ namespace LD34.Objects
             if (leafHandler.PlayerStandLeaf.LeftLeaf)
             {
                 playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X - 80, leafHandler.PlayerStandLeaf.Position.Y-100);
+				player.MoveTo(playerTargetVec);
             }
             else
             {
                 playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y-100);
+				player.MoveTo(playerTargetVec);
             }
 
-			playerTweener.Move(player, playerTargetVec);
+			if (player.Jumping)
+			{
+				player.Jump(leafHandler.PlayerStandLeaf);
+			}
 
 			player.Update();
 		}
@@ -166,9 +170,14 @@ namespace LD34.Objects
 					StartClimb();
 				}
 
-				else
+				else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
 				{
 					player.Score -= leafHandler.Fall();
+				}
+
+				else
+				{
+					player.Jumping = true;
 				}
 			}
 
@@ -177,23 +186,26 @@ namespace LD34.Objects
 			{
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
+
 					StartClimb();
 				}
-				else
-                {
+				else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
+				{
 					player.Score -= leafHandler.Fall();
+				}
+
+				else
+				{
+					player.Jumping = true;
 				}
             }
 		}
 
 		private void StartClimb()
 		{
-			//var tmp = player.Position;
-
-			//playerTweener.StartMoveTowards(player, playerTargetVec);
-			//player.MoveToLeaf(leafHandler.PlayerStandLeaf);
 			leafHandler.Climb();
 			player.Score++;
+			//player.MoveToLeaf(leafHandler.NextLeaf);
 		}
 	}
 }

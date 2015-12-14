@@ -28,6 +28,14 @@ namespace LD34.Handlers
 
 		public Leaf PlayerStandLeaf { get; private set; }
 
+		public Leaf UnderLeaf
+		{
+			get
+			{
+				return leafs[nextIndex - 2];
+			}
+		}
+			
 		public LeafHandler(GameState gameState)
 		{
 			this.gameState = gameState;
