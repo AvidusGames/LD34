@@ -8,6 +8,7 @@ using SFML.Window;
 using SFML.System;
 using SFML.Graphics;
 using GameCore.Tween;
+using LD34.Menu;
 
 namespace LD34.Objects
 {
@@ -19,10 +20,10 @@ namespace LD34.Objects
 		private float timer;
 		private Text timerText;
 		private Text scoreText;
-		private Tweener playerTweener;
+		private Tweener playerTweener, backgroundTweener;
 
-        private Sprite towers, bhouses, fhouses;
-        private int towers_pos, bhouses_pos, fhouses_pos;
+        private Vector2f towerTargetVec;
+        private Picture towers, bhouses, fhouses;
 
 		private const float StartTime = 30;
 
@@ -41,11 +42,15 @@ namespace LD34.Objects
 			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(Assets.Fonts.ID.Default)));
 			scoreText.Position = new Vector2f(650, 0);
 
-            towers = new Sprite(Game.GetTexture(Assets.Textures.ID.Towers));
-            bhouses = new Sprite(Game.GetTexture(Assets.Textures.ID.BHouses));
-            fhouses = new Sprite(Game.GetTexture(Assets.Textures.ID.FHouses));
+            towers = new Picture(Assets.Textures.ID.Towers, new Vector2f(), this);
+            bhouses = new Picture(Assets.Textures.ID.BHouses, new Vector2f(), this);
+            fhouses = new Picture(Assets.Textures.ID.FHouses, new Vector2f(), this);
 
+            towerTargetVec = new Vector2f(0f, -600f);
+            towers.Position = towerTargetVec;
+            towers.SetCentered(false);
             playerTweener = new Tweener();
+            backgroundTweener = new Tweener();
 
             Game.PlayMusic(Assets.Musics.ID.Game);
         }
@@ -127,9 +132,11 @@ namespace LD34.Objects
                 playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y-100);
             }
 
-			playerTweener.Move(player, playerTargetVec);
+			playerTweener.Move(player, playerTargetVec);            
+            backgroundTweener.Move(towers, towerTargetVec);
 
-			player.Update();
+            towers.Update();
+            player.Update();
 		}
 
 		public override void FixedUpdate()
@@ -170,8 +177,9 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
-				
-				if (leafHandler.NextLeaf.LeftLeaf)
+                towerTargetVec = new Vector2f(0, towerTargetVec.Y + 100);
+
+                if (leafHandler.NextLeaf.LeftLeaf)
 				{
 					StartClimb();
 				}
@@ -185,6 +193,8 @@ namespace LD34.Objects
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
+                towerTargetVec = new Vector2f(0, towerTargetVec.Y + 100);
+
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
 					StartClimb();
