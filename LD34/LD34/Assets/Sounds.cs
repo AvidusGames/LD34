@@ -3,5 +3,7 @@
     public enum ID
     {
         Jump,
+        Button,
+        Lose,
     }
 }

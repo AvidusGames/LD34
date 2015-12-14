@@ -102,6 +102,11 @@ namespace LD34.Menu
             Position = pos;
         }
 
+        public void UpdateGraphicsPos(Vector2f pos)
+        {
+            graphics.Position = pos;
+        }
+
         public override void Update() {
             if(centered)
             {

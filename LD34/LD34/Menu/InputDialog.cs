@@ -58,7 +58,7 @@ namespace LD34.Menu
                     acceptInput = false;                   
                     if (perform)
                     {
-                        LeaderboardHandler.PutScore(text, ((MainState) GameState).GetPlayer().Score);
+                        LeaderboardHandler.PutScoreAsync(text, ((MainState) GameState).GetPlayer().Score);
                         GameState.Game.ChangeState(new ScoreState(GameState.Game));
                     }
                     break;

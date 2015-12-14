@@ -41,6 +41,8 @@ namespace LD34
 
             try
             {
+                game.LoadSound(Assets.Sounds.ID.Button, "Assets/SFX/button.wav");
+                game.LoadSound(Assets.Sounds.ID.Lose, "Assets/SFX/lose.wav");
                 game.LoadSound(Assets.Sounds.ID.Jump, "Assets/SFX/jump1.wav");
                 game.LoadMusic(Assets.Musics.ID.Game, "Assets/Music/gameLoop.wav");
                 game.LoadMusic(Assets.Musics.ID.Menu, "Assets/Music/menuLoop.wav");
