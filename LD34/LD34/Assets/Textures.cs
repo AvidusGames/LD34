@@ -4,5 +4,8 @@
     {
         Tree,
         Help,
+        Towers,
+        BHouses,
+        FHouses,
     }
 }

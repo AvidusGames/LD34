@@ -81,6 +81,11 @@ namespace LD34.Menu
             throw new NotImplementedException();
         }
 
+        public void UpdatePos(Vector2f pos)
+        {
+            graphics.Position = pos;
+        }
+
         public override void Update() {
             if(centered)
             {

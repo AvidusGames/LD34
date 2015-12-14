@@ -53,6 +53,9 @@ namespace LD34
 
             try
             {
+                game.LoadTexture(Assets.Textures.ID.Towers, "Assets/Textures/background_towers.png");
+                game.LoadTexture(Assets.Textures.ID.BHouses, "Assets/Textures/background-houses.png");
+                game.LoadTexture(Assets.Textures.ID.FHouses, "Assets/Textures/foreground_houses.png");
                 game.LoadTexture(Assets.Textures.ID.Tree, "Assets/Textures/foreground_tree.png");
                 game.LoadTexture(Assets.Textures.ID.Help, "Assets/Textures/logo.png");
             }
