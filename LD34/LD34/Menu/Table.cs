@@ -13,17 +13,24 @@ namespace LD34.Menu
         private Label[,] cells;
         //private FloatRect bounds;
         private bool centered;
+        private int padding;
         private uint size;
         private string[,] data;
 
         public Table(string[,] _data, Vector2f pos, GameState gameState) : base(gameState, pos)
         {
             size = 12;
+            padding = 15;
             font = Assets.Fonts.ID.Default;
             color = Color.White;
             //bounds = GetBounds();
             centered = true;
             if(_data != null) SetData(_data);
+        }
+
+        public void SetPadding(int _padding)
+        {
+            padding = _padding;
         }
 
         public void SetCentered(bool _centered)
@@ -56,7 +63,13 @@ namespace LD34.Menu
                     if (x > 0)
                     {
                         left = cells[x - 1, y].GetBounds();
-                        xOffset = cells[x - 1, y].Position.X - Position.X;
+                        xOffset = 0;
+                        for (int k = 0; k < _data.GetLength(1); k++)
+                        {
+                            FloatRect tmpBounds = cells[x - 1, k].GetBounds();
+                            float tmpOffset = (cells[x - 1, k].Position.X + tmpBounds.Width) - Position.X - left.Width;
+                            if (tmpOffset > xOffset) xOffset = tmpOffset;
+                        }
                     }else
                     {
                         left = new FloatRect();
@@ -70,7 +83,7 @@ namespace LD34.Menu
                     {
                         top = new FloatRect();
                     }
-                    cells[x, y].Position = new Vector2f(Position.X + left.Width + xOffset, Position.Y + top.Height + yOffset);
+                    cells[x, y].Position = new Vector2f(Position.X + left.Width + xOffset + padding, Position.Y + top.Height + yOffset + padding);
                 }
             }
 
