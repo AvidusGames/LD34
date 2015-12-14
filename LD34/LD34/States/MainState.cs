@@ -73,14 +73,11 @@ namespace LD34.Objects
             bhousesTweener = new Tweener();
             fhousesTweener = new Tweener();
 
-            dialog = new InputDialog(new Vector2f(Game.Window.Size.X / 2 - 64, 100), this);
-            dialog.Position = new Vector2f(Game.Window.Size.X / 2 - 64, 100);
-            dialog.UpdatePos();
-
+            DisplayInputDialog(); // change this
             Game.PlayMusic(Assets.Musics.ID.Game);
         }
 
-        private Player GetPlayer()
+        public Player GetPlayer()
         {
             return player;
         }
@@ -155,7 +152,7 @@ namespace LD34.Objects
 
 			towers.Update();
 			player.Update();
-            dialog.Update();
+            if(dialog != null) dialog.Update();
         }
 
 		private void MovePlayer()
@@ -222,7 +219,7 @@ namespace LD34.Objects
             {
                 label.Draw(target, states);
             }
-            dialog.Draw(target, states);
+            if(dialog != null) dialog.Draw(target, states);
         }
 
 		protected override void RemoveGameObjects()
@@ -246,7 +243,7 @@ namespace LD34.Objects
         {
             Tweener[] _ScoreLabelsTweener = new Tweener[scores.Length];
             Vector2f[] _ScoreLabelsTargetVec = new Vector2f[scores.Length];
-            for(int i = 0; i < scores.Length; i++)
+            for (int i = 0; i < scores.Length; i++)
             {
                 _ScoreLabelsTweener[i] = new Tweener();
                 ScoreLabel title = (ScoreLabel)AddGameObject(nameof(ScoreLabel));
@@ -283,6 +280,13 @@ namespace LD34.Objects
                     ScoreLabelsTargetVec[i] = new Vector2f(labelPos.X, labelPos.Y - 100);
                 }
             }
+        }
+
+        public void DisplayInputDialog()
+        {
+            dialog = new InputDialog(new Vector2f(Game.Window.Size.X / 2 - 64, 100), this);
+            dialog.Position = new Vector2f(Game.Window.Size.X / 2 - 64, 100);
+            dialog.UpdatePos();
         }
 
         private void ClimbTree()
