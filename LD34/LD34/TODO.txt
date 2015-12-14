@@ -1,3 +1,5 @@
 ﻿ - Fixa löv som inte placeras korrekt
- - Lägg till bakgrundsbild och startanimation
+ - Lägg till startanimation
  - Lägg till ljudeffekter
+ - Lägg till scorelabel
+ - Lägg till loading screen

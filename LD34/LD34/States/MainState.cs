@@ -9,6 +9,7 @@ using SFML.System;
 using SFML.Graphics;
 using GameCore.Tween;
 using LD34.Menu;
+using System.Collections.Generic;
 
 namespace LD34.Objects
 {
@@ -21,16 +22,22 @@ namespace LD34.Objects
 		private Text timerText;
 		private Text scoreText;
 		private Tweener playerTweener, towerTweener, bhousesTweener, fhousesTweener;
+        private Tweener[] ScoreLabelsTweener;
 
         private Vector2f towerTargetVec, bhousesTargetVec, fhousesTargetVec;
+        private Vector2f[] ScoreLabelsTargetVec;
         private Picture towers, bhouses, fhouses;
 
-		private const float StartTime = 30;
+        protected List<ScoreLabel> ScoreLabels { get; private set; }
+
+        private const float StartTime = 30;
 
 		public MainState(Game game) : base(game)
 		{
+            LeaderboardHandler.HighscoreRequestAsync(HandleHighscore);
+            ScoreLabels = new List<ScoreLabel>();
 
-			InitPools();
+            InitPools();
 			leafHandler = new LeafHandler(this);
 			player = (Player)AddGameObject(nameof(Player));
 			player.MoveToLeaf(leafHandler.PlayerStandLeaf);
@@ -90,8 +97,13 @@ namespace LD34.Objects
 					tmpGameObject = new Player(this);
 					//GameObjects.Add(tmpGameObject);
 					break;
-					
-				default:
+                case nameof(ScoreLabel):
+                    tmpGameObject = new ScoreLabel("", new Vector2f(0, 0), this);
+                    ScoreLabels.Add((ScoreLabel)tmpGameObject);
+                    GameObjects.Add(tmpGameObject);
+                    break;
+
+                default:
 					throw new Exception("GameObject not found in this State");
 			}
 			return tmpGameObject;
@@ -150,6 +162,16 @@ namespace LD34.Objects
             bhousesTweener.Move(bhouses, bhousesTargetVec);
             fhousesTweener.Move(fhouses, fhousesTargetVec);
 
+            if(ScoreLabelsTweener != null)
+            {
+                for(int i = 0; i < ScoreLabelsTweener.Length; i++)
+                {
+                    if (ScoreLabelsTweener[i] == null) break;
+                    ScoreLabelsTweener[i].Move(ScoreLabels[i], ScoreLabelsTargetVec[i]);
+                    ScoreLabels[i].UpdatePosition();
+                }
+            }
+
             if (player.Jumping)
 			{
 				player.Jump(leafHandler.PlayerStandLeaf);
@@ -176,6 +198,11 @@ namespace LD34.Objects
 			target.Draw(player);
 			target.Draw(timerText);
 			target.Draw(scoreText);
+
+            foreach (ScoreLabel label in ScoreLabels)
+            {
+                label.Draw(target, states);
+            }
         }
 
 		protected override void RemoveGameObjects()
@@ -195,13 +222,55 @@ namespace LD34.Objects
 			}
 		}
 
-		private void ClimbTree()
-		{
-			if (Input.GetKeyPressed(Keyboard.Key.Left))
-			{
+        private void HandleHighscore(Highscore[] scores)
+        {
+            Tweener[] _ScoreLabelsTweener = new Tweener[scores.Length];
+            Vector2f[] _ScoreLabelsTargetVec = new Vector2f[scores.Length];
+            for(int i = 0; i < scores.Length; i++)
+            {
+                _ScoreLabelsTweener[i] = new Tweener();
+                ScoreLabel title = (ScoreLabel)AddGameObject(nameof(ScoreLabel));
+                _ScoreLabelsTargetVec[i] = new Vector2f(Game.Window.Size.X / 2, -(scores[i].Score * 100));
+                title.Position = new Vector2f(Game.Window.Size.X / 2, -(scores[i].Score * 100));
+                title.SetSize(18);
+                title.SetFont(Assets.Fonts.ID.Default);
+                title.SetText(scores[i].Username);
+            }
+            ScoreLabelsTargetVec = _ScoreLabelsTargetVec;
+            ScoreLabelsTweener = _ScoreLabelsTweener;
+        }
+
+        private void UpdatePositions(bool down)
+        {
+            if(down)
+            {
                 towerTargetVec = new Vector2f(0, towerTargetVec.Y + 50);
                 bhousesTargetVec = new Vector2f(0, bhousesTargetVec.Y + 75);
                 fhousesTargetVec = new Vector2f(0, fhousesTargetVec.Y + 100);
+                for(int i = 0; i < ScoreLabels.Count; i++)
+                {
+                    Vector2f labelPos = ScoreLabels[i].Position;
+                    ScoreLabelsTargetVec[i] = new Vector2f(labelPos.X, labelPos.Y + 100);
+                }
+            }else
+            {
+                towerTargetVec = new Vector2f(0, towerTargetVec.Y - 50);
+                bhousesTargetVec = new Vector2f(0, bhousesTargetVec.Y - 75);
+                fhousesTargetVec = new Vector2f(0, fhousesTargetVec.Y - 100);
+                for(int i = 0; i < ScoreLabels.Count; i++)
+                {
+                    Vector2f labelPos = ScoreLabels[i].Position;
+                    ScoreLabelsTargetVec[i] = new Vector2f(labelPos.X, labelPos.Y - 100);
+                }
+            }
+        }
+
+        private void ClimbTree()
+		{
+			if (Input.GetKeyPressed(Keyboard.Key.Left))
+			{
+                // TODO:: call this function in the function which handles if player elevates down or up a leaf.
+                UpdatePositions(true);
 
                 if (leafHandler.NextLeaf.LeftLeaf)
 				{
@@ -210,7 +279,12 @@ namespace LD34.Objects
 
 				else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
 				{
-					player.Score -= leafHandler.Fall();
+                    int fallsteps = leafHandler.Fall();
+                    player.Score -= fallsteps;
+                    for(int i = 0; i < fallsteps; i++)
+                    {
+                        UpdatePositions(false);
+                    }
 				}
 
 				else
@@ -222,9 +296,8 @@ namespace LD34.Objects
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
-                towerTargetVec = new Vector2f(0, towerTargetVec.Y + 50);
-                bhousesTargetVec = new Vector2f(0, bhousesTargetVec.Y + 75);
-                fhousesTargetVec = new Vector2f(0, fhousesTargetVec.Y + 100);
+                // TODO:: call this function in the function which handles if player elevates down or up a leaf.
+                UpdatePositions(true);
 
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
