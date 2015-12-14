@@ -20,6 +20,12 @@ namespace LD34.Objects
 		public int Score { get; set; }
 		public bool Jumping { get; internal set; }
 
+		public enum Direction
+		{
+			Left,
+			Right
+		}
+
 		private Tweener playerTweener;
 		private Vector2f targetVec;
 		private bool moving;
@@ -34,12 +40,12 @@ namespace LD34.Objects
 		{
 			Position = new Vector2f(200, 480);
 			idleAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
-			idleAnim.SetFrame(0);
 			jumpingAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Jump);
-			currentAnim = idleAnim;
 
+			currentAnim = jumpingAnim;
             currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
 			currentAnim.SetFrame(3);
+			currentAnim.SetDelay(50);
 			playerTweener = new Tweener();
 
 
@@ -57,26 +63,25 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-			//if (Jumping)
-			//{
-			//	currentAnim.Update();
-			//}
-
-			ChangeToJumpingSprite();
-
-			if (moving)
+			if (Jumping)
 			{
-				moving = playerTweener.Move(this, targetVec);
-
+				currentAnim.Update();
 			}
 			else
 			{
-				ChangeToIdleSprite();
+				currentAnim.SetFrame(3);
 			}
+
+			//ChangeToJumpingSprite();
 
 			Sprite currentFrame = currentAnim.GetImage();
 			currentFrame.Position = Position;
-			currentAnim.Update();
+			//currentAnim.Update();
+
+			if (Jumping)
+			{
+				Jumping = playerTweener.Move(this, targetVec);
+			}
 		}
 
 		public override void FixedUpdate()
@@ -124,7 +129,7 @@ namespace LD34.Objects
 		public void MoveTo(Vector2f targetVector)
 		{
 			targetVec = targetVector;
-			Jumping = playerTweener.Move(this, targetVec);
+			playerTweener.Move(this, targetVec);
 			//ChangeToJumpingSprite();
 		}
 
@@ -145,6 +150,21 @@ namespace LD34.Objects
 				currentAnim = idleAnim;
 				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
 			}
+		}
+
+		public void SetDirection(Direction value)
+		{
+			if (value == Direction.Left)
+			{
+				currentAnim.SetScale(new Vector2f(-0.25f, 0.25f));
+
+			}
+			else
+			{
+				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+
+			}
+
 		}
 
 		//internal void MoveTo(Side side)
