@@ -10,6 +10,7 @@ using SFML.Graphics;
 using GameCore.Tween;
 using LD34.Menu;
 using System.Collections.Generic;
+using LD34.States;
 
 namespace LD34.Objects
 {
@@ -30,14 +31,14 @@ namespace LD34.Objects
 
         protected List<ScoreLabel> ScoreLabels { get; private set; }
 
-        private const float StartTime = 30;
+		private const float StartTime = 30;
 
 		public MainState(Game game) : base(game)
 		{
             LeaderboardHandler.HighscoreRequestAsync(HandleHighscore);
             ScoreLabels = new List<ScoreLabel>();
 
-            InitPools();
+			InitPools();
 			leafHandler = new LeafHandler(this);
 			player = (Player)AddGameObject(nameof(Player));
 			player.MoveToLeaf(leafHandler.PlayerStandLeaf);
@@ -102,8 +103,8 @@ namespace LD34.Objects
                     ScoreLabels.Add((ScoreLabel)tmpGameObject);
                     GameObjects.Add(tmpGameObject);
                     break;
-
-                default:
+					
+				default:
 					throw new Exception("GameObject not found in this State");
 			}
 			return tmpGameObject;
@@ -136,28 +137,40 @@ namespace LD34.Objects
 
 			timer -= Game.TimeBetweenFrames.AsSeconds();
 
-			if (timer<= 0)
+			if (timer <= 0)
 			{
-				Game.ChangeState(null);
+				Game.ChangeState(new MenuState(Game));
 			}
 
 			timerText.DisplayedString = $"Timer: " + Math.Round(timer);
             scoreText.DisplayedString = $"Score: {player.Score}";
-            ClimbTree();
 
+            ClimbTree();
+			MovePlayer();
+
+			towers.Update();
+			player.Update();
+		}
+
+		private void MovePlayer()
+		{
             Vector2f playerTargetVec;
+
             if (leafHandler.PlayerStandLeaf.LeftLeaf)
             {
-                playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X - 80, leafHandler.PlayerStandLeaf.Position.Y-100);
+				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 145);
 				player.MoveTo(playerTargetVec);
+
+				player.SetDirection(Player.Direction.Left);
             }
             else
             {
-                playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y-100);
+				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
 				player.MoveTo(playerTargetVec);
+
+				player.SetDirection(Player.Direction.Right);
             }
 
-			playerTweener.Move(player, playerTargetVec);            
             towerTweener.Move(towers, towerTargetVec);
             bhousesTweener.Move(bhouses, bhousesTargetVec);
             fhousesTweener.Move(fhouses, fhousesTargetVec);
@@ -172,10 +185,10 @@ namespace LD34.Objects
                 }
             }
 
-            if (player.Jumping)
-			{
-				player.Jump(leafHandler.PlayerStandLeaf);
-			}
+            //if (player.Jumping)
+			//{
+			//	player.Jump(leafHandler.PlayerStandLeaf);
+			//}
 
             towers.Update();
             bhouses.Update();
@@ -202,7 +215,7 @@ namespace LD34.Objects
             foreach (ScoreLabel label in ScoreLabels)
             {
                 label.Draw(target, states);
-            }
+        }
         }
 
 		protected override void RemoveGameObjects()
@@ -241,9 +254,9 @@ namespace LD34.Objects
         }
 
         private void UpdatePositions(bool down)
-        {
+		{
             if(down)
-            {
+			{
                 towerTargetVec = new Vector2f(0, towerTargetVec.Y + 50);
                 bhousesTargetVec = new Vector2f(0, bhousesTargetVec.Y + 75);
                 fhousesTargetVec = new Vector2f(0, fhousesTargetVec.Y + 100);
@@ -274,6 +287,8 @@ namespace LD34.Objects
 
                 if (leafHandler.NextLeaf.LeftLeaf)
 				{
+					player.Jumping = true;
+
 					StartClimb();
 				}
 
@@ -285,12 +300,9 @@ namespace LD34.Objects
                     {
                         UpdatePositions(false);
                     }
-				}
-
-				else
-				{
-					player.Jumping = true;
-				}
+                    player.Score -= leafHandler.Fall();
+                    player.Jumping = false;
+                }             
 			}
 
 
@@ -301,18 +313,21 @@ namespace LD34.Objects
 
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
-
+					player.Jumping = true;
 					StartClimb();
 				}
-				else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
-				{
-					player.Score -= leafHandler.Fall();
-				}
 
-				else
+                else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
                 {
-					player.Jumping = true;
-				}
+                    int fallsteps = leafHandler.Fall();
+                    player.Score -= fallsteps;
+                    for (int i = 0; i < fallsteps; i++)
+                    {
+                        UpdatePositions(false);
+                    }
+                    player.Score -= leafHandler.Fall();
+                    player.Jumping = false;
+                }
             }
 		}
 
@@ -320,7 +335,6 @@ namespace LD34.Objects
 		{
 			leafHandler.Climb();
 			player.Score++;
-			//player.MoveToLeaf(leafHandler.NextLeaf);
 		}
 	}
 }

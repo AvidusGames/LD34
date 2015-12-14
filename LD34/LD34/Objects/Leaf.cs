@@ -115,7 +115,6 @@ namespace LD34.Objects
 
 		internal void MoveOneStepDown()
 		{
-			Console.WriteLine("Hej down");
 			targetPos = Position;
 			targetPos += new Vector2f(1, 120);
             moving = true;
@@ -123,7 +122,6 @@ namespace LD34.Objects
 
 		internal void MoveOneStepUp()
 		{
-			Console.WriteLine("Hej up");
 			targetPos = Position;
 			targetPos -= new Vector2f(1, 120);
 			moving = true;

@@ -15,8 +15,16 @@ namespace LD34.Objects
 	class Player : GameObject
 	{
         private Animation currentAnim;
+		private Animation jumpingAnim;
+		private Animation idleAnim;
 		public int Score { get; set; }
 		public bool Jumping { get; internal set; }
+
+		public enum Direction
+		{
+			Left,
+			Right
+		}
 
 		private Tweener playerTweener;
 		private Vector2f targetVec;
@@ -31,10 +39,16 @@ namespace LD34.Objects
 		public Player(GameState gameState):base(gameState, new Vector2f(200, 580))
 		{
 			Position = new Vector2f(200, 480);
-            currentAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
+			idleAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
+			jumpingAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Jump);
+
+			currentAnim = jumpingAnim;
             currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
 			currentAnim.SetFrame(3);
+			currentAnim.SetDelay(50);
 			playerTweener = new Tweener();
+
+
 		}
 
 		public Player(GameState gameState, Vector2f pos) : base(gameState, pos)
@@ -49,16 +63,25 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-            //currentAnim.Update();
-            Sprite currentFrame = currentAnim.GetImage();
-			if (moving)
+			if (Jumping)
 			{
-				moving = playerTweener.Move(this, targetVec);
-
+				currentAnim.Update();
+			}
+			else
+			{
+				currentAnim.SetFrame(3);
 			}
 
-			currentFrame.Position = Position;
+			//ChangeToJumpingSprite();
 
+			Sprite currentFrame = currentAnim.GetImage();
+			currentFrame.Position = Position;
+			//currentAnim.Update();
+
+			if (Jumping)
+			{
+				Jumping = playerTweener.Move(this, targetVec);
+			}
 		}
 
 		public override void FixedUpdate()
@@ -80,6 +103,7 @@ namespace LD34.Objects
 		{
 			targetVec = new Vector2f(leaf.Position.X, leaf.Position.Y - 50);
 			Jumping = playerTweener.Move(this, targetVec);
+
 			Console.WriteLine(Jumping);
 		}
 
@@ -105,7 +129,42 @@ namespace LD34.Objects
 		public void MoveTo(Vector2f targetVector)
 		{
 			targetVec = targetVector;
-			playerTweener.Move(this, targetVector);
+			playerTweener.Move(this, targetVec);
+			//ChangeToJumpingSprite();
+		}
+
+		public void ChangeToJumpingSprite()
+		{
+			if (currentAnim != jumpingAnim)
+			{
+				currentAnim = jumpingAnim;
+				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+			}
+
+		}
+
+		public void ChangeToIdleSprite()
+		{
+			if (currentAnim != idleAnim)
+			{
+				currentAnim = idleAnim;
+				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+			}
+		}
+
+		public void SetDirection(Direction value)
+		{
+			if (value == Direction.Left)
+			{
+				currentAnim.SetScale(new Vector2f(-0.25f, 0.25f));
+
+			}
+			else
+			{
+				currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+
+			}
+
 		}
 
 		//internal void MoveTo(Side side)

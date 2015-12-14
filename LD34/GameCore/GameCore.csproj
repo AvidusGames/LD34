@@ -91,6 +91,7 @@
     <Compile Include="Core\Animation.cs" />
     <Compile Include="Core\Game.cs" />
     <Compile Include="Core\Input.cs" />
+    <Compile Include="Core\Player.cs" />
     <Compile Include="Core\Spritesheet.cs" />
     <Compile Include="Objects\Entity.cs" />
     <Compile Include="Core\ResourceHolder.cs" />

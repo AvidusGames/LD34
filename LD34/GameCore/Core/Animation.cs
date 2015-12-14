@@ -14,6 +14,12 @@ namespace GameCore.Core
         private int tick;
         private int delay;
 
+		public enum Direction
+		{
+			Left,
+			Right
+		}
+
         public Animation(Sprite[] _frames, int _delay)
         {
             frames = _frames;
@@ -81,5 +87,23 @@ namespace GameCore.Core
         {
             return frames[currentFrame];
         }
+
+		public void FlipTo(Direction value)
+		{
+			if (value == Direction.Left)
+			{
+				foreach (Sprite frame in frames)
+				{
+					frame.Scale = new Vector2f(-1f, 0);
+                }	
+			}
+			else
+			{
+				foreach (Sprite frame in frames)
+				{
+					frame.Scale = new Vector2f(1f, 0);
+				}
+			}
+		}
     }
 }
