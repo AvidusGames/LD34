@@ -20,9 +20,9 @@ namespace LD34.Objects
 		private float timer;
 		private Text timerText;
 		private Text scoreText;
-		private Tweener playerTweener, backgroundTweener;
+		private Tweener playerTweener, towerTweener, bhousesTweener, fhousesTweener;
 
-        private Vector2f towerTargetVec;
+        private Vector2f towerTargetVec, bhousesTargetVec, fhousesTargetVec;
         private Picture towers, bhouses, fhouses;
 
 		private const float StartTime = 30;
@@ -46,11 +46,22 @@ namespace LD34.Objects
             bhouses = new Picture(Assets.Textures.ID.BHouses, new Vector2f(), this);
             fhouses = new Picture(Assets.Textures.ID.FHouses, new Vector2f(), this);
 
-            towerTargetVec = new Vector2f(0f, -600f);
+            towerTargetVec = new Vector2f(0f, -11400f);
             towers.Position = towerTargetVec;
             towers.SetCentered(false);
+
+            bhousesTargetVec = new Vector2f(0f, 0f);
+            bhouses.Position = bhousesTargetVec;
+            bhouses.SetCentered(false);
+
+            fhousesTargetVec = new Vector2f(0f, 0f);
+            fhouses.Position = fhousesTargetVec;
+            fhouses.SetCentered(false);
+
             playerTweener = new Tweener();
-            backgroundTweener = new Tweener();
+            towerTweener = new Tweener();
+            bhousesTweener = new Tweener();
+            fhousesTweener = new Tweener();
 
             Game.PlayMusic(Assets.Musics.ID.Game);
         }
@@ -135,13 +146,18 @@ namespace LD34.Objects
             }
 
 			playerTweener.Move(player, playerTargetVec);            
-            backgroundTweener.Move(towers, towerTargetVec);
-			if (player.Jumping)
+            towerTweener.Move(towers, towerTargetVec);
+            bhousesTweener.Move(bhouses, bhousesTargetVec);
+            fhousesTweener.Move(fhouses, fhousesTargetVec);
+
+            if (player.Jumping)
 			{
 				player.Jump(leafHandler.PlayerStandLeaf);
 			}
 
             towers.Update();
+            bhouses.Update();
+            fhouses.Update();
 			player.Update();
 		}
 
@@ -183,9 +199,11 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
-                towerTargetVec = new Vector2f(0, towerTargetVec.Y + 100);
-				
-				if (leafHandler.NextLeaf.LeftLeaf)
+                towerTargetVec = new Vector2f(0, towerTargetVec.Y + 50);
+                bhousesTargetVec = new Vector2f(0, bhousesTargetVec.Y + 75);
+                fhousesTargetVec = new Vector2f(0, fhousesTargetVec.Y + 100);
+
+                if (leafHandler.NextLeaf.LeftLeaf)
 				{
 					StartClimb();
 				}
@@ -204,7 +222,9 @@ namespace LD34.Objects
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
-                towerTargetVec = new Vector2f(0, towerTargetVec.Y + 100);
+                towerTargetVec = new Vector2f(0, towerTargetVec.Y + 50);
+                bhousesTargetVec = new Vector2f(0, bhousesTargetVec.Y + 75);
+                fhousesTargetVec = new Vector2f(0, fhousesTargetVec.Y + 100);
 
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
