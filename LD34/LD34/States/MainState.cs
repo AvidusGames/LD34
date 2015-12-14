@@ -182,10 +182,12 @@ namespace LD34.Objects
 			ClimbTree();
 			MovePlayer();
 			player.Update();
+            if (dialog != null) dialog.Update();
 
 			if (timer <= 0)
 			{
-				DisplayInputDialog();
+                Console.WriteLine("Called function!");
+                DisplayInputDialog();
 			}
 		}
 
@@ -266,8 +268,8 @@ namespace LD34.Objects
             {
                 _ScoreLabelsTweener[i] = new Tweener();
                 ScoreLabel title = (ScoreLabel)AddGameObject(nameof(ScoreLabel));
-                _ScoreLabelsTargetVec[i] = new Vector2f(Game.Window.Size.X / 2, -(scores[i].Score * 100));
-                title.Position = new Vector2f(Game.Window.Size.X / 2, -(scores[i].Score * 100));
+                _ScoreLabelsTargetVec[i] = new Vector2f(Game.Window.Size.X / 2, -((scores[i].Score-3) * 100));
+                title.Position = new Vector2f(Game.Window.Size.X / 2, -((scores[i].Score-3) * 100));
                 title.SetSize(18);
                 title.SetFont(Assets.Fonts.ID.Default);
                 title.SetText(scores[i].Username);
@@ -312,6 +314,7 @@ namespace LD34.Objects
 		{
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
+                Game.PlaySound(Assets.Sounds.ID.Jump);
                 // TODO:: call this function in the function which handles if player elevates down or up a leaf.
                 if (leafHandler.NextLeaf.LeftLeaf)
 				{
@@ -326,6 +329,7 @@ namespace LD34.Objects
 				else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
 				{
 					DisplayInputDialog();
+                    Console.WriteLine("Called function!");
 					//int fallsteps = leafHandler.Fall();
 					//               player.Score -= fallsteps;
 					//for (int i = 0; i < fallsteps; i++)
@@ -339,8 +343,9 @@ namespace LD34.Objects
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
+                Game.PlaySound(Assets.Sounds.ID.Jump);
                 // TODO:: call this function in the function which handles if player elevates down or up a leaf.
-                
+
 
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
@@ -364,7 +369,8 @@ namespace LD34.Objects
 
                 else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
                 {
-					DisplayInputDialog();
+                    Console.WriteLine("Called function!");
+                    DisplayInputDialog();
                 }
             }
 		}
