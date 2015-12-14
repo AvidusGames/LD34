@@ -185,7 +185,7 @@ namespace LD34.Objects
 
 			if (timer <= 0)
 			{
-				Game.ChangeState(new MenuState(Game));
+				DisplayInputDialog();
 			}
 		}
 
@@ -326,10 +326,7 @@ namespace LD34.Objects
 
 				else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
 				{
-					if (!player.Fall(Player.Direction.Right))
-					{
-						Game.ChangeState(new MenuState(Game));
-					}
+					DisplayInputDialog();
 					//int fallsteps = leafHandler.Fall();
 					//               player.Score -= fallsteps;
 					//for (int i = 0; i < fallsteps; i++)
@@ -369,10 +366,7 @@ namespace LD34.Objects
 
                 else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
                 {
-					if (!player.Fall(Player.Direction.Left))
-					{
-						Game.ChangeState(new MenuState(Game));
-					}
+					DisplayInputDialog();
                 }
             }
 		}
