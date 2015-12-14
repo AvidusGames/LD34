@@ -1,4 +1,3 @@
 ﻿ - Fixa löv som inte placeras korrekt
  - Lägg till bakgrundsbild och startanimation
- - Fixa scoreboard
  - Lägg till ljudeffekter

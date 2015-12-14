@@ -21,6 +21,9 @@ namespace LD34.Objects
 		private Text scoreText;
 		private Tweener playerTweener;
 
+        private Sprite towers, bhouses, fhouses;
+        private int towers_pos, bhouses_pos, fhouses_pos;
+
 		private const float StartTime = 30;
 
 		public MainState(Game game) : base(game)
@@ -38,7 +41,11 @@ namespace LD34.Objects
 			scoreText = new Text($"Score: {player.Score}",new Font(Game.GetFont(Assets.Fonts.ID.Default)));
 			scoreText.Position = new Vector2f(650, 0);
 
-			playerTweener = new Tweener();
+            towers = new Sprite(Game.GetTexture(Assets.Textures.ID.Towers));
+            bhouses = new Sprite(Game.GetTexture(Assets.Textures.ID.BHouses));
+            fhouses = new Sprite(Game.GetTexture(Assets.Textures.ID.FHouses));
+
+            playerTweener = new Tweener();
 
             Game.PlayMusic(Assets.Musics.ID.Game);
         }
@@ -133,11 +140,14 @@ namespace LD34.Objects
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
-			base.Draw(target, states);
+            towers.Draw(target, states);
+            bhouses.Draw(target, states);
+            fhouses.Draw(target, states);
+            base.Draw(target, states);
 			target.Draw(player);
 			target.Draw(timerText);
 			target.Draw(scoreText);
-		}
+        }
 
 		protected override void RemoveGameObjects()
 		{
