@@ -24,7 +24,7 @@ namespace LD34.States
             body.Position = new Vector2f(Game.Window.Size.X / 2, 100);
             body.SetSize(18);
             body.SetFont(Assets.Fonts.ID.Default);
-            body.SetText("The game is about trying to climb as high as possible.\n When you see a leaf on the left side of the branch use the left key.Vice versa if a leaf is on the right side");
+            body.SetText("The  game  is  about  trying  to  climb  as  high  as  possible\nWhen  you  see  a  leaf  on  the  left  side  of  the  branch  use  the  left  key\nVice  versa  if  a  leaf  is  on  the  right  side");
 
             Picture pic = (Picture)AddGameObject(nameof(Picture));
             pic.Position = new Vector2f(Game.Window.Size.X / 2, 250);
@@ -35,7 +35,7 @@ namespace LD34.States
             body2.Position = new Vector2f(Game.Window.Size.X / 2, 400);
             body2.SetSize(18);
             body2.SetFont(Assets.Fonts.ID.Default);
-            body2.SetText("Wololo Wololo Wololo Wololo Wololo\nWololo Wololo Wololo Wololo Wololo Wololo\nWololoWololo\nWololo Wololo");
+            body2.SetText("Created  in  72  hours  by  Linus123xbb  and  Cellmon95");
 
             Label title = (Label)AddGameObject(nameof(Label));
             title.Position = new Vector2f(Game.Window.Size.X / 2, 10);
