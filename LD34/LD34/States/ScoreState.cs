@@ -36,10 +36,10 @@ namespace LD34.States
             string[,] table = new string[scores.Length+1, 2];
             table[0, 0] = "Username";
             table[0, 1] = "Score";
-            for (int i = 1; i < scores.Length; i++)
+            for (int i = 0; i < scores.Length; i++)
             {
-                table[i,0] = scores[i].Username;
-                table[i,1] = scores[i].Score.ToString();
+                table[i+1,0] = scores[i].Username;
+                table[i+1,1] = scores[i].Score.ToString();
             }
 
             Table title = (Table)AddGameObject(nameof(Table));
@@ -72,7 +72,10 @@ namespace LD34.States
                     tmpGameObject = new Label("", new Vector2f(0, 0), this);
                     GameObjects.Add(tmpGameObject);
                     break;
-
+                case nameof(Table):
+                    tmpGameObject = new Table(null, new Vector2f(0, 0), this);
+                    GameObjects.Add(tmpGameObject);
+                    break;
                 default:
                     throw new Exception("GameObject not found in this State");
             }
