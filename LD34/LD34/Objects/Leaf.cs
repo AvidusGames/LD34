@@ -49,6 +49,7 @@ namespace LD34.Objects
 			LeftLeaf = false;
 			moving = false;
 			Sprouted = false;
+			
 			//graphics.SetFlipped();
 		}
 
@@ -71,8 +72,25 @@ namespace LD34.Objects
 		public override void Update()
 		{
 			//graphics.Update();
+			//targetPos = Position;
+			//Console.WriteLine(Position);
 			sproutTimer = sproutTimer + Game.TimeBetweenFrames.AsMilliseconds();
 
+			ChangeSproutImage();
+
+			Sprite currentFrame = graphics.GetImage();
+
+			if (moving)
+			{
+				moving = leafTween.Move(this, targetPos);
+				//Console.WriteLine(Position);
+			}
+
+			currentFrame.Position = Position;
+		}
+
+		private void ChangeSproutImage()
+		{
 			if (sproutTimer >= 100)
 			{
 				graphics.SetFrame(0);
@@ -88,16 +106,6 @@ namespace LD34.Objects
 				graphics.SetFrame(2);
 				Sprouted = true;
 			}
-
-			Sprite currentFrame = graphics.GetImage();
-
-			if (moving)
-			{
-				//moving = leafTween.Move(this, targetPos);
-				//Console.WriteLine(Position);
-			}
-
-			currentFrame.Position = Position;
 		}
 
 		public override void Reset()
@@ -107,13 +115,17 @@ namespace LD34.Objects
 
 		internal void MoveOneStepDown()
 		{
-			targetPos = Position += new Vector2f(0, 120);
+			Console.WriteLine("Hej down");
+			targetPos = Position;
+			targetPos += new Vector2f(1, 120);
             moving = true;
 		}
 
 		internal void MoveOneStepUp()
 		{
-			targetPos = Position -= new Vector2f(0, 120);
+			Console.WriteLine("Hej up");
+			targetPos = Position;
+			targetPos -= new Vector2f(1, 120);
 			moving = true;
 		}
 	}

@@ -27,6 +27,7 @@ namespace LD34.Objects
 			Position = new Vector2f(200, 480);
             currentAnim = gameState.Game.GetAnimation(Assets.Animations.ID.Walk);
             currentAnim.SetScale(new Vector2f(0.25f, 0.25f));
+			currentAnim.SetFrame(3);
         }
 
 		public Player(GameState gameState, Vector2f pos) : base(gameState, pos)
@@ -41,7 +42,7 @@ namespace LD34.Objects
 
 		public override void Update()
 		{
-            currentAnim.Update();
+            //currentAnim.Update();
             Sprite currentFrame = currentAnim.GetImage();
 			currentFrame.Position = Position;
 		}
