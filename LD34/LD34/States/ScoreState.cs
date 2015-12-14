@@ -6,13 +6,22 @@ using SFML.Graphics;
 using LD34.Menu;
 using SFML.System;
 using LD34.Handlers;
+using System.Threading;
 
 namespace LD34.States
 {
     public class ScoreState : GameState
     {
-        public ScoreState(Game game) : base(game)
+		private Text loadingText;
+		private bool loading;
+
+		public ScoreState(Game game) : base(game)
         {
+			loading = true;
+			loadingText = new Text("Loading", game.GetFont(Assets.Fonts.ID.Default));
+			loadingText.Position = new Vector2f(400, 300);
+			Thread loadingThread = new Thread(loadingScore);
+			loadingThread.Start();
             LeaderboardHandler.HighscoreRequestAsync(HandleHighscore);
 
             Button backButton = (Button)AddGameObject(nameof(Button));
@@ -29,9 +38,18 @@ namespace LD34.States
             title.SetText("Scoreboard");
 
             Game.PlayMusic(Assets.Musics.ID.Menu);
+			loading = false;
         }
 
-        private void HandleHighscore(Highscore[] scores)
+		private void loadingScore()
+		{
+			while (loading)
+			{
+				Game.Window.Draw(loadingText);
+			}
+		}
+
+		private void HandleHighscore(Highscore[] scores)
         {
             string[,] table = new string[2, scores.Length + 1];
             table[0, 0] = "Username";

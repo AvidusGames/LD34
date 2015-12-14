@@ -167,6 +167,22 @@ namespace LD34.Objects
 
 		}
 
+		internal bool Fall(Direction value)
+		{
+			if (value == Direction.Right)
+			{
+				targetVec = new Vector2f(400, 700);
+				moving = true;
+				return playerTweener.Move(this, targetVec);
+			}
+			else
+			{
+				Jumping = true;
+				targetVec = new Vector2f(200, 700);
+				return playerTweener.Move(this, targetVec);
+			}
+		}
+
 		//internal void MoveTo(Side side)
 		//{
 		//	switch (side)

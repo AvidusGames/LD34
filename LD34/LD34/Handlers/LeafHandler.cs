@@ -197,6 +197,7 @@ namespace LD34.Handlers
 				{
 					leafs[i].MoveOneStepUp();
 				}
+				Console.WriteLine(leafs[leafs.Count - 1].Position);
 
 				if (leafs[nextIndex - 1].LeftLeaf != PlayerStandLeaf.LeftLeaf)
 				{

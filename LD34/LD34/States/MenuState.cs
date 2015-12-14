@@ -6,6 +6,7 @@ using SFML.Graphics;
 using LD34.Menu;
 using SFML.System;
 using LD34.Objects;
+using LD34.Handlers;
 
 namespace LD34.States
 {
@@ -108,7 +109,8 @@ namespace LD34.States
                     }
                     break;
                 case "score":
-                    if (perform)
+					//LeaderboardHandler.HighscoreRequestAsync(HandleHighscore);
+					if (perform)
                     {
                         Game.ChangeState(new ScoreState(Game));
                     }

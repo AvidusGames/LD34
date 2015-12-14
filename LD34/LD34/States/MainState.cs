@@ -32,6 +32,7 @@ namespace LD34.Objects
         protected List<ScoreLabel> ScoreLabels { get; private set; }
 
 		private const float StartTime = 30;
+		private Vector2f playerTargetVec;
 
 		public MainState(Game game) : base(game)
 		{
@@ -71,7 +72,22 @@ namespace LD34.Objects
             bhousesTweener = new Tweener();
             fhousesTweener = new Tweener();
 
-            Game.PlayMusic(Assets.Musics.ID.Game);
+			if (leafHandler.PlayerStandLeaf.LeftLeaf)
+			{
+
+				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
+
+				player.SetDirection(Player.Direction.Left);
+			}
+			else
+			{
+
+				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
+
+				player.SetDirection(Player.Direction.Right);
+			}
+
+			Game.PlayMusic(Assets.Musics.ID.Game);
         }
 
         private Player GetPlayer()
@@ -113,6 +129,10 @@ namespace LD34.Objects
 		public override void Dispose()
 		{
 			base.Dispose();
+			foreach (ScoreLabel label in ScoreLabels)
+			{
+				label.Dispose();
+			}
 		}
 
 		public override Entity AddEntity(string type)
@@ -137,53 +157,54 @@ namespace LD34.Objects
 
 			timer -= Game.TimeBetweenFrames.AsSeconds();
 
+			timerText.DisplayedString = $"Timer: " + Math.Round(timer);
+            scoreText.DisplayedString = $"Score: {player.Score}";
+
+			towers.Update();
+
+			towerTweener.Move(towers, towerTargetVec);
+			bhousesTweener.Move(bhouses, bhousesTargetVec);
+			fhousesTweener.Move(fhouses, fhousesTargetVec);
+
+			if (ScoreLabelsTweener != null)
+			{
+				for (int i = 0; i < ScoreLabelsTweener.Length; i++)
+				{
+					if (ScoreLabelsTweener[i] == null) break;
+					ScoreLabelsTweener[i].Move(ScoreLabels[i], ScoreLabelsTargetVec[i]);
+					ScoreLabels[i].UpdatePosition();
+				}
+			}
+
+			ClimbTree();
+			MovePlayer();
+			player.Update();
+
 			if (timer <= 0)
 			{
 				Game.ChangeState(new MenuState(Game));
 			}
-
-			timerText.DisplayedString = $"Timer: " + Math.Round(timer);
-            scoreText.DisplayedString = $"Score: {player.Score}";
-
-            ClimbTree();
-			MovePlayer();
-
-			towers.Update();
-			player.Update();
 		}
 
 		private void MovePlayer()
 		{
-            Vector2f playerTargetVec;
+			player.MoveTo(playerTargetVec);
+    //        if (leafHandler.PlayerStandLeaf.LeftLeaf)
+    //        {
 
-            if (leafHandler.PlayerStandLeaf.LeftLeaf)
-            {
-				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 145);
-				player.MoveTo(playerTargetVec);
+				//player.MoveTo(playerTargetVec);
 
-				player.SetDirection(Player.Direction.Left);
-            }
-            else
-            {
-				playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
-				player.MoveTo(playerTargetVec);
+				//player.SetDirection(Player.Direction.Left);
+    //        }
+    //        else
+    //        {
 
-				player.SetDirection(Player.Direction.Right);
-            }
+				//player.MoveTo(playerTargetVec);
 
-            towerTweener.Move(towers, towerTargetVec);
-            bhousesTweener.Move(bhouses, bhousesTargetVec);
-            fhousesTweener.Move(fhouses, fhousesTargetVec);
+				//player.SetDirection(Player.Direction.Right);
+    //        }
 
-            if(ScoreLabelsTweener != null)
-            {
-                for(int i = 0; i < ScoreLabelsTweener.Length; i++)
-                {
-                    if (ScoreLabelsTweener[i] == null) break;
-                    ScoreLabelsTweener[i].Move(ScoreLabels[i], ScoreLabelsTargetVec[i]);
-                    ScoreLabels[i].UpdatePosition();
-                }
-            }
+
 
             //if (player.Jumping)
 			//{
@@ -204,19 +225,19 @@ namespace LD34.Objects
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
-            towers.Draw(target, states);
-            bhouses.Draw(target, states);
-            fhouses.Draw(target, states);
-            base.Draw(target, states);
+			towers.Draw(target, states);
+			bhouses.Draw(target, states);
+			fhouses.Draw(target, states);
+			base.Draw(target, states);
 			target.Draw(player);
 			target.Draw(timerText);
 			target.Draw(scoreText);
 
-            foreach (ScoreLabel label in ScoreLabels)
-            {
-                label.Draw(target, states);
-        }
-        }
+			foreach (ScoreLabel label in ScoreLabels)
+			{
+				label.Draw(target, states);
+			}
+		}
 
 		protected override void RemoveGameObjects()
 		{
@@ -283,48 +304,53 @@ namespace LD34.Objects
 			if (Input.GetKeyPressed(Keyboard.Key.Left))
 			{
                 // TODO:: call this function in the function which handles if player elevates down or up a leaf.
-                UpdatePositions(true);
+
 
                 if (leafHandler.NextLeaf.LeftLeaf)
 				{
-					player.Jumping = true;
+					playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 150);
 
+					player.Jumping = true;
+					UpdatePositions(true);
 					StartClimb();
 				}
 
 				else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
 				{
-                    int fallsteps = leafHandler.Fall();
-                    player.Score -= fallsteps;
-					for (int i = 0; i < fallsteps; i++)
+					if (!player.Fall(Player.Direction.Right))
 					{
-						UpdatePositions(false);
+						Game.ChangeState(new MenuState(Game));
 					}
-                    player.Jumping = false;
-                }             
+					//int fallsteps = leafHandler.Fall();
+					//               player.Score -= fallsteps;
+					//for (int i = 0; i < fallsteps; i++)
+					//{
+					//	UpdatePositions(false);
+					//}
+					//               player.Jumping = false;
+				}             
 			}
 
 
 			else if (Input.GetKeyPressed(Keyboard.Key.Right))
 			{
                 // TODO:: call this function in the function which handles if player elevates down or up a leaf.
-                UpdatePositions(true);
+                
 
                 if (!leafHandler.NextLeaf.LeftLeaf)
                 {
+					playerTargetVec = new Vector2f(leafHandler.PlayerStandLeaf.Position.X, leafHandler.PlayerStandLeaf.Position.Y - 145);
+					UpdatePositions(true);
 					player.Jumping = true;
 					StartClimb();
 				}
 
                 else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
                 {
-                    int fallsteps = leafHandler.Fall();
-                    player.Score -= fallsteps;
-					//for (int i = 0; i < fallsteps; i++)
+					if (!player.Fall(Player.Direction.Left))
 					{
-						UpdatePositions(false);
+						Game.ChangeState(new MenuState(Game));
 					}
-					player.Jumping = false;
                 }
             }
 		}
