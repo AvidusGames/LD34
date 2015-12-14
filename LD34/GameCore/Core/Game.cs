@@ -140,6 +140,7 @@ namespace GameCore.Core
             {
                 currentMusic = id;
                 music = GetMusic(currentMusic);
+                music.Volume = 33f;
                 music.Play();
                 return;
             }
@@ -155,6 +156,7 @@ namespace GameCore.Core
             {
                 currentMusic = id;
                 music = GetMusic(currentMusic);
+                music.Volume = 33f;
                 music.Play();
             }
         }
@@ -213,7 +215,13 @@ namespace GameCore.Core
             fader.Update();
             currentState.Update();
 		}
-	}
+
+        public void PlaySound(Enum id)
+        {
+            Sound sound = new Sound(GetSound(id));
+            sound.Play();
+        }
+    }
 
     internal class MusicFader
     {

@@ -178,7 +178,7 @@ namespace LD34.Menu
                 graphics.OutlineColor = (graphics.OutlineColor == actionColor) ? outlineColor : actionColor;
                 
                 if(delta <= 0.0f)
-                {
+                {                    
                     handler(actionCommand, true);
                 }
             }
@@ -208,7 +208,7 @@ namespace LD34.Menu
                     handler(actionCommand, false);
                     ticks = 0;
                     delta = delay;
-                    // play audio effect
+                    GameState.Game.PlaySound(Assets.Sounds.ID.Button);
                     break;
                 case ButtonState.Normal:
                     SetText(null);

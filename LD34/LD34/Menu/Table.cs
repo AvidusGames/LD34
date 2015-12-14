@@ -182,7 +182,7 @@ namespace LD34.Menu
                         if (centered)
                         {
                             Vector2f labelPos = cells[x, y].Position;
-                            cells[x, y].UpdatePos(new Vector2f(labelPos.X - bounds.Width / 2, labelPos.Y - bounds.Height / 2));
+                            cells[x, y].UpdateGraphicsPos(new Vector2f(labelPos.X - bounds.Width / 2, labelPos.Y - bounds.Height / 2));
                         }
                     }
                 }
