@@ -296,11 +296,10 @@ namespace LD34.Objects
 				{
                     int fallsteps = leafHandler.Fall();
                     player.Score -= fallsteps;
-                    for(int i = 0; i < fallsteps; i++)
-                    {
-                        UpdatePositions(false);
-                    }
-                    player.Score -= leafHandler.Fall();
+					for (int i = 0; i < fallsteps; i++)
+					{
+						UpdatePositions(false);
+					}
                     player.Jumping = false;
                 }             
 			}
@@ -317,16 +316,15 @@ namespace LD34.Objects
 					StartClimb();
 				}
 
-                else if (leafHandler.PlayerStandLeaf.LeftLeaf != true)
+                else if (leafHandler.PlayerStandLeaf.LeftLeaf != false)
                 {
                     int fallsteps = leafHandler.Fall();
                     player.Score -= fallsteps;
-                    for (int i = 0; i < fallsteps; i++)
-                    {
-                        UpdatePositions(false);
-                    }
-                    player.Score -= leafHandler.Fall();
-                    player.Jumping = false;
+					//for (int i = 0; i < fallsteps; i++)
+					{
+						UpdatePositions(false);
+					}
+					player.Jumping = false;
                 }
             }
 		}
