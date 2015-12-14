@@ -226,20 +226,20 @@ namespace LD34.Objects
 
 		public override void Draw(RenderTarget target, RenderStates states)
 		{
-            towers.Draw(target, states);
-            bhouses.Draw(target, states);
-            fhouses.Draw(target, states);
-            base.Draw(target, states);
+			towers.Draw(target, states);
+			bhouses.Draw(target, states);
+			fhouses.Draw(target, states);
+			base.Draw(target, states);
 			target.Draw(player);
 			target.Draw(timerText);
 			target.Draw(scoreText);
 
-            foreach (ScoreLabel label in ScoreLabels)
-            {
-                label.Draw(target, states);
-        }
-            if(dialog != null) dialog.Draw(target, states);
-        }
+			foreach (ScoreLabel label in ScoreLabels)
+			{
+				label.Draw(target, states);
+			}
+			if (dialog != null) target.Draw(dialog);
+		}
 
 		protected override void RemoveGameObjects()
 		{
@@ -303,7 +303,7 @@ namespace LD34.Objects
 
         public void DisplayInputDialog()
         {
-            dialog = new InputDialog(new Vector2f(Game.Window.Size.X / 2 - 64, 100), this);
+			dialog = new InputDialog(new Vector2f(Game.Window.Size.X / 2 - 64, 100), this);
             dialog.Position = new Vector2f(Game.Window.Size.X / 2 - 64, 100);
             dialog.UpdatePos();
         }
