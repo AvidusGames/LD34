@@ -127,6 +127,12 @@
     <Content Include="Assets\SFX\lose.wav">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\Textures\SFML.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Assets\Textures\SFMLLogo.svg">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="TODO.txt" />
     <None Include="App.config" />
     <Content Include="Assets\Animations\Jump\jump_0.png">

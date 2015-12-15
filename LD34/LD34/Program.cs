@@ -60,6 +60,7 @@ namespace LD34
                 game.LoadTexture(Assets.Textures.ID.FHouses, "Assets/Textures/foreground_houses.png");
                 game.LoadTexture(Assets.Textures.ID.Tree, "Assets/Textures/foreground_tree.png");
                 game.LoadTexture(Assets.Textures.ID.Help, "Assets/Textures/logo.png");
+				game.LoadTexture(Assets.Textures.ID.SFML, "Assets/Textures/SFML.png");
             }
             catch (Exception ex)
             {

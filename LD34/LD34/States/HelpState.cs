@@ -43,6 +43,17 @@ namespace LD34.States
             title.SetFont(Assets.Fonts.ID.Header);
             title.SetText("Help Menu");
 
+			Label madeWithLbl = (Label)AddGameObject(nameof(Label));
+			madeWithLbl.SetText("Made With");
+			madeWithLbl.SetSize(20);
+			madeWithLbl.SetFont(Assets.Fonts.ID.Default);
+			madeWithLbl.Position = new Vector2f(400, 500);
+
+			Picture sfmlLogo = (Picture)AddGameObject("sfml");
+			sfmlLogo.SetTexture(Assets.Textures.ID.SFML);
+			sfmlLogo.SetScale(new Vector2f(0.25f, 0.25f));
+			sfmlLogo.Position = new Vector2f(400, 550);
+
             Game.PlayMusic(Assets.Musics.ID.Menu);
         }
 
@@ -73,7 +84,10 @@ namespace LD34.States
                     tmpGameObject = new Picture(0, new Vector2f(0, 0), this);
                     GameObjects.Add(tmpGameObject);
                     break;
-
+				case "sfml":
+					tmpGameObject = new Picture(0, new Vector2f(400, 500), this);
+					GameObjects.Add(tmpGameObject);
+					break;
                 default:
                     throw new Exception("GameObject not found in this State");
             }

@@ -7,5 +7,6 @@
         Towers,
         BHouses,
         FHouses,
-    }
+		SFML,
+	}
 }

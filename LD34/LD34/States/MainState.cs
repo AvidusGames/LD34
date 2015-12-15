@@ -190,6 +190,7 @@ namespace LD34.Objects
 				{
 					Console.WriteLine("Called function!");
 					DisplayInputDialog();
+					gameStoped = true;
 				}
 			}
 
