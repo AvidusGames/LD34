@@ -17,7 +17,12 @@ namespace LD34.States
 
 		public ScoreState(Game game) : base(game)
         {
-			loading = true;
+            Picture picture = (Picture)AddGameObject(nameof(Picture));
+            picture.SetCentered(false);
+            picture.SetTexture(Assets.Textures.ID.Menu);
+            picture.Position = new Vector2f(0, 0);
+
+            loading = true;
 			loadingText = new Text("Loading", game.GetFont(Assets.Fonts.ID.Default));
 			loadingText.Position = new Vector2f(400, 300);
 			Thread loadingThread = new Thread(loadingScore);
@@ -93,6 +98,10 @@ namespace LD34.States
                     break;
                 case nameof(Table):
                     tmpGameObject = new Table(null, new Vector2f(0, 0), this);
+                    GameObjects.Add(tmpGameObject);
+                    break;
+                case nameof(Picture):
+                    tmpGameObject = new Picture(0, new Vector2f(0, 0), this);
                     GameObjects.Add(tmpGameObject);
                     break;
                 default:

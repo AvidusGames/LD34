@@ -13,6 +13,11 @@ namespace LD34.States
     {
         public HelpState(Game game) : base(game)
         {
+            Picture picture = (Picture)AddGameObject(nameof(Picture));
+            picture.SetCentered(false);
+            picture.SetTexture(Assets.Textures.ID.Menu);
+            picture.Position = new Vector2f(0, 0);
+
             Button backButton = (Button)AddGameObject(nameof(Button));
             backButton.SetActionCommand("back");
             backButton.SetActionDelay(.5f);
