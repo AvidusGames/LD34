@@ -5,6 +5,7 @@ using GameCore.Core;
 using GameCore.Handlers;
 using GameCore.Objects;
 using System;
+using System.Threading;
 
 namespace GameCore.States
 {
@@ -15,12 +16,14 @@ namespace GameCore.States
 		protected List<GameObject> GameObjects { get; private set; }
 		protected List<Entity> EntityObjects { get; private set; }
 
+        protected Semaphore mutex;
+
 		private CollisionHandler collisionHandler;
 
 		public GameState(Game game)
 		{
 			Game = game;
-
+            mutex = new Semaphore(1, 1);
 			Init();
 		}
 
@@ -46,6 +49,7 @@ namespace GameCore.States
 
 		public virtual void Draw(RenderTarget target, RenderStates states)
 		{
+            mutex.WaitOne();
 			foreach (GameObject gameObject in GameObjects)
 			{
 				target.Draw(gameObject);
@@ -55,6 +59,7 @@ namespace GameCore.States
 			{
 				target.Draw(entity);
 			}
+            mutex.Release();
 		}
 
 		virtual public void Update()
@@ -80,7 +85,8 @@ namespace GameCore.States
 		}
 		private void UpdateGameObjects()
 		{
-			foreach (GameObject gameObject in GameObjects)
+            mutex.WaitOne();
+            foreach (GameObject gameObject in GameObjects)
 			{
 				gameObject.Update();
 			}
@@ -89,6 +95,7 @@ namespace GameCore.States
 			{
 				entity.Update();
 			}
+            mutex.Release();
 		}
 
 		public virtual void Dispose()

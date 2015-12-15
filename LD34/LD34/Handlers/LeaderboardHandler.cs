@@ -53,6 +53,7 @@ namespace LD34.Handlers
         {
             waitRequest.WaitOne();
             webRequest = (HttpWebRequest)WebRequest.Create(WebURL + PublicCode + "/pipe/10");
+            webRequest.Timeout = 5000;
             HttpWebResponse response = (HttpWebResponse)webRequest.GetResponse();
             if (response.StatusCode != HttpStatusCode.OK)
             {

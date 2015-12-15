@@ -107,7 +107,8 @@ namespace LD34.Objects
 
 		public override GameObject AddGameObject(string type)
 		{
-			GameObject tmpGameObject = null;
+            mutex.WaitOne();
+            GameObject tmpGameObject = null;
 			switch (type)
 			{
 				//TODO:Fix pool
@@ -127,6 +128,7 @@ namespace LD34.Objects
 				default:
 					throw new Exception("GameObject not found in this State");
 			}
+            mutex.Release();
 			return tmpGameObject;
 		}
 
@@ -245,10 +247,10 @@ namespace LD34.Objects
 			target.Draw(timerText);
 			target.Draw(scoreText);
 
-			foreach (ScoreLabel label in ScoreLabels)
-			{
-				label.Draw(target, states);
-			}
+            for(int i = 0; i < ScoreLabels.Count; i++)
+            {
+                ScoreLabels[i].Draw(target, states);
+            }
 			if (dialog != null) target.Draw(dialog);
 		}
 

@@ -17,11 +17,6 @@ namespace LD34.States
 
 		public ScoreState(Game game) : base(game)
         {
-            Picture picture = (Picture)AddGameObject(nameof(Picture));
-            picture.SetCentered(false);
-            picture.SetTexture(Assets.Textures.ID.Menu);
-            picture.Position = new Vector2f(0, 0);
-
             loading = true;
 			loadingText = new Text("Loading", game.GetFont(Assets.Fonts.ID.Default));
 			loadingText.Position = new Vector2f(400, 300);
@@ -85,6 +80,7 @@ namespace LD34.States
 
         public override GameObject AddGameObject(string type)
         {
+            mutex.WaitOne();
             GameObject tmpGameObject = null;
             switch (type)
             {
@@ -107,6 +103,7 @@ namespace LD34.States
                 default:
                     throw new Exception("GameObject not found in this State");
             }
+            mutex.Release();
             return tmpGameObject;
         }
 

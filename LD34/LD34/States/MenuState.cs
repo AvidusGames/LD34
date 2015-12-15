@@ -69,6 +69,7 @@ namespace LD34.States
 
         public override GameObject AddGameObject(string type)
         {
+            mutex.WaitOne();
             GameObject tmpGameObject = null;
             switch (type)
             {
@@ -87,6 +88,7 @@ namespace LD34.States
                 default:
                     throw new Exception("GameObject not found in this State");
             }
+            mutex.Release();
             return tmpGameObject;
         }
 
