@@ -28,7 +28,6 @@ namespace LD34.Objects
 
 		private Tweener playerTweener;
 		private Vector2f targetVec;
-		private bool moving;
 
 		public enum Side
 		{
@@ -120,7 +119,6 @@ namespace LD34.Objects
 				targetVec = new Vector2f(leaf.Position.X, leaf.Position.Y - 100);
 			}
 
-			moving = true;
 			Console.WriteLine("Player pos: " + Position);
 			//För att updatatera postionen på grafiken
 			Update();
@@ -172,7 +170,6 @@ namespace LD34.Objects
 			if (value == Direction.Right)
 			{
 				targetVec = new Vector2f(400, 700);
-				moving = true;
 				return playerTweener.Move(this, targetVec);
 			}
 			else

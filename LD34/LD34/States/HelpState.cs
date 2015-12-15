@@ -13,10 +13,10 @@ namespace LD34.States
     {
         public HelpState(Game game) : base(game)
         {
-            Picture picture = (Picture)AddGameObject(nameof(Picture));
-            picture.SetCentered(false);
-            picture.SetTexture(Assets.Textures.ID.Menu);
-            picture.Position = new Vector2f(0, 0);
+            //Picture picture = (Picture)AddGameObject(nameof(Picture));
+            //picture.SetCentered(false);
+            //picture.SetTexture(Assets.Textures.ID.Menu);
+            //picture.Position = new Vector2f(0, 0);
 
             Button backButton = (Button)AddGameObject(nameof(Button));
             backButton.SetActionCommand("back");
@@ -30,6 +30,7 @@ namespace LD34.States
             body.SetSize(18);
             body.SetFont(Assets.Fonts.ID.Default);
             body.SetText("The  game  is  about  trying  to  climb  as  high  as  possible\nWhen  you  see  a  leaf  on  the  left  side  of  the  branch  use  the  left  key\nVice  versa  if  a  leaf  is  on  the  right  side");
+			body.SetColor(Color.White);
 
             Picture pic = (Picture)AddGameObject(nameof(Picture));
             pic.Position = new Vector2f(Game.Window.Size.X / 2, 250);
@@ -41,6 +42,7 @@ namespace LD34.States
             body2.SetSize(18);
             body2.SetFont(Assets.Fonts.ID.Default);
             body2.SetText("Created  in  72  hours  by  Linus123xbb  and  Cellmon95");
+			body2.SetColor(Color.White);
 
             Label title = (Label)AddGameObject(nameof(Label));
             title.Position = new Vector2f(Game.Window.Size.X / 2, 10);
@@ -53,6 +55,7 @@ namespace LD34.States
 			madeWithLbl.SetSize(20);
 			madeWithLbl.SetFont(Assets.Fonts.ID.Default);
 			madeWithLbl.Position = new Vector2f(400, 500);
+			madeWithLbl.SetColor(Color.White);
 
 			Picture sfmlLogo = (Picture)AddGameObject("sfml");
 			sfmlLogo.SetTexture(Assets.Textures.ID.SFML);
