@@ -14,6 +14,11 @@ namespace LD34.States
     {
         public MenuState(Game game) : base(game)
         {
+            Picture picture = (Picture)AddGameObject(nameof(Picture));
+            picture.SetCentered(false);
+            picture.SetTexture(Assets.Textures.ID.Menu);
+            picture.Position = new Vector2f(0, 0);
+
             Button playButton = (Button) AddGameObject(nameof(Button));
             playButton.SetActionCommand("play");
             playButton.Position = new Vector2f(Game.Window.Size.X/2, 150);
@@ -75,7 +80,10 @@ namespace LD34.States
                     tmpGameObject = new Label("", new Vector2f(0, 0), this);
                     GameObjects.Add(tmpGameObject);
                     break;
-
+                case nameof(Picture):
+                    tmpGameObject = new Picture(0, new Vector2f(0, 0), this);
+                    GameObjects.Add(tmpGameObject);
+                    break;
                 default:
                     throw new Exception("GameObject not found in this State");
             }

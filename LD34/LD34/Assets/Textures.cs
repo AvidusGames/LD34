@@ -8,5 +8,6 @@
         BHouses,
         FHouses,
 		SFML,
-	}
+        Menu,
+    }
 }
